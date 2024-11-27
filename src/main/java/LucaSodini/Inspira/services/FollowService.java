@@ -4,6 +4,7 @@ import LucaSodini.Inspira.entities.Follow;
 import LucaSodini.Inspira.entities.User;
 import LucaSodini.Inspira.repositories.FollowRepository;
 import LucaSodini.Inspira.repositories.UserRepository;
+import LucaSodini.Inspira.tools.MailGunSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,8 @@ public class FollowService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private MailGunSender mailGunSender;
 
     public void followUser(Long followerId, Long followedId) {
         if (followRepository.existsByFollowerIdAndFollowedId(followerId, followedId)) {
@@ -33,6 +36,7 @@ public class FollowService {
         follow.setFollowed(followed);
         follow.setFollowedAt(LocalDateTime.now());
 
+        mailGunSender.sendFollowNotification(followed, follower);
         followRepository.save(follow);
     }
 
@@ -72,12 +76,12 @@ public class FollowService {
     public boolean isFollowing(Long followerId, Long followedId) {
         return followRepository.existsByFollowerIdAndFollowedId(followerId, followedId);
     }
-    //questo da la lista dei suggeriti
+
     public List<User> suggestUsers(Long userId) {
         List<Long> excludedIds = getFollowing(userId).stream()
                 .map(User::getId)
                 .toList();
-        excludedIds.add(userId); // Esclude l'utente stesso
+        excludedIds.add(userId);
 
         return userRepository.findSuggestedUsers(excludedIds);
     }
