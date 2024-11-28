@@ -21,8 +21,5 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     // Cerca post per parola chiave (nel contenuto o nei media URL)
     List<Post> findByContentContainingIgnoreCase(String keyword);
 
-    // Controlla il numero di like e commenti di un post (via count nei servizi)
-    Long countByLikes(Post post);
-    Long countByComments(Post post);
 }
 

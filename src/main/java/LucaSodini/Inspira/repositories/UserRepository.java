@@ -24,7 +24,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     // Ricerca utenti
     List<User> findByUsernameContainingIgnoreCase(String keyword); // Ricerca utenti per username con parola chiave
-    List<User> findByFullNameContainingIgnoreCase(String keyword); // Ricerca utenti per nome completo con parola chiave
+
+    //ricerca utenti per nome completo definendo la stringa di ricerca come nome + cognome
+    @Query("SELECT u FROM User u WHERE CONCAT(u.name, ' ', u.surname) LIKE %:keyword%")
+    List<User> findByFullNameContainingIgnoreCase(@Param("keyword") String keyword);
 
     // Suggerimenti amici (esempio: persone che seguono chi segui)
     //La @Param("excludedIds") è utilizzata per legare il parametro excludedIds nel metodo alla variabile :excludedIds nella query JPQL

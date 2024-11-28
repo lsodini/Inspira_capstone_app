@@ -12,6 +12,6 @@ public interface ChatMessageRepository extends JpaRepository<ChatMessage, Long> 
     List<ChatMessage> findByChatRoomId(Long chatRoomId);
 
     // Trova i messaggi recenti
-    @Query("SELECT m FROM ChatMessage m WHERE m.chatRoom.id = :chatRoomId ORDER BY m.sentAt DESC")
+    @Query("SELECT m FROM ChatMessage m WHERE m.chatRoom.id = :chatRoomId ORDER BY m.createdAt DESC")
     List<ChatMessage> findRecentMessagesByChatRoomId(@Param("chatRoomId") Long chatRoomId);
 }

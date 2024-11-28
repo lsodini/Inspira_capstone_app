@@ -36,7 +36,7 @@ public class UserController {
     }
 
 
-    @GetMapping("/{id}")
+    @GetMapping("/id/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Long id) {
         User user = userService.findById(id);
         return ResponseEntity.ok(user);
@@ -78,7 +78,7 @@ public class UserController {
 
 
     @PreAuthorize("hasAuthority('ADMIN')")
-    @PostMapping("/{clienteId}/invia-email")
+    @PostMapping("/{id}/invia-email")
     public void sendEmailToUser(@PathVariable Long userId,
                                    @RequestParam String subject,
                                    @RequestParam String message) {
@@ -86,7 +86,7 @@ public class UserController {
     }
 
 
-    @PatchMapping("/{utenteId}/avatar")
+    @PatchMapping("/{id}/avatar")
     @PreAuthorize("hasAuthority('ADMIN')")
     public String addAvatar(@PathVariable("utenteId") Long utenteId,
                             @RequestParam("avatar") MultipartFile file) {
