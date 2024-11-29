@@ -1,5 +1,6 @@
 package LucaSodini.Inspira.payloads;
 
+import LucaSodini.Inspira.enums.UserRole;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
@@ -21,6 +22,8 @@ public record UserDTO(
         String name,
         @NotEmpty(message = "il cognome è obbligatorio!")
         @Size(min = 2, max = 40, message = "Il cognome deve essere compreso tra 2 e 40 caratteri!")
-        String surname
+        String surname,
+
+        UserRole role
 ) {
 }

@@ -66,7 +66,17 @@ public class UserService {
         newUser.setUsername(body.username());
         newUser.setEmail(body.email());
         newUser.setPassword(bcrypt.encode(body.password()));
-        newUser.setRole(UserRole.BUYER);
+
+        if (body.role() != null) {
+            if (!List.of(UserRole.ADMIN, UserRole.BUYER, UserRole.ARTIST).contains(body.role())) {
+                throw new BadRequestException("Ruolo non valido!");
+            }
+            newUser.setRole(body.role());
+        } else {
+            newUser.setRole(UserRole.BUYER);
+        }
+
+
         newUser.setCreatedAt(LocalDateTime.now());
         newUser.setUpdatedAt(LocalDateTime.now());
 
@@ -76,6 +86,7 @@ public class UserService {
 
         return savedUser;
     }
+
 
     public String uploadAvatar(MultipartFile file, Long userId) {
         String url;

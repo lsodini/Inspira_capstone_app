@@ -1,9 +1,9 @@
 package LucaSodini.Inspira.enums;
 
 public enum UserRole {
-    ARTIST("ROLE_ARTIST"),
-    BUYER("ROLE_BUYER"),
-    ADMIN("ROLE_ADMIN");
+    ARTIST("ARTIST"),
+    BUYER("BUYER"),
+    ADMIN("ADMIN");
 
     private final String authority;
 
