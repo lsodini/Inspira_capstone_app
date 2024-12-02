@@ -35,6 +35,25 @@ public class UserController {
         return userService.updateUser(currentUtente.getId(), body);
     }
 
+    @PatchMapping("/me/avatar")
+    public ResponseEntity<String> updateOwnAvatar(@AuthenticationPrincipal User currentUtente,
+                                                  @RequestParam("avatar") MultipartFile file) {
+        String avatarUrl = userService.uploadAvatar(file, currentUtente.getId());
+        return ResponseEntity.ok(avatarUrl);
+    }
+
+    @DeleteMapping("/me")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteOwnProfile(@AuthenticationPrincipal User currentUtente) {
+        userService.deleteUser(currentUtente.getId());
+    }
+
+    @PatchMapping("/me/become-artist")
+    public ResponseEntity<User> becomeArtist(@AuthenticationPrincipal User currentUtente) {
+        User updatedUser = userService.becomeArtist(currentUtente.getId());
+        return ResponseEntity.ok(updatedUser);
+    }
+
 
     @GetMapping("/id/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Long id) {
@@ -79,7 +98,7 @@ public class UserController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/{id}/invia-email")
-    public void sendEmailToUser(@PathVariable Long userId,
+    public void sendEmailToUser(@PathVariable("id") Long userId,
                                    @RequestParam String subject,
                                    @RequestParam String message) {
         userService.sendEmailToUser(userId, subject, message);
@@ -92,5 +111,6 @@ public class UserController {
                             @RequestParam("avatar") MultipartFile file) {
         return userService.uploadAvatar(file, utenteId);
     }
+
 }
 
