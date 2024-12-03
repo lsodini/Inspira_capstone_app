@@ -158,4 +158,6 @@ public class UserService {
         UserRole role = UserRole.valueOf(roleType.toUpperCase());
         return userRepository.findByRole(role);
     }
+
+
 }

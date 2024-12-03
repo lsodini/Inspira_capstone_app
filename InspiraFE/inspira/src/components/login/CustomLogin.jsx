@@ -1,106 +1,85 @@
-import { useEffect, useState } from "react";
-import { Col, Container, Row } from "react-bootstrap"
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import "../../css/AuthForm.css";
 
 const CustomLogin = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const navigate = useNavigate();
+  useEffect(() => {
+    const token = localStorage.getItem("authToken");
+    if (token) {
+      navigate("/homepage");
+    }
+  }, []);
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError(null);
+    setIsLoading(true);
 
-    useEffect(() => {
+    const url = "http://localhost:3001/auth/login";
 
-    }, []);
+    if (!email || !password) {
+      setError("Inserisci sia l'email che la password.");
+      setIsLoading(false);
+      return;
+    }
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const url = "http://localhost:3001/auth/login"; 
-      
-        try {
-          const response = await fetch(url, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ email, password })
-          });
-      
-          if (!response.ok) {
-            throw new Error("Errore nella fetch!");
-          }
-      
-          const data = await response.json();
-          console.log("I tuoi dati", 
-            data);
-      
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
 
-          localStorage.setItem("Access Token", data.accessToken);
-          navigate("/homepage")
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Errore durante l'accesso.");
+      }
 
-      
-        } catch (err) {
-          console.log("Errore durante il login", err);
-        }
-      };
+      const data = await response.json();
+      localStorage.setItem("authToken", data.accessToken);
+      navigate("/homepage");
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-
-    return (
-        <>
-            <Container fluid className="vh-100 d-flex align-items-center justify-content-center">
-                <Row className="w-100 d-flex justify-content-center">
-                    <Col lg={4} className="card-login">
-                        <div className="d-flex align-items-center justify-content-center py-4">
-                            <h4 style={{ fontWeight: "300" }} className="text-light m-0"> Benvenuto su Inspira!</h4>
-                        </div>
-                        <div className="d-flex align-items-center justify-content-center">
-                            <p style={{ fontWeight: "300" }} className="text-light">Esplora il mondo dell'arte e appassionati.</p>
-                        </div>
-                      
-                        <form className="py-3" onSubmit={handleSubmit}>
-                            <div data-mdb-input-init className="py-2 px-3">
-                                <input placeholder="Inserisci email"
-                                    type="email"
-                                    id="form2Example1"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    className="form-input" />
-                            </div>
-                            <div data-mdb-input-init className="py-2 px-3">
-                                <input placeholder="Inserisci password"
-                                    type="password"
-                                    id="form2Example2"
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                    className="form-input" />
-                            </div>
-                            <div className="py-2 px-2 d-flex align-items-center justify-content-center">
-                                <Link to="/resetPasswordPage" className="reset-password">
-                                    <p>Hai dimenticato la password?</p>
-                                </Link>
-                            </div>
-
-                            <div className="py-2 d-flex align-items-center justify-content-center">
-                                <button data-mdb-button-init data-mdb-ripple-init className="custom-button" type="submit">Sign in</button>
-                            </div>
-
-
-                            <div className="text-center py-2 d-flex align-items-center justify-content-center">
-                                <div className="px-1">
-                                    <p style={{ opacity: "0.6" }} className="text-light">Non sei ancora dei nostri?</p>
-                                </div>
-                                <div className="px-1">
-                                    <Link to="/register" className="register-link">
-                                        <p> Registrati.</p>
-                                    </Link>
-                                </div>
-                            </div>
-                        </form>
-                    </Col>
-                </Row>
-            </Container>
-        </>
-    )
-}
+  return (
+    <div className="form-container sign-in-container">
+      <form onSubmit={handleSubmit}>
+        <h1>Accedi a Inspira</h1>
+        <p>Inserisci le tue credenziali per iniziare il viaggio.</p>
+        <input
+          type="email"
+          placeholder="La tua Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+        <input
+          type="password"
+          placeholder="La tua Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+        {error && <p className="error-message">{error}</p>}
+        <Link to="/resetPasswordPage">Hai dimenticato la password?</Link>
+        <button type="submit" disabled={isLoading}>
+          {isLoading ? "Caricamento..." : "Accedi"}
+        </button>
+      </form>
+    </div>
+  );
+};
 
 export default CustomLogin;

@@ -1,35 +1,37 @@
-import { useEffect, useState } from "react";
-import { Col, Container, Row } from "react-bootstrap"
-import { Link, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Col, Container, Row, Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
-const UserProfileComponent = () => {
+const UserProfile = () => {
     const [userProfile, setUserProfile] = useState({});
-    const [name, setName] = useState('');
-    const [surname, setSurname] = useState('');
+    const [posts, setPosts] = useState([]);
+    const [isArtist, setIsArtist] = useState(false); // Cambia secondo il tipo di utente
 
     useEffect(() => {
         const fetchUserProfile = async () => {
-            const token = localStorage.getItem('Access Token');
+            const token = localStorage.getItem("Access Token");
             if (!token) {
                 console.log("Token mancante");
                 return;
             }
-    
+
             try {
-                const response = await fetch('http://localhost:3001/api/utenti/me', {
-                    method: 'GET',
+                const response = await fetch("http://localhost:3001/api/utenti/me", {
+                    method: "GET",
                     headers: {
-                        'Authorization': `Bearer ${token}`,
+                        Authorization: `Bearer ${token}`,
                     },
                 });
-    
+
                 if (!response.ok) {
-                    throw new Error('Errore nel recupero del profilo');
+                    throw new Error("Errore nel recupero del profilo");
                 }
-    
+
                 const data = await response.json();
                 if (data && data.user) {
                     setUserProfile(data.user);
+                    setIsArtist(data.user.isArtist);  // Impostare se l'utente è un artista
+                    setPosts(data.user.posts); // Recupera i post dell'utente
                 } else {
                     console.log("Dati utente non validi", data);
                 }
@@ -37,52 +39,53 @@ const UserProfileComponent = () => {
                 console.log("Errore nel caricamento del profilo", err);
             }
         };
-    
+
         fetchUserProfile();
     }, []);
 
-
-    const handleUpdateProfile = async (e) => {
-        e.preventDefault();
-        try {
-            const response = await fetch('http://localhost:3001/api/utenti/me', {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ name, surname }),
-            });
-            const data = await response.json();
-            setUserProfile(data.user);
-        } catch (err) {
-            console.log("Errore nell'aggiornamento del profilo", err);
-        }
-    };
-
     return (
-        <div>
-            <h3>Profilo Utente</h3>
-            <div>
-                <p>Nome: {userProfile.name}</p>
-                <p>Cognome: {userProfile.surname}</p>
-                <form onSubmit={handleUpdateProfile}>
-                    <input
-                        type="text"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        placeholder="Modifica nome"
+        <Container>
+            <Row className="my-5">
+                <Col lg={4} className="text-center">
+                    {/* Avatar */}
+                    <img
+                        src={userProfile.avatar || "default-avatar.png"} 
+                        alt="Avatar"
+                        className="rounded-circle img-fluid"
+                        style={{ width: "150px", height: "150px" }}
                     />
-                    <input
-                        type="text"
-                        value={surname}
-                        onChange={(e) => setSurname(e.target.value)}
-                        placeholder="Modifica cognome"
-                    />
-                    <button type="submit">Aggiorna Profilo</button>
-                </form>
-            </div>
-        </div>
+                    <h3>{userProfile.name} {userProfile.surname}</h3>
+                    <p>@{userProfile.username}</p>
+                    <div>
+                        <p><strong>{userProfile.followersCount}</strong> Follower</p>
+                        <p><strong>{userProfile.followingCount}</strong> Seguiti</p>
+                        {isArtist && (
+                            <p><strong>{userProfile.artworksCount}</strong> Artwork</p>
+                        )}
+                    </div>
+                </Col>
+                <Col lg={8}>
+                    {/* Mostra i Post dell'utente */}
+                    <h4>Post Recenti</h4>
+                    <div>
+                        {posts.length > 0 ? (
+                            posts.map((post, index) => (
+                                <div key={index} className="post-card my-3">
+                                    <img src={post.imageUrl} alt="Post" className="img-fluid" />
+                                    <div className="d-flex justify-content-between">
+                                        <div>{post.caption}</div>
+                                        <Button variant="primary">Metti Like</Button>
+                                    </div>
+                                </div>
+                            ))
+                        ) : (
+                            <p>Non hai ancora pubblicato alcun post.</p>
+                        )}
+                    </div>
+                </Col>
+            </Row>
+        </Container>
     );
 };
 
-export default UserProfileComponent;
+export default UserProfile;

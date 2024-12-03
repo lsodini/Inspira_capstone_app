@@ -1,12 +1,15 @@
 package LucaSodini.Inspira.repositories;
 
 import LucaSodini.Inspira.entities.ChatMessage;
+import org.springframework.data.annotation.ReadOnlyProperty;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
-//gestisce i messaggi di una stanza
+
+@Repository
 public interface ChatMessageRepository extends JpaRepository<ChatMessage, Long> {
     // Trova tutti i messaggi di una stanza
     List<ChatMessage> findByChatRoomId(Long chatRoomId);

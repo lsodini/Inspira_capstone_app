@@ -4,9 +4,10 @@ import LucaSodini.Inspira.entities.Post;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
-//Gestisce la creazione, modifica, e recupero dei post condivisi dagli utenti
+@Repository
 public interface PostRepository extends JpaRepository<Post, Long> {
 
     List<Post> findByUserId(Long userId);

@@ -3,9 +3,10 @@ package LucaSodini.Inspira.repositories;
 import LucaSodini.Inspira.entities.Artwork;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
-//Gestisce la creazione e gestione degli oggetti vendibili nello shop
+@Repository
 public interface ArtworkRepository extends JpaRepository<Artwork, Long> {
     // Trova tutti gli artwork di un utente specifico
     List<Artwork> findByUserId(Long userId);

@@ -1,6 +1,14 @@
+:root{
+  --primary-color: #3F4045;
+  --secondary-color: #30292F;
+  --accent-color: #5D737E;
+  --background-color: #02111b;
+  --text-color: #fcfcfc;
+}
 body {
   font-family: 'Roboto', Arial, Helvetica, sans-serif !important;
-  background-color: black !important;
+  background-color: var(--background-color) !important;
+color: var(--text-color) !important;
 }
 
 p {
@@ -13,7 +21,8 @@ p {
 .card-login {
   border-radius: 8px;
   border: 1px solid rgba(48, 47, 47, 0.51);
-  background-color: rgba(31, 30, 30, 0.591);
+  background-color: #031827
+  
 }
 
 .form-input {
@@ -51,8 +60,8 @@ p {
   width: 100px;
   height: 35px;
   border-radius: 8px;
-  background-color: rgb(20, 20, 20);
-  color: white;
+  background-color: var(--accent-color);
+  color: var(--text-color);
   opacity: 0.6;
   border: 1px solid rgba(55, 55, 55, 0.325) !important;
   transition: all 0.2s ease-in-out;
@@ -63,10 +72,26 @@ p {
   border: 1px solid rgba(88, 88, 88, 0.325) !important;
 }
 
+.custom-button2{
+  width: 100px;
+  height: 35px;
+  border-radius: 8px;
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+  opacity: 0.6;
+  border: 1px solid rgba(55, 55, 55, 0.325) !important;
+  transition: all 0.2s ease-in-out;
+}
+
+.custom-button2:hover {
+  opacity: 1;
+  border: 1px solid rgba(88, 88, 88, 0.325) !important;
+}
+
 .register-link,
 .backhome-link {
   text-decoration: none;
-  color: white;
+  color: var(--text-color);
   opacity: 0.6;
   transition: all 0.2s ease-in-out;
 }
@@ -74,4 +99,93 @@ p {
 .register-link:hover,
 .backhome-link:hover {
   opacity: 1;
+}
+
+/* Container principale */
+/* Container principale */
+.auth-container {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Colonna del form (Login/Registrazione) */
+.form-col {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.5s ease;
+}
+
+/* Colonna dell'immagine di sfondo */
+.background-col {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.5s ease;
+}
+
+/* Login e Register Forms */
+.login-form {
+  transform: translateX(0);
+}
+
+.register-form {
+  transform: translateX(100%);
+}
+
+/* Immagine per il login */
+.login-bg {
+  background: url('./bg1.webp') no-repeat center center;
+  background-size: cover;
+  height: 100%;
+  width: 100%;
+}
+
+/* Immagine per la registrazione */
+.register-bg {
+  background: url('./bg.webp') no-repeat center center;
+  background-size: cover;
+  height: 100%;
+  width: 100%;
+}
+
+/* Effetto di transizione tra login e registrazione */
+.background-col, .form-col {
+  transition: transform 0.5s ease-in-out;
+}
+
+/* Link di toggle */
+.toggle-link {
+  cursor: pointer;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.toggle-link p {
+  color: #00bcd4;
+}
+
+
+/* Link di toggle */
+.toggle-link {
+  cursor: pointer;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.toggle-link p {
+  color: #00bcd4;
+}
+
+
+.primary-color {
+  color: var(--primary-color);
+}
+.secondary-color {
+  color: var(--secondary-color);
+}
+.accent-color {
+  color: var(--accent-color);
 }
