@@ -74,8 +74,14 @@ const CustomLogin = () => {
         />
         {error && <p className="error-message">{error}</p>}
         <Link to="/resetPasswordPage">Hai dimenticato la password?</Link>
+
+        {/* Mostra l'icona di caricamento se isLoading è true */}
         <button type="submit" disabled={isLoading}>
-          {isLoading ? "Caricamento..." : "Accedi"}
+          {isLoading ? (
+            <i className="fa-solid fa-palette fa-spin" style={{ fontSize: '24px' }}></i>
+          ) : (
+            "Accedi"
+          )}
         </button>
       </form>
     </div>

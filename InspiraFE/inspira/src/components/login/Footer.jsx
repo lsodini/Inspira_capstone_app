@@ -8,21 +8,21 @@ const Footer = () => {
                 <Row className="align-items-center">
                    
                     <Col md={6} className="text-start mb-2">
-                        <h5>Inspira</h5>
+                        <h5 className='text-dark'>Inspira</h5>
                         <p>
                             Unisciti alla community di artisti e appassionati. Condividi la tua arte e scopri quella degli altri.
                         </p>
                     </Col>
 
                     
-                    <Col md={6} className="text-end mb-2">
+                    <Col md={6} className="text-dark text-end mb-2">
                         <h5>Seguici su</h5>
                         <div className="d-flex justify-content-end align-items-center">
                             <a
                                 href="https://facebook.com"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-dark mx-2"
+                                className="primary mx-2"
                             >
                                 <FaFacebook size={30} />
                             </a>
@@ -30,7 +30,7 @@ const Footer = () => {
                                 href="https://instagram.com"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-dark mx-2"
+                                className="primary mx-2"
                             >
                                 <FaInstagram size={30} />
                             </a>
@@ -38,7 +38,7 @@ const Footer = () => {
                                 href="https://twitter.com"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-dark mx-2"
+                                className="primary mx-2"
                             >
                                 <FaTwitter size={30} />
                             </a>
@@ -46,7 +46,7 @@ const Footer = () => {
                                 href="https://linkedin.com"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-dark mx-2"
+                                className="primary mx-2"
                             >
                                 <FaLinkedin size={30} />
                             </a>
@@ -54,7 +54,7 @@ const Footer = () => {
                                 href="https://github.com"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-dark mx-2"
+                                className="primary mx-2"
                             >
                                 <FaGithub size={30} />
                             </a>
@@ -64,8 +64,8 @@ const Footer = () => {
 
                 
                 <Row>
-                    <Col md={12} className="text-end mt-4">
-                        <p className="mb-0">&copy; 2024 Inspira - Tutti i diritti riservati</p>
+                    <Col md={12} className="text-end">
+                        <p className="my-0">&copy; 2024 Inspira - Tutti i diritti riservati</p>
                     </Col>
                 </Row>
             </div>

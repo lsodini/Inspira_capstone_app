@@ -31,20 +31,22 @@ public class User implements UserDetails {
     private String avatarUrl;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private String bio;
 
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
-    public User(String name, String surname, String username, String email, String password, String avatarUrl, LocalDateTime createdAt, LocalDateTime updatedAt, UserRole role) {
+    public User(String name, String surname, String username, String email, String password, String avatarUrl, LocalDateTime createdAt, LocalDateTime updatedAt, UserRole role, String bio) {
         this.name = name;
         this.surname = surname;
         this.username = username;
         this.email = email;
         this.password = password;
-        this.avatarUrl =  "https://ui-avatars.com/api/?name=" + this.name + "+" + this.surname;
+        this.avatarUrl =  avatarUrl;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.role = role;
+        this.bio = bio;
     }
 
     @Override

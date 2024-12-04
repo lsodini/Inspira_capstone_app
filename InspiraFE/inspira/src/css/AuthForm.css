@@ -2,99 +2,100 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
 
 * {
-	box-sizing: border-box;
+	box-sizing: border-box !important;
 }
 
 body {
-	background: #f6f5f7;
+	background: #f6f5f7 !important;
 	
 	
-	font-family: 'Roboto', Arial, Helvetica, sans-serif;
+	font-family: 'Roboto', Arial, Helvetica, sans-serif !important;
 	
 	
 }
 .mainContainer{
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	flex-direction: column;
-	height: 100vh;
+	display: flex!important;
+	justify-content: center!important;
+	align-items: center!important;
+	flex-direction: column!important;
+	height: 100vh!important;
+	padding:0 50px 50px 50px!important;
 }
 
 h1 {
-	font-weight: bold;
-	margin: 0;
+	font-weight: bold !important;
+	margin: 0 !important;
 }
 
 h2 {
-	text-align: center;
+	text-align: center!important;
 }
 
 p {
-	font-size: 14px;
-	font-weight: 100;
-	line-height: 20px;
-	letter-spacing: 0.5px;
-	margin: 20px 0 20px;
+	font-size: 14px!important;
+	font-weight: 100!important;
+	line-height: 20px!important;
+	letter-spacing: 0.5px!important;
+	margin: 20px 0 20px!important;
 }
 
 span {
-	font-size: 12px;
+	font-size: 12px!important;
 }
 
 a {
-	color: #333;
-	font-size: 14px;
-	text-decoration: none;
-	margin: 15px 0;
+	color: #333!important;
+	font-size: 14px!important;
+	text-decoration: none!important;
+	margin: 15px 0!important;
 }
 
 button {
-	border-radius: 20px;
-	border: 1px solid #FF4B2B;
-	background-color: #FF4B2B;
-	color: #FFFFFF;
-	font-size: 12px;
-	font-weight: bold;
-	padding: 12px 45px;
-	letter-spacing: 1px;
-	text-transform: uppercase;
-	transition: transform 80ms ease-in;
+	border-radius: 20px!important;
+	border: 1px solid #FF4B2B!important;
+	background-color: #FF4B2B!important;
+	color: #FFFFFF!important;
+	font-size: 12px!important;
+	font-weight: bold!important;
+	padding: 12px 45px!important;
+	letter-spacing: 1px!important;
+	text-transform: uppercase!important;
+	transition: transform 80ms ease-in!important;
 }
 
 button:active {
-	transform: scale(0.95);
+	transform: scale(0.95)!important;
 }
 
 button:focus {
-	outline: none;
+	outline: none!important;
 }
 
 button.ghost {
-	background-color: transparent;
-	border-color: #FFFFFF;
+	background-color: transparent!important;
+	border-color: #FFFFFF!important;
 }
 
 form {
-	background-color: #FFFFFF;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	flex-direction: column;
-	padding: 0 50px;
-	height: 100%;
-	text-align: center;
+	background-color: #FFFFFF!important;
+	display: flex!important;
+	align-items: center!important;
+	justify-content: center!important;
+	flex-direction: column!important;
+	padding: 0 50px!important;
+	height: 100%!important;
+	text-align: center!important;
 }
 
 input {
 	background-color: #eee;
 	border: none;
 	padding: 12px 15px;
-	margin: 8px 0;
+	margin: 4px 0!important;
 	width: 100%;
 }
 .last-input {
-	margin-bottom: 15px;
+	margin-bottom: 15px!important;
   }
 
 .container {
@@ -104,15 +105,16 @@ input {
 			0 10px 10px rgba(0,0,0,0.22);
 	position: relative;
 	overflow: hidden;
-	width: 768px;
+	
 	max-width: 100%;
-	min-height: 480px;
+	min-height: 550px;
 }
 
 .form-container {
 	position: absolute;
 	top: 0;
 	height: 100%;
+	overflow-y: auto;
 	transition: all 0.6s ease-in-out;
 }
 
@@ -217,7 +219,7 @@ input {
 	transform: translateX(20%);
 }
 
-/*per il footer*/
+
 /* CSS per il footer */
 .custom-container {
     max-width: 100%;
@@ -225,9 +227,19 @@ input {
     padding-left: 15px;
     padding-right: 15px;
 }
+.primary{
+	color: #FF4B2B !important;
+
+}
 
 footer {
     background-color: #f6f5f7;
+	border-top: 1px solid #eaeaea;
+	color: #666;
+	box-shadow: 0 8px 10px rgba(0,0,0,0.25), 
+			0 5px 5px rgba(0,0,0,0.22);
+	
+
 }
 
 footer .row {
@@ -236,16 +248,28 @@ footer .row {
 }
 
 footer .col {
-    padding: 0 15px; /* Aggiungi padding per evitare che gli elementi si tocchino */
+    padding: 0 15px;
 }
 
-/* Assicurati che il layout delle colonne sia correttamente allineato */
+
 @media (max-width: 768px) {
     footer .row {
-        text-align: center; /* Centra tutto su schermi più piccoli */
+        text-align: center;
     }
 
     footer .col {
         margin-bottom: 20px;
     }
 }
+nav {
+    background-color:#f6f5f700!important;
+    position: sticky!important; 
+    top: 0!important;
+    z-index: 1000!important; 
+   
+}
+
+.navbar .dropdown-toggle::after {
+	display: none !important;
+  }
+  

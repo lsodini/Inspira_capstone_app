@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "bootstrap": "^5.3.3",
+    "mdb-ui-kit": "^8.1.0",
     "react-router-dom": "^7.0.1"
   }
 }

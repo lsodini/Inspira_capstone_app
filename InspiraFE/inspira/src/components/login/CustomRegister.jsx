@@ -1,20 +1,25 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 
-const RegisterPage = () => {
+const CustomRegister = ({ switchToLogin }) => {  // Accetta la funzione come prop
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
-  const navigate = useNavigate();
+
+  const resetForm = () => {
+    setName("");
+    setSurname("");
+    setUsername("");
+    setEmail("");
+    setPassword("");
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const url = "http://localhost:3001/auth/register";
-
     const userData = { name, surname, username, email, password };
 
     try {
@@ -31,8 +36,9 @@ const RegisterPage = () => {
         throw new Error(errorData.message || "Errore durante la registrazione.");
       }
 
-      const data = await response.json();
-      navigate("/login");
+      // Reset del form e passaggio al login
+      resetForm();
+      switchToLogin(); // Passa al form di login
     } catch (err) {
       setError(err.message);
     }
@@ -86,4 +92,4 @@ const RegisterPage = () => {
   );
 };
 
-export default RegisterPage;
+export default CustomRegister;
