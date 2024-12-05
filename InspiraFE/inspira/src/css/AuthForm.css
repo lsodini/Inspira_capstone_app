@@ -1,5 +1,5 @@
 
-@import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
+/*authform css*/
 
 * {
 	box-sizing: border-box !important;
@@ -61,6 +61,9 @@ button {
 	letter-spacing: 1px!important;
 	text-transform: uppercase!important;
 	transition: transform 80ms ease-in!important;
+}
+button:hover {
+	transform: scale(1.05)!important;
 }
 
 button:active {
@@ -261,7 +264,7 @@ footer .col {
         margin-bottom: 20px;
     }
 }
-nav {
+.basenav {
     background-color:#f6f5f700!important;
     position: sticky!important; 
     top: 0!important;

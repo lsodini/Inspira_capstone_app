@@ -7,8 +7,8 @@ import { BiLogOut } from "react-icons/bi";
 
 const NavBar = () => {
   const handleLogout = () => {
-    localStorage.removeItem('authToken'); // O sessionStorage.removeItem('authToken');
-    window.location.href = '/login'; // O usa React Router: navigate('/login')
+    localStorage.removeItem('authToken'); 
+    window.location.href = '/login'; 
   };
 
   return (
@@ -26,6 +26,7 @@ const NavBar = () => {
         </div>
 
         <div className="collapse navbar-collapse">
+          
           <Dropdown align="end">
             <Dropdown.Toggle
               as="div"  
@@ -35,7 +36,7 @@ const NavBar = () => {
               <i className="primary fa-solid fa-paintbrush me-3" style={{ fontSize: '24px' }}></i>
             </Dropdown.Toggle>
 
-            {/* Dropdown Menu - Posizionato a sinistra dell'icona */}
+            
             <Dropdown.Menu className="custom-dropdown-menu">
               <Dropdown.Item onClick={handleLogout}>logout <BiLogOut className='mb-1' style={{ fontSize: '24px' }}/></Dropdown.Item>
             </Dropdown.Menu>

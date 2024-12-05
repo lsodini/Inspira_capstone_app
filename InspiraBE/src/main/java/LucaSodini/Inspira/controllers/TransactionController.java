@@ -1,5 +1,6 @@
 package LucaSodini.Inspira.controllers;
 
+import LucaSodini.Inspira.entities.User;
 import LucaSodini.Inspira.services.ArtworkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,7 @@ public class TransactionController {
         boolean paymentSuccess = true; // Simulazione: dovrebbe arrivare dal gateway
 
         if (paymentSuccess) {
-            return ResponseEntity.ok(artworkService.markAsSold(artworkId));
+            return ResponseEntity.ok(artworkService.markAsSold(artworkId, null)); // null può essere un placeholder per l'utente che acquista
         } else {
             return ResponseEntity.badRequest().body("Transaction failed");
         }

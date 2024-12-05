@@ -5,7 +5,7 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 
 const Navbar = () => {
   return (
-    <nav className="navbar navbar-expand-lg">
+    <nav className="basenav navbar navbar-expand-lg">
       <div className="container-fluid">
         {/* Logo */}
         <div className="d-flex justify-content-center w-100">

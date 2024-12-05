@@ -1,0 +1,76 @@
+:root {
+  --border-radius: 10px;
+  --spacer: 1rem;
+  --primary: #FF4B2B;
+  --text: #6a778e;
+  --link-height: calc(var(--spacer) * 3.5);
+  --timing: 250ms;
+  --transition: var(--timing) ease all;
+}
+
+
+.bottom-navbar {
+  display: flex; 
+  justify-content: space-around;
+  align-items: center;
+  position: sticky;
+  bottom: 0;
+  background: #f6f5f7;
+  padding: var(--spacer);
+  box-shadow: 0 2px 40px rgba(0, 0, 0, 0.1);
+  
+}
+
+.bottom-navbar__menu {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  justify-content: space-around; 
+}
+
+.bottom-navbar__item {
+  position: relative;
+}
+
+.bottom-navbar__link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--link-height);
+  color: var(--text);
+  text-decoration: none;
+  transition: var(--transition);
+  font-size: 1.1rem;
+}
+
+.bottom-navbar__link span {
+  margin-left: 8px;
+  opacity: 0;
+  pointer-events: none;
+  color: var(--primary);
+  background: #fff;
+  padding: calc(var(--spacer) * 0.55);
+  border-radius: calc(var(--border-radius) * 1.75);
+  transition: var(--transition);
+  font-weight: 500;
+  font-size: 1.1rem !important;
+}
+
+
+
+.bottom-navbar__link:hover span {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Icona della navbar */
+.bottom-navbar__link svg {
+  font-size: 1.5rem;
+}
+ 
+
+.primary {
+  color: #FF4B2B !important;
+}

@@ -2,10 +2,12 @@ package LucaSodini.Inspira.controllers;
 
 import LucaSodini.Inspira.entities.Artwork;
 import LucaSodini.Inspira.entities.User;
+import LucaSodini.Inspira.enums.UserRole;
 import LucaSodini.Inspira.services.ArtworkService;
 import LucaSodini.Inspira.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,25 +33,52 @@ public class ArtworkController {
     }
 
     @PostMapping
-    public ResponseEntity<Artwork> createArtwork(@RequestBody Artwork artwork, @RequestParam Long userId) {
-        User creator = userService.findById(userId);
-        return ResponseEntity.ok(artworkService.createArtwork(artwork, creator));
+    public ResponseEntity<Artwork> createArtwork(@RequestBody Artwork artwork, Authentication authentication) {
+        String username = authentication.getName();
+        User user = userService.findByUsername(username);
+
+        // Controllo se l'utente è un ARTIST
+        if (user.getRole() != UserRole.ARTIST) {
+            return ResponseEntity.status(403).body(null); // Forbidden
+        }
+
+        return ResponseEntity.ok(artworkService.createArtwork(artwork, user));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Artwork> updateArtwork(@PathVariable Long id, @RequestBody Artwork updatedArtwork) {
+    public ResponseEntity<Artwork> updateArtwork(@PathVariable Long id, @RequestBody Artwork updatedArtwork, Authentication authentication) {
+        String username = authentication.getName();
+        User user = userService.findByUsername(username);
+
+        // Controllo se l'utente è un ARTIST
+        if (user.getRole() != UserRole.ARTIST) {
+            return ResponseEntity.status(403).body(null); // Forbidden
+        }
+
         return ResponseEntity.ok(artworkService.updateArtwork(id, updatedArtwork));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteArtwork(@PathVariable Long id) {
-        artworkService.deleteArtwork(id);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<?> deleteArtwork(@PathVariable Long id, Authentication authentication) {
+        String username = authentication.getName();
+        User user = userService.findByUsername(username);
+
+        Artwork artwork = artworkService.getArtworkById(id);
+
+        // Controllo se l'utente è un ARTIST che ha creato l'opera o un ADMIN
+        if (user.getRole() == UserRole.ADMIN || artwork.getUser().equals(user)) {
+            artworkService.deleteArtwork(id);
+            return ResponseEntity.ok().build();
+        }
+
+        return ResponseEntity.status(403).body("Only the artist who created the artwork or an admin can delete it.");
     }
 
     @PatchMapping("/{id}/mark-sold")
-    public ResponseEntity<Artwork> markAsSold(@PathVariable Long id) {
-        return ResponseEntity.ok(artworkService.markAsSold(id));
+    public ResponseEntity<Artwork> markAsSold(@PathVariable Long id, Authentication authentication) {
+        String username = authentication.getName();
+        User user = userService.findByUsername(username);
+        return ResponseEntity.ok(artworkService.markAsSold(id, user));
     }
 
     @GetMapping("/available")

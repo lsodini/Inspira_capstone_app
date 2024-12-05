@@ -82,7 +82,8 @@ const CustomLogin = () => {
         />
           <span
             className="eye-icon"
-            onClick={() => setShowPassword(!showPassword)} // Gestisci il click direttamente sull'icona
+            onClick={() => setShowPassword(!showPassword)} 
+            title={showPassword ? "Nascondi password" : "Mostra password"}
           >
             {showPassword ? <FaEyeSlash /> : <FaEye />} 
           </span>

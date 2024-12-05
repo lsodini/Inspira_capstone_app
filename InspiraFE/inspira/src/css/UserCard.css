@@ -1,0 +1,111 @@
+/* usercard css  */
+* {
+	box-sizing: border-box;
+  }
+  
+  body {
+	font-family: 'Arial', sans-serif;
+	background-color: #f0f4f8;
+	margin: 0;
+	padding: 0;
+  }
+  
+  /* Wrapper principale */
+  .profile-card {
+	width: 100%;
+	background-color: #fff;
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+	padding: 20px;
+	margin: 20px 0;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+  }
+  
+  /* Contenitore dell'immagine del profilo */
+  .profile-card__img {
+	width: 150px;
+	height: 150px;
+	margin-right: 20px;
+	border-radius: 50%;
+	overflow: hidden;
+  }
+  
+  .profile-card__img img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	border-radius: 50%;
+  }
+  
+  /* Dettagli della card (nome, username, bio, ecc.) */
+  .profile-card__details {
+	flex: 1;
+  }
+  
+  /* Nome e cognome */
+  .profile-card__name {
+	font-size: 28px;
+	font-weight: bold;
+	color: #333;
+	margin: 0;
+  }
+  
+  /* Username */
+  .profile-card__username {
+	font-size: 18px;
+	color: #555;
+	margin: 5px 0;
+  }
+  
+  /* Bio */
+  .profile-card__bio {
+	font-size: 16px;
+	color: #777;
+	margin: 15px 0;
+  }
+  
+  /* Statistiche (followers, followed, posts, artwork) */
+  .profile-card__stats {
+	display: flex;
+	justify-content: space-between;
+	margin-top: 20px;
+  }
+  
+  .profile-card__stat {
+	text-align: center;
+	flex: 1;
+  }
+  
+  .profile-card__stat strong {
+	font-size: 16px;
+	color: #333;
+  }
+  
+  .profile-card__stat p {
+	font-size: 18px;
+	color: #444;
+	margin-top: 5px;
+  }
+  
+  /* Piccola media query per dispositivi mobili */
+  @media (max-width: 768px) {
+	.profile-card {
+	  flex-direction: column;
+	  align-items: center;
+	}
+  
+	.profile-card__img {
+	  margin-bottom: 20px;
+	}
+  
+	.profile-card__stats {
+	  flex-direction: column;
+	  align-items: center;
+	}
+  
+	.profile-card__stat {
+	  margin-bottom: 15px;
+	}
+  }
+  

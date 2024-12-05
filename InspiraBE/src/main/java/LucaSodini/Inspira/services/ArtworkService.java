@@ -15,13 +15,16 @@ public class ArtworkService {
     @Autowired
     private ArtworkRepository artworkRepository;
 
+
     public List<Artwork> getAllArtworks() {
         return artworkRepository.findAll();
     }
 
+
     public Artwork getArtworkById(Long id) {
         return artworkRepository.findById(id).orElseThrow(() -> new RuntimeException("Artwork not found"));
     }
+
 
     public Artwork createArtwork(Artwork artwork, User creator) {
         artwork.setUser(creator);
@@ -46,15 +49,20 @@ public class ArtworkService {
         artworkRepository.delete(artwork);
     }
 
-    public Artwork markAsSold(Long id) {
+    public Artwork markAsSold(Long id, User user) {
         Artwork artwork = getArtworkById(id);
+
+
         if (artwork.getSold()) {
             throw new RuntimeException("Artwork is already sold");
         }
+
+
         artwork.setSold(true);
         artwork.setUpdatedAt(LocalDateTime.now());
         return artworkRepository.save(artwork);
     }
+
 
     public List<Artwork> getAvailableArtworks() {
         return artworkRepository.findAvailableArtworks();
