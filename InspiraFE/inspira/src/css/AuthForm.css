@@ -272,4 +272,21 @@ nav {
 .navbar .dropdown-toggle::after {
 	display: none !important;
   }
+  .password-container {
+	position: relative; 
+	  }
+  
+  .password-container input {
+	padding-right: 40px; 
+	box-sizing: border-box; 
+  }
+  
+  .eye-icon {
+	position: absolute;
+	top: 50%; 
+	right: 10px; 
+	transform: translateY(-50%); 
+	cursor: pointer; 
+	font-size: 20px !important; 
+  }
   

@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../../css/AuthForm.css";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const CustomLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false); // Stato per mostrare/nascondere la password
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -40,7 +42,13 @@ const CustomLogin = () => {
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || "Errore durante l'accesso.");
+        if (errorData.message === "Invalid credentials") {
+          setError("Email o password errati.");
+        } else {
+          setError("Errore durante l'accesso.");
+        }
+        setIsLoading(false);
+        return;
       }
 
       const data = await response.json();
@@ -65,17 +73,24 @@ const CustomLogin = () => {
           onChange={(e) => setEmail(e.target.value)}
           required
         />
-        <input
-          type="password"
-          placeholder="La tua Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
+        <div className="password-container">
+          <input
+            type={showPassword ? "text" : "password"} // Cambia tipo in base al valore di showPassword
+            placeholder="La tua Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+          <span
+            className="eye-icon"
+            onClick={() => setShowPassword(!showPassword)} // Gestisci il click direttamente sull'icona
+          >
+            {showPassword ? <FaEyeSlash /> : <FaEye />} 
+          </span>
+        </div>
         {error && <p className="error-message">{error}</p>}
         <Link to="/resetPasswordPage">Hai dimenticato la password?</Link>
 
-        {/* Mostra l'icona di caricamento se isLoading è true */}
         <button type="submit" disabled={isLoading}>
           {isLoading ? (
             <i className="fa-solid fa-palette fa-spin" style={{ fontSize: '24px' }}></i>

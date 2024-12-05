@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const CustomRegister = ({ switchToLogin }) => {  // Accetta la funzione come prop
+const CustomRegister = ({ switchToLogin }) => {
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
   const [username, setUsername] = useState("");
@@ -16,8 +16,17 @@ const CustomRegister = ({ switchToLogin }) => {  // Accetta la funzione come pro
     setPassword("");
   };
 
+  // Regex per la validazione della password
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Aggiungi la validazione della password
+    if (!passwordRegex.test(password)) {
+      setError("La password non soddisfa i criteri (almeno una maiuscola, un numero e un simbolo).");
+      return;
+    }
 
     const url = "http://localhost:3001/auth/register";
     const userData = { name, surname, username, email, password };
@@ -36,9 +45,8 @@ const CustomRegister = ({ switchToLogin }) => {  // Accetta la funzione come pro
         throw new Error(errorData.message || "Errore durante la registrazione.");
       }
 
-      // Reset del form e passaggio al login
       resetForm();
-      switchToLogin(); // Passa al form di login
+      switchToLogin();
     } catch (err) {
       setError(err.message);
     }
