@@ -73,24 +73,22 @@ const CustomLogin = () => {
           onChange={(e) => setEmail(e.target.value)}
           required
         />
-        <div className="password-container">
-          <input
+        <input
             type={showPassword ? "text" : "password"} // Cambia tipo in base al valore di showPassword
-            placeholder="La tua Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+          placeholder="La tua Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
           <span
             className="eye-icon"
             onClick={() => setShowPassword(!showPassword)} // Gestisci il click direttamente sull'icona
           >
             {showPassword ? <FaEyeSlash /> : <FaEye />} 
           </span>
-        </div>
+        
         {error && <p className="error-message">{error}</p>}
         <Link to="/resetPasswordPage">Hai dimenticato la password?</Link>
-
         <button type="submit" disabled={isLoading}>
           {isLoading ? (
             <i className="fa-solid fa-palette fa-spin" style={{ fontSize: '24px' }}></i>
