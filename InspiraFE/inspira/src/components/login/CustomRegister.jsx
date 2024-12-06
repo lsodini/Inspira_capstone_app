@@ -16,7 +16,7 @@ const CustomRegister = ({ switchToLogin }) => {
     setPassword("");
   };
 
-  // Regex per la validazione della password
+  
   const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
   const handleSubmit = async (e) => {

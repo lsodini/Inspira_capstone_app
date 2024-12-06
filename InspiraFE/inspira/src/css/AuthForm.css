@@ -6,7 +6,7 @@
 }
 
 body {
-	background: #f6f5f7 !important;
+	
 	
 	
 	font-family: 'Roboto', Arial, Helvetica, sans-serif !important;
@@ -22,16 +22,16 @@ body {
 	padding:0 50px 50px 50px!important;
 }
 
-h1 {
+.mainContainer h1 {
 	font-weight: bold !important;
 	margin: 0 !important;
 }
 
-h2 {
+.mainContainer h2 {
 	text-align: center!important;
 }
 
-p {
+.mainContainer p {
 	font-size: 14px!important;
 	font-weight: 100!important;
 	line-height: 20px!important;
@@ -39,11 +39,12 @@ p {
 	margin: 20px 0 20px!important;
 }
 
-span {
+.mainContainer span {
 	font-size: 12px!important;
 }
 
-a {
+
+footer a, .mainContainer a {
 	color: #333!important;
 	font-size: 14px!important;
 	text-decoration: none!important;
@@ -79,7 +80,7 @@ button.ghost {
 	border-color: #FFFFFF!important;
 }
 
-form {
+.mainContainer form {
 	background-color: #FFFFFF!important;
 	display: flex!important;
 	align-items: center!important;
@@ -90,7 +91,7 @@ form {
 	text-align: center!important;
 }
 
-input {
+.mainContainer input {
 	background-color: #eee;
 	border: none;
 	padding: 12px 15px;
@@ -265,10 +266,8 @@ footer .col {
     }
 }
 .basenav {
-    background-color:#f6f5f700!important;
-    position: sticky!important; 
-    top: 0!important;
-    z-index: 1000!important; 
+    background-color:#f6f5f700;
+    
    
 }
 

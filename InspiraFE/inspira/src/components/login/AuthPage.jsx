@@ -40,7 +40,7 @@ const AuthForm = () => {
   };
 
   const switchToLogin = () => {
-    setIsLogin(true); // Passa al form di login
+    setIsLogin(true);
   };
 
   return (

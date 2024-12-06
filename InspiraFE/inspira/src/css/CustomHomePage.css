@@ -21,12 +21,7 @@
 	min-height: 100vh; /* Forza l'altezza del layout a occupare almeno l'intero schermo */
   }
   
-  .main-content {
-	flex: 1; /* Fa espandere il contenuto principale */
-	width: 100%;
-	background: #f5f7fb;
-	overflow: hidden;
-  }
+  
   
   /* Footer */
   footer {
@@ -36,72 +31,9 @@
 	box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
   }
   
-  /* Bottom Navbar Sticky Behavior */
-  .bottom-navbar {
-	display: flex;
-	justify-content: space-around;
-	align-items: center;
-	position: sticky;
-	bottom: 0;
-	background: #f6f5f7;
-	padding: var(--spacer);
-	box-shadow: 0 2px 40px rgba(0, 0, 0, 0.1);
-	z-index: 10; /* Assicura che stia sopra altri elementi */
-  }
   
-  .bottom-navbar__menu {
-	display: flex;
-	list-style: none;
-	padding: 0;
-	margin: 0;
-	width: 100%;
-	justify-content: space-around;
-  }
   
-  .bottom-navbar__item {
-	position: relative;
-  }
-  
-  .bottom-navbar__link {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	height: var(--link-height);
-	color: var(--text);
-	text-decoration: none;
-	transition: var(--transition);
-	font-size: 1.1rem;
-  }
-  
-  .bottom-navbar__link span {
-	margin-left: 8px;
-	opacity: 0;
-	pointer-events: none;
-	color: var(--primary);
-	background: #fff;
-	padding: calc(var(--spacer) * 0.55);
-	border-radius: calc(var(--border-radius) * 1.75);
-	transition: var(--transition);
-	font-weight: 500;
-	font-size: 1.1rem !important;
-  }
-  
-  .bottom-navbar__link:hover span {
-	opacity: 1;
-	transform: translateX(0);
-  }
-  
-  /* Icona della navbar */
-  .bottom-navbar__link svg {
-	font-size: 1.5rem;
-  }
-  
-  /* Colore Primario */
-  .primary {
-	color: var(--primary) !important;
-  }
-  
-  /* Navbar orizzontale (opzionale per altri elementi) */
+  /* Navbar orizzontale  */
   .navbar-horizontal {
 	background: #f6f5f700 !important;
 	position: static !important;
@@ -121,12 +53,10 @@
   
   .custom-dropdown-menu {
 	position: absolute !important;
-	right: +200% !important;
-	left: -400% !important;
-	top: -210% !important;
-	background: #f6f5f7 !important;
+
+	border-radius: 0%;
 	opacity: 1;
-	border: none !important;
+	
   }
   
   .custom-dropdown-menu a {
@@ -137,6 +67,7 @@
   
   .custom-dropdown-menu a:hover {
 	color: #f14020 !important;
+	
 	background: none !important;
   }
   

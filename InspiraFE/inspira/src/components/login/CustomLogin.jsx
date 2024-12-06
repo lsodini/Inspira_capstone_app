@@ -8,7 +8,7 @@ const CustomLogin = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false); // Stato per mostrare/nascondere la password
+  const [showPassword, setShowPassword] = useState(false); 
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -74,7 +74,7 @@ const CustomLogin = () => {
           required
         />
         <input
-            type={showPassword ? "text" : "password"} // Cambia tipo in base al valore di showPassword
+            type={showPassword ? "text" : "password"} 
           placeholder="La tua Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}

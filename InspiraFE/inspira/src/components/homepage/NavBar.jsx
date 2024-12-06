@@ -38,7 +38,7 @@ const NavBar = () => {
 
             
             <Dropdown.Menu className="custom-dropdown-menu">
-              <Dropdown.Item onClick={handleLogout}>logout <BiLogOut className='mb-1' style={{ fontSize: '24px' }}/></Dropdown.Item>
+              <Dropdown.Item onClick={handleLogout}> <BiLogOut className='mb-1 me-2' style={{ fontSize: '24px' }}/>Esci</Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
         </div>

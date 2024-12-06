@@ -13,11 +13,11 @@
   display: flex; 
   justify-content: space-around;
   align-items: center;
-  position: sticky;
-  bottom: 0;
+  position: sticky!important;
+  bottom: 0!important;
   background: #f6f5f7;
-  padding: var(--spacer);
-  box-shadow: 0 2px 40px rgba(0, 0, 0, 0.1);
+  padding:0 !important;
+ 
   
 }
 
@@ -43,6 +43,9 @@
   text-decoration: none;
   transition: var(--transition);
   font-size: 1.1rem;
+}
+.bottom-navbar__link a{
+  margin: 0% !important;
 }
 
 .bottom-navbar__link span {
