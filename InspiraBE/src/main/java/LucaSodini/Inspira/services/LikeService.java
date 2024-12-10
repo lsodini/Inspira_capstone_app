@@ -68,6 +68,11 @@ public class LikeService {
         return likeRepository.findByPostId(postId);
     }
 
+    // Recupera il conteggio dei like di un commento
+    public Long getLikeCountByComment(Long commentId) {
+        return likeRepository.countByCommentId(commentId);
+    }
+
     // Recupera tutti i like di un commento
     public List<Like> getLikesByComment(Long commentId) {
         return likeRepository.findByCommentId(commentId);

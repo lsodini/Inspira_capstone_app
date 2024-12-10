@@ -51,7 +51,7 @@ footer a, .mainContainer a {
 	margin: 15px 0!important;
 }
 
-button {
+.mainContainer button {
 	border-radius: 20px!important;
 	border: 1px solid #FF4B2B!important;
 	background-color: #FF4B2B!important;
@@ -63,19 +63,19 @@ button {
 	text-transform: uppercase!important;
 	transition: transform 80ms ease-in!important;
 }
-button:hover {
+.mainContainer button:hover {
 	transform: scale(1.05)!important;
 }
 
-button:active {
+.mainContainer button:active {
 	transform: scale(0.95)!important;
 }
 
-button:focus {
+.mainContainer button:focus {
 	outline: none!important;
 }
 
-button.ghost {
+ button.ghost {
 	background-color: transparent!important;
 	border-color: #FFFFFF!important;
 }

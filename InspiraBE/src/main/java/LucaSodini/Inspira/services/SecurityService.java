@@ -25,12 +25,16 @@ public class SecurityService {
     public String checkCredentialsAndGenerateToken(LoginDTO body) {
         User found = this.userService.findByEmail(body.email());
 
+       
+        if (found == null) {
+            throw new UnauthorizedException("Credenziali errate!");
+        }
+
+
         if (bcrypt.matches(body.password(), found.getPassword())) {
             return jwt.createToken(found);
         } else {
             throw new UnauthorizedException("Credenziali errate!");
         }
     }
-
-
 }

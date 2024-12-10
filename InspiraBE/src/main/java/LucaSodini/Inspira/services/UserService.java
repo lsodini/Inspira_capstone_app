@@ -135,6 +135,10 @@ public class UserService {
         if (userDTO.password() != null) {
             user.setPassword(bcrypt.encode(userDTO.password()));
         }
+        if (userDTO.bio() != null) {
+            user.setBio(userDTO.bio());
+        }
+
 
         user.setUpdatedAt(LocalDateTime.now());
         return userRepository.save(user);

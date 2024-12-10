@@ -7,6 +7,7 @@ import LucaSodini.Inspira.payloads.UserDTO;
 import LucaSodini.Inspira.payloads.UserLoginResponseDTO;
 import LucaSodini.Inspira.services.SecurityService;
 import LucaSodini.Inspira.services.UserService;
+import LucaSodini.Inspira.tools.JWT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
@@ -25,6 +26,9 @@ public class AuthorizationController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private JWT jwt;
+
     @PostMapping("/login")
     public UserLoginResponseDTO login(@RequestBody @Validated LoginDTO body, BindingResult validationResult) {
         if (validationResult.hasErrors()) {
@@ -33,7 +37,15 @@ public class AuthorizationController {
                     .collect(Collectors.joining(". "));
             throw new BadRequestException("Ci sono stati errori nel payload! " + message);
         }
-        return new UserLoginResponseDTO(this.ss.checkCredentialsAndGenerateToken(body));
+
+
+        String token = this.ss.checkCredentialsAndGenerateToken(body);
+
+
+        String userId = this.jwt.getIdFromToken(token);
+
+
+        return new UserLoginResponseDTO(token, Long.valueOf(userId));
     }
 
     @PostMapping("/register")

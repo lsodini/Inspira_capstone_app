@@ -12,7 +12,7 @@ public class LikeController {
     @Autowired
     private LikeService likeService;
 
-    // Aggiungi un like a un post o a un commento
+
     @PostMapping("/post/{postId}/user/{userId}")
     public ResponseEntity<?> likePost(@PathVariable Long userId, @PathVariable Long postId) {
         return ResponseEntity.ok(likeService.likePost(userId, postId));
@@ -23,11 +23,18 @@ public class LikeController {
         return ResponseEntity.ok(likeService.likeComment(userId, commentId));
     }
 
-    // Recupera tutti i like di un post
+
     @GetMapping("/post/{postId}")
     public ResponseEntity<?> getLikesByPost(@PathVariable Long postId) {
         return ResponseEntity.ok(likeService.getLikesByPost(postId));
     }
+    // Recupera il conteggio dei like di un commento
+    @GetMapping("/count/comment/{commentId}")
+    public ResponseEntity<Long> getLikeCountByComment(@PathVariable Long commentId) {
+        Long likeCount = likeService.getLikeCountByComment(commentId);
+        return ResponseEntity.ok(likeCount);
+    }
+
 
     // Recupera tutti i like di un commento
     @GetMapping("/comment/{commentId}")

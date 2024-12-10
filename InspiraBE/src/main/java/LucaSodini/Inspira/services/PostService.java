@@ -48,6 +48,9 @@ public class PostService {
         return postRepository.save(post);
     }
 
+    public int countPosts(Long userId) {
+        return postRepository.findByUserId(userId).size();
+    }
 
     public Optional<Post> getPostById(Long id) {
         return postRepository.findById(id);

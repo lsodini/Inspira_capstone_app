@@ -8,7 +8,7 @@ const CustomLogin = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false); 
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -16,7 +16,7 @@ const CustomLogin = () => {
     if (token) {
       navigate("/homepage");
     }
-  }, []);
+  }, [navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -52,8 +52,16 @@ const CustomLogin = () => {
       }
 
       const data = await response.json();
-      localStorage.setItem("authToken", data.accessToken);
-      navigate("/homepage");
+
+      // Verifica che i dati contengano il token e l'ID
+      if (data.accessToken && data.userId) {
+        localStorage.setItem("authToken", data.accessToken);
+        localStorage.setItem("userId", data.userId); // Salva anche l'ID dell'utente
+
+        navigate("/homepage"); // Naviga alla pagina dell'home
+      } else {
+        setError("Errore durante l'accesso, dati mancanti.");
+      }
     } catch (err) {
       setError(err.message);
     } finally {
@@ -74,20 +82,20 @@ const CustomLogin = () => {
           required
         />
         <input
-            type={showPassword ? "text" : "password"} 
+          type={showPassword ? "text" : "password"}
           placeholder="La tua Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-          <span
-            className="eye-icon"
-            onClick={() => setShowPassword(!showPassword)} 
-            title={showPassword ? "Nascondi password" : "Mostra password"}
-          >
-            {showPassword ? <FaEyeSlash /> : <FaEye />} 
-          </span>
-        
+        <span
+          className="eye-icon"
+          onClick={() => setShowPassword(!showPassword)}
+          title={showPassword ? "Nascondi password" : "Mostra password"}
+        >
+          {showPassword ? <FaEyeSlash /> : <FaEye />}
+        </span>
+
         {error && <p className="error-message">{error}</p>}
         <Link to="/resetPasswordPage">Hai dimenticato la password?</Link>
         <button type="submit" disabled={isLoading}>

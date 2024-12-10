@@ -1,0 +1,67 @@
+/* UserPage.css */
+.user-page {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+  }
+  
+  /* PostList.css */
+  .post-list {
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
+  }
+  
+  .create-post {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+  }
+  
+  .create-post textarea {
+	padding: 10px;
+	font-size: 14px;
+	min-height: 100px;
+	border: 1px solid #ccc;
+  }
+  
+  .create-post button {
+	padding: 10px;
+	background-color: #4CAF50;
+	color: white;
+	border: none;
+	cursor: pointer;
+  }
+  
+  .posts {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+  }
+  
+  .post {
+	border: 1px solid #ddd;
+	padding: 10px;
+	border-radius: 8px;
+  }
+  
+  .post-header {
+	display: flex;
+	justify-content: space-between;
+	font-weight: bold;
+  }
+  
+  .post img {
+	max-width: 100%;
+	margin-top: 10px;
+  }
+  .user-page button {
+	border-radius: 20px!important;
+	border: 1px solid #FF4B2B!important;
+	background-color: #FF4B2B!important;
+	color: #FFFFFF!important;
+	font-size: 12px!important;
+	font-weight: bold!important;
+	padding: 12px 45px!important;
+	letter-spacing: 1px!important;
+  }

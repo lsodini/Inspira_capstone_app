@@ -24,6 +24,7 @@ public record UserDTO(
         @Size(min = 2, max = 40, message = "Il cognome deve essere compreso tra 2 e 40 caratteri!")
         String surname,
 
+        String bio,
         UserRole role
 ) {
 }

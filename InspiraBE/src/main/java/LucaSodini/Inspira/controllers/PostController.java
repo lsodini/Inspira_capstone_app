@@ -48,6 +48,24 @@ public class PostController {
         return ResponseEntity.ok(postDTOs);
     }
 
+    @GetMapping("/user/{userId}/posts-count")
+    public ResponseEntity<Integer> getUserPostsCount(@PathVariable Long userId) {
+        int postsCount = postService.countPosts(userId);
+        return ResponseEntity.ok(postsCount);
+    }
+
+
+    @GetMapping("/authenticated-user/posts-count")
+    public ResponseEntity<Integer> getAuthenticatedUserPostsCount(Authentication authentication) {
+        String username = authentication.getName();
+
+        User user = userService.findByUsername(username);
+        int postsCount = postService.countPosts(user.getId());
+        return ResponseEntity.ok(postsCount);
+    }
+
+
+
     @GetMapping("/")
     public ResponseEntity<List<PostDTO>> getAllPosts() {
         List<Post> posts = postService.getAllPosts();
