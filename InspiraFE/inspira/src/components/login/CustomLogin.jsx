@@ -53,12 +53,12 @@ const CustomLogin = () => {
 
       const data = await response.json();
 
-      // Verifica che i dati contengano il token e l'ID
+    
       if (data.accessToken && data.userId) {
         localStorage.setItem("authToken", data.accessToken);
-        localStorage.setItem("userId", data.userId); // Salva anche l'ID dell'utente
+        localStorage.setItem("userId", data.userId); 
 
-        navigate("/homepage"); // Naviga alla pagina dell'home
+        navigate("/homepage"); 
       } else {
         setError("Errore durante l'accesso, dati mancanti.");
       }

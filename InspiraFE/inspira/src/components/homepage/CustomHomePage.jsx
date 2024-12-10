@@ -5,6 +5,8 @@ import '../../css/CustomHomePage.css';
 import Footer from "../login/Footer";
 import NavBar from "./NavBar";
 import UserPage from "./UserPage";
+
+
 const CustomHomePage = () => {
   return (
     <>
@@ -15,6 +17,7 @@ const CustomHomePage = () => {
     <NavBar />
     
         <UserPage />
+        
        
         
         

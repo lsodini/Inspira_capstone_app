@@ -1,0 +1,218 @@
+
+.uCard-card {
+    position: relative;
+    width: 600px;
+    min-height: 450px;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.15),
+                -5px -5px 5px rgba(0, 0, 0, 0.15);
+    padding: 20px;
+}
+
+.uCard-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.uCard-user_details {
+    display: flex;
+    align-items: center;
+}
+
+.uCard-profile_img {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 8px;
+}
+
+.uCard-cover {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    cursor: pointer;
+}
+
+.uCard-top h3 {
+    font-size: 18px;
+    color: black;
+    font-weight: 900;
+    line-height: 1em;
+    cursor: pointer;
+}
+
+.uCard-hour {
+    color: gray;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.uCard-globDot {
+    position: absolute;
+    margin-left: 5px;
+    margin-top: -4px;
+    font-size: 20px;
+    color: #0000004b;
+}
+
+.uCard-dot img {
+    transform: rotate(90deg) scale(0.6);
+    cursor: pointer;
+}
+
+.uCard-message {
+    font-weight: 400;
+    margin-top: 5px;
+    color: #777;
+    line-height: 1.5em;
+}
+
+.uCard-imgBg {
+    position: relative;
+    width: 600px;
+    height: 420px;
+    margin: 10px 0 15px;
+    margin-left: -20px;
+    overflow: hidden;
+}
+
+.uCard-coverFull {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    cursor: pointer;
+}
+
+.uCard-btns {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.uCard-btns img {
+    max-width: 30px;
+    cursor: pointer;
+}
+
+.uCard-left img {
+    margin-right: 8px;
+}
+
+.uCard-likes {
+    margin-top: -28px;
+    margin-left: 33px;
+    font-size: 17px;
+    color: #777;
+    font-weight: 500;
+}
+
+.uCard-right h4 {
+    margin-top: 5px;
+    margin-left: 33px;
+    font-size: 17px;
+    color: #777;
+    font-weight: 500;
+}
+
+.uCard-border {
+    position: relative;
+    width: 100%;
+    height: 0.5px;
+    background: #0000004b;
+    margin-top: 15px;
+}
+
+.uCard-icon {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 5px 0;
+}
+
+.uCard-like {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+}
+
+.uCard-like img {
+    max-width: 70px;
+    cursor: pointer;
+    margin: 0 40px;
+    margin-top: -15px;
+}
+
+.uCard-like img:nth-child(1) {
+    width: 55px;
+    margin-right: 20px;
+}
+
+.uCard-like img:nth-child(2) {
+    width: 33px;
+    margin-right: 15px;
+}
+
+.uCard-border_bott {
+    position: relative;
+    width: 100%;
+    height: 0.5px;
+    background: #0000004b;
+    margin-top: -15px;
+}
+
+.uCard-addComments {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.uCard-userimg {
+    position: relative;
+    min-width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 8px;
+}
+
+.uCard-text {
+    background: #F0F2F5;
+    width: 100%;
+    height: 40px;
+    border: none;
+    outline: none;
+    font-weight: 400;
+    font-size: 16px;
+    color: #262626;
+    border-radius: 20px;
+    padding: 0 25px;
+}
+
+.uCard-comment {
+    margin: 10px 0;
+    padding: 5px 10px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    font-size: 14px;
+    color: #333;
+}
+
+@media (max-width: 640px) {
+    .uCard-card {
+        width: 350px;
+    }
+    .uCard-imgBg {
+        width: 350px;
+    }
+}

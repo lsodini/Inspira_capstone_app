@@ -16,7 +16,7 @@ function App() {
         <Route path="/homepage" element={<CustomHomePage />} />
        {/* <Route path="/resetPasswordPage" element={<ResetPasswordPage />} />*/}
         
-        {/* Puoi aggiungere altre route a seconda delle necessità */}
+        
       </Routes>
     </Router>
   );
