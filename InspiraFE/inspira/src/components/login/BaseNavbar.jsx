@@ -5,18 +5,21 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 
 const Navbar = () => {
   return (
+    <>
     <nav className="basenav navbar ">
-      <div className="container-fluid">
-        {/* Logo */}
-        <div className="d-flex justify-content-center w-100">
-          <a className="navbar-brand me-auto" href="/">
+      <div className="container-fluid d-flex justify-content-center align-items-center container-logo" >
+        
+        
+          <a className="ms-3 navbar-brand text-center " href="/">
             <img
-              src="https://via.placeholder.com/150"
+              src="/images/logo.webp"
               alt="Logo"
-              style={{ maxHeight: '40px' }}
+              style={{ maxHeight: '50px'}}
             />
+            
           </a>
-          <Dropdown className="pt-3 pe-2" align="end">
+        
+         {/* <Dropdown className="pt-3 pe-2" align="end">
             <Dropdown.Toggle
               as="div"  
               id="dropdownMenu"
@@ -29,12 +32,14 @@ const Navbar = () => {
               <Dropdown.Item href="/register">Registrati</Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
-        </div>
-
+        
+        */ }
       
         
       </div>
     </nav>
+    < hr className='linea2'/>
+    </>
   );
 };
 

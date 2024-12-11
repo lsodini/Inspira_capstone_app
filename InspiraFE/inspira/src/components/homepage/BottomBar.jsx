@@ -5,16 +5,17 @@ import {
   FiHelpCircle,
   FiSettings,
 } from "react-icons/fi";
-import { MdOutlineShoppingCart } from "react-icons/md";
+
 import { CgProfile } from "react-icons/cg";
 import { IoSearch } from "react-icons/io5";
-import { useLocation } from "react-router-dom"; // Importa useLocation
+import { IoNewspaperOutline } from "react-icons/io5";
+import { useLocation } from "react-router-dom"; 
 import "../../css/CustomHomePage.css"; 
 
 const BottomBar = () => {
-  const location = useLocation(); // Ottieni il percorso corrente
+  const location = useLocation(); 
 
-  // Funzione per controllare se un percorso è attivo
+ 
   const isActive = (path) => location.pathname === path;
 
   return (
@@ -33,9 +34,9 @@ const BottomBar = () => {
           </a>
         </li>
         <li className={`bottom-navbar__item ${isActive('/shop') ? 'active' : ''}`}>
-          <a href="/shop" className="bottom-navbar__link">
-            <MdOutlineShoppingCart className="primary" />
-            <span>Shop</span>
+          <a href="/news" className="bottom-navbar__link">
+            <IoNewspaperOutline className="primary" />
+            <span>News</span>
           </a>
         </li>
         <li className={`bottom-navbar__item ${isActive('/homepage') ? 'active' : ''}`}>
@@ -56,13 +57,9 @@ const BottomBar = () => {
             <span>Help</span>
           </a>
         </li>
-        <li className={`bottom-navbar__item ${isActive('/settings') ? 'active' : ''}`}>
-          <a href="/settings" className="bottom-navbar__link">
-            <FiSettings className="primary" />
-            <span>Settings</span>
-          </a>
-        </li>
-      </ul>
+       
+         
+      </ul> 
     </nav>
   );
 };

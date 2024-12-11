@@ -4,7 +4,7 @@ import { Dropdown } from 'react-bootstrap';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import '../../css/CustomHomePage.css'; 
 import { BiLogOut } from "react-icons/bi";
-
+import { FiSettings } from "react-icons/fi";
 const NavBar = () => {
   const handleLogout = () => {
     localStorage.removeItem('authToken'); 
@@ -12,15 +12,16 @@ const NavBar = () => {
   };
 
   return (
+    <>
     <nav className="navbar-horizontal navbar navbar-expand-lg">
       <div className="container-fluid">
-        {/* Logo */}
-        <div className="d-flex  w-100">
-          <a className=" ms-2 navbar-brand my-auto" href="/">
+        
+        <div className="d-flex  w-100 container-logo">
+          <a className="  navbar-brand my-auto" href="/">
             <img
-              src="/images/logo.png"
+              src="/images/logo.webp"
               alt="Logo"
-              style={{ maxHeight: '40px' }}
+              style={{ maxHeight: '50px'}}
             />
             
           </a>
@@ -33,8 +34,7 @@ const NavBar = () => {
               as="div"  
               id="dropdownMenu"
               className="p-0" 
-            >
-              <i className="primary fa-solid fa-paintbrush me-3" style={{ fontSize: '24px' }}></i>
+            > <FiSettings className="primary fa-solid fa-paintbrush me-3" style={{ fontSize: '24px' }}/>
             </Dropdown.Toggle>
 
             
@@ -45,6 +45,8 @@ const NavBar = () => {
         </div>
       </div>
     </nav>
+    < hr className='linea1'/>
+    </>
   );
 };
 

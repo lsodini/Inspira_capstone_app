@@ -2,16 +2,14 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import "../../css/UserCard.css";
 
-
 const UserCard = () => {
-  const { username } = useParams(); 
+  const { username } = useParams();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [isFollowing, setIsFollowing] = useState(false); 
+  const [isFollowing, setIsFollowing] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
 
-  
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -37,9 +35,9 @@ const UserCard = () => {
         const data = await response.json();
         setUser(data);
 
-        
         const followerCountResponse = await fetch(
-          `http://localhost:3001/api/follow/${data.id}/followers/count`, {
+          `http://localhost:3001/api/follow/${data.id}/followers/count`,
+          {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
@@ -49,7 +47,8 @@ const UserCard = () => {
         );
 
         const postCountResponse = await fetch(
-          `http://localhost:3001/api/posts/user/${data.id}/posts-count`, {
+          `http://localhost:3001/api/posts/user/${data.id}/posts-count`,
+          {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
@@ -59,7 +58,8 @@ const UserCard = () => {
         );
 
         const artworkCountResponse = await fetch(
-          `http://localhost:3001/api/artworks/user/${data.id}/count`, {
+          `http://localhost:3001/api/artworks/user/${data.id}/count`,
+          {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
@@ -69,7 +69,8 @@ const UserCard = () => {
         );
 
         const followingCountResponse = await fetch(
-          `http://localhost:3001/api/follow/${data.id}/following/count`, {
+          `http://localhost:3001/api/follow/${data.id}/following/count`,
+          {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
@@ -92,7 +93,6 @@ const UserCard = () => {
           artworksCount: artworkCount,
           followingCount: followingCount,
         }));
-
       } catch (err) {
         setError(err.message);
       } finally {
@@ -123,7 +123,6 @@ const UserCard = () => {
         const data = await response.json();
         setCurrentUser(data);
 
-       
         checkIfFollowing(data.id, user?.id);
       } catch (err) {
         setError(err.message);
@@ -134,17 +133,20 @@ const UserCard = () => {
       if (!profileUserId) return;
 
       try {
-        const response = await fetch(`http://localhost:3001/api/follow/${currentUserId}/is-following/${profileUserId}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-          },
-        });
+        const response = await fetch(
+          `http://localhost:3001/api/follow/${currentUserId}/is-following/${profileUserId}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+            },
+          }
+        );
 
         if (response.ok) {
           const data = await response.json();
-          setIsFollowing(data); 
+          setIsFollowing(data);
         }
       } catch (err) {
         console.error("Error checking follow status:", err);
@@ -153,7 +155,11 @@ const UserCard = () => {
 
     fetchUserData();
     fetchAuthenticatedUserData();
-  }, [username, user?.id]); 
+  }, [username, user?.id]);
+
+  const getAvatarUrl = (user) => {
+    return user && user.avatarUrl ? user.avatarUrl : "/images/default-avatar.png";
+  };
 
   const handleFollowUnfollow = async () => {
     if (!currentUser) {
@@ -186,13 +192,11 @@ const UserCard = () => {
 
       const data = await response.json();
 
-     
       setUser((prevUser) => ({
         ...prevUser,
-        followersCount: data.followersCount, 
+        followersCount: data.followersCount,
       }));
 
-      
       setIsFollowing(!isFollowing);
     } catch (err) {
       setError(err.message);
@@ -203,10 +207,11 @@ const UserCard = () => {
   if (error) return <div>Errore: {error}</div>;
 
   return (
+	<>
     <div className="user-card">
       <div className="user-card-left">
         <img
-          src={user ? user.avatarUrl : "/images/default-avatar.png"}
+          src={getAvatarUrl(user)}
           alt={`${user ? user.name : "Utente"} profile`}
           className="profile-image"
         />
@@ -221,15 +226,24 @@ const UserCard = () => {
           )}
         </div>
         <div className="user-stats">
-          <span>Post: {user ? user.postCount || 0 : 0}</span>
-          <span>Artwork: {user ? user.artworksCount || 0 : 0}</span>
-          <span>Follower: {user ? user.followersCount || 0 : 0}</span>
-          <span>Followed: {user ? user.followingCount || 0 : 0}</span>
-        </div>
+  <span className="stats">{user?.postCount || 0}</span>
+  <span className="me-5">post</span>
+  <span className="stats">{user?.artworksCount || 0}</span>
+  <span className="me-5">artwork</span>
+  <span className="stats">{user?.followersCount || 0}</span>
+  <span className="me-5">follower</span>
+  <span className="stats">{user?.followingCount || 0}</span>
+  <span className="me-5">seguiti</span>
+</div>
+
         <div className="user-username">@{user ? user.username : "username"}</div>
-        <div className="user-bio">{user ? user.bio || "Nessuna bio disponibile." : "Nessuna bio disponibile."}</div>
+        <div className="user-bio">
+          {user ? user.bio || "Nessuna bio disponibile." : "Nessuna bio disponibile."}
+        </div>
       </div>
     </div>
+	<hr className="linea"/>
+	</>
   );
 };
 

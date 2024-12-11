@@ -266,9 +266,17 @@ footer .col {
     }
 }
 .basenav {
-    background-color:#f6f5f700;
-    
-   
+    background: #ffffff ;
+	
+	
+	height: auto;
+	margin-bottom: 30px;
+} 
+
+.linea2{
+	
+	margin-top:-30px;
+	border:1px solid #7a7a7a;
 }
 
 .navbar .dropdown-toggle::after {

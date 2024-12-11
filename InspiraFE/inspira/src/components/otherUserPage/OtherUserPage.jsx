@@ -61,12 +61,18 @@ const OtherUserPage = () => {
   return (
     <div className="user-page">
       {userData && <UserCard user={userData} />}  
-      
-      <div className="toggle-buttons">
-        <button onClick={handleShowPosts} className={showPosts ? "active" : ""}>Posts</button>
-        <button onClick={handleShowArtwork} className={!showPosts ? "active" : ""}>Artworks</button>
+	  <div className="toggle-buttons"> 
+	  <button onClick={handleShowPosts} className={showPosts ? "active" : ""}><img src="/images/post-icon.png" alt="posts" style={{
+      cursor: "pointer",
+      width: "32px",
+      height: "32px",
+    }}></img></button>
+        <button onClick={handleShowArtwork} className={!showPosts ? "active" : ""}><img src="/images/artwork-icon.png" alt="posts" style={{
+      cursor: "pointer",
+      width: "32px",
+      height: "32px",
+    }}></img></button>
       </div>
-
       {userData && showPosts && <PostList userId={userData.id} isAuthenticated={isAuthenticated} />}
       {userData && !showPosts && <ArtworkList userId={userData.id} isAuthenticated={isAuthenticated} />}
     </div>

@@ -25,6 +25,7 @@
   
   .user-card-right {
 	flex: 1;
+	
   }
   
   .user-header {
@@ -32,7 +33,7 @@
 	align-items: center;
 	
 	margin-bottom: 10px;
-	margin-top: 50px;
+	margin-top: 20px;
   }
   
   .user-header h2 {
@@ -41,45 +42,85 @@
   }
   
   .edit-button {
-	background-color: #007bff;
-	color: white;
-	border: none;
-	border-radius: 5px !important;
-	padding: 5px 10px;
 	cursor: pointer;
 	margin-left: 20px;
+	border-radius: 10px;
+    border: 1px solid #FF4B2B;
+    background-color: #FF4B2B;
+    color: #FFFFFF;
+    font-size: 1.1rem;
+    font-weight: bold;
+    padding: 8px 25px;
+    letter-spacing: 1px;
+  }
+  
+  .follow-button {
+	cursor: pointer;
+	margin-left: 20px;
+	border-radius: 10px;
+    border: 1px solid #FF4B2B;
+    background-color: #FF4B2B;
+    color: #FFFFFF;
+    font-size: 1.1rem;
+    font-weight: bold;
+    padding: 8px 25px;
+    letter-spacing: 1px;
   }
   
   
   
   .user-stats {
-	margin-bottom: 10px;
-	color: #666;
+	margin-bottom: 30px;
+	margin-top: 30px;
+	color: #525252;
 	font-size: 1.2rem;
   }
   
-  .user-stats span {
-	margin-right: 15px;
+  
+  .user-stats .stats{
+	font-weight: 600;
+	margin-right: 10px;
+	
   }
   
   .user-username {
 	color: #333;
-	font-weight: bold;
-	margin-bottom: 10px;
+	font-size: 1.3rem;
+	font-weight: 600;
+	margin-bottom: 15px;
   }
   
   .user-bio {
 	color: #555;
-	font-size: 14px;
+	font-size: 1.1rem;
   }
+  .linea{
+	width: 90%;
+	margin: 0% auto;
+	border:1px solid #7a7a7a;
+  }
+  
   .toggle-buttons {
 	display: flex;
 	justify-content: center;
-	margin-top: 20px;
+	background-color: transparent;
+	margin-bottom: 20px ;
   }
   .toggle-buttons button {
-	width: 250px;
+	width: 150px;
+	background-color: transparent;
+	border: none;
+	padding-top: 15px;
+	margin-top: -1.5px;
+	
   }
+
+  .toggle-buttons button:active, .toggle-buttons button:focus, .toggle-buttons button:hover {
+	
+	border-top:2px solid #FF4B2B;
+  }
+  
+  
   .modal {
 	position: fixed;
 	top: 0;
@@ -91,15 +132,7 @@
 	justify-content: center;
 	align-items: center;
   }
-  .modal button{
-	  background-color: #ff4b2b;
-	  color: white;
-	  border: none;
-	  border-radius: 50px;
-	  padding: 5px 10px;
-	  margin: 5px;
-	  cursor: pointer;
-  }
+ 
   .modal-content {
 	background: #fff;
 	padding: 70px;

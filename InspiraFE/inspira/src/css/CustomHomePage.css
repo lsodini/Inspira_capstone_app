@@ -10,7 +10,7 @@
   }
   
   body {
-	background: #000000;
+	background: #faf8f8;
 	font-family: 'Roboto', Arial, Helvetica, sans-serif;
   }
   
@@ -36,12 +36,19 @@
   /* Navbar orizzontale  */
   .navbar-horizontal {
 	background: #ffffff ;
-	position: static ;
-	padding: 0px;
+	
+	padding: 5px;
 	height: auto;
-	margin-bottom: 30px;
+	
   }
-  
+  .linea1 {
+	
+	margin: 0%;
+	border:1px solid #7a7a7a;
+  }
+  .container-logo img{
+	transform: scale(2);
+  }
   .navbar-horizontal .navbar-brand {
 	display: flex;
 	justify-content: center;

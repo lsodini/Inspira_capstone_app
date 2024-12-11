@@ -7,7 +7,7 @@ const UserPage = () => {
   const [userId, setUserId] = useState(null);  
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [showPosts, setShowPosts] = useState(true); // Stato per gestire quale lista mostrare
+  const [showPosts, setShowPosts] = useState(true);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -46,12 +46,12 @@ const UserPage = () => {
   if (loading) return <div>Caricamento in corso...</div>;
   if (error) return <div>Errore: {error}</div>;
 
-  // Funzione per mostrare i post
+  
   const handleShowPosts = () => {
     setShowPosts(true);
   };
 
-  // Funzione per mostrare gli artwork
+ 
   const handleShowArtwork = () => {
     setShowPosts(false);
   };
@@ -62,8 +62,16 @@ const UserPage = () => {
       
       <div className="toggle-buttons">
         
-        <button onClick={handleShowPosts} className={showPosts ? "active" : ""}>Posts</button>
-        <button onClick={handleShowArtwork} className={!showPosts ? "active" : ""}>Artworks</button>
+        <button onClick={handleShowPosts} className={showPosts ? "active" : ""}><img src="/images/post-icon.png" alt="posts" style={{
+      cursor: "pointer",
+      width: "32px",
+      height: "32px",
+    }}></img></button>
+        <button onClick={handleShowArtwork} className={!showPosts ? "active" : ""}><img src="/images/artwork-icon.png" alt="posts" style={{
+      cursor: "pointer",
+      width: "32px",
+      height: "32px",
+    }}></img></button>
       </div>
 
       
