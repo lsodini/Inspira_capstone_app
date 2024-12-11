@@ -1,29 +1,31 @@
 import React, { useState, useEffect } from "react";
-import UserCard from "./UserCard";  
+import { useParams } from "react-router-dom";  
+import UserCard from "./UserCard";
 import PostList from "./PostList";
 import ArtworkList from "./ArtworkList";
 
-const UserPage = () => {
-  const [userId, setUserId] = useState(null);  
+
+const OtherUserPage = () => {
+  const { username } = useParams();  
+  const [userData, setUserData] = useState(null); 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [showPosts, setShowPosts] = useState(true); // Stato per gestire quale lista mostrare
+  const [showPosts, setShowPosts] = useState(true);  
+  const [isAuthenticated, setIsAuthenticated] = useState(false); 
 
   useEffect(() => {
-    const fetchUser = async () => {
+    const fetchUserData = async () => {
       try {
         const token = localStorage.getItem("authToken");
-        if (!token) {
-          setError("Non autenticato. Effettua il login.");
-          setLoading(false);
-          return;
+        if (token) {
+          setIsAuthenticated(true); 
         }
 
-        const response = await fetch("http://localhost:3001/api/utenti/me", {
+        const response = await fetch(`http://localhost:3001/api/utenti/${username}`, { 
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`,
+            "Authorization": token ? `Bearer ${token}` : "",
           },
         });
 
@@ -32,7 +34,7 @@ const UserPage = () => {
         }
 
         const data = await response.json();
-        setUserId(data.id);
+        setUserData(data);  
       } catch (err) {
         setError(err.message);
       } finally {
@@ -40,37 +42,35 @@ const UserPage = () => {
       }
     };
 
-    fetchUser();
-  }, []);
+    fetchUserData();
+  }, [username]);
 
   if (loading) return <div>Caricamento in corso...</div>;
   if (error) return <div>Errore: {error}</div>;
 
-  // Funzione per mostrare i post
+  
   const handleShowPosts = () => {
     setShowPosts(true);
   };
 
-  // Funzione per mostrare gli artwork
+  
   const handleShowArtwork = () => {
     setShowPosts(false);
   };
 
   return (
     <div className="user-page">
-      <UserCard />
+      {userData && <UserCard user={userData} />}  
       
       <div className="toggle-buttons">
-        
         <button onClick={handleShowPosts} className={showPosts ? "active" : ""}>Posts</button>
         <button onClick={handleShowArtwork} className={!showPosts ? "active" : ""}>Artworks</button>
       </div>
 
-      
-      {userId && showPosts && <PostList userId={userId} />}
-      {userId && !showPosts && <ArtworkList userId={userId} />}
+      {userData && showPosts && <PostList userId={userData.id} isAuthenticated={isAuthenticated} />}
+      {userData && !showPosts && <ArtworkList userId={userData.id} isAuthenticated={isAuthenticated} />}
     </div>
   );
 };
 
-export default UserPage;
+export default OtherUserPage;

@@ -1,11 +1,17 @@
 import React, { useState, useEffect } from "react";
-import "../../css/UCard.css"; 
+import "../../css/UCard.css";
+import { FaThumbsUp, FaRegThumbsUp } from "react-icons/fa"; // Icone per il like
+import { FaCommentDots } from "react-icons/fa"; // Icona per commenti
 
-const Posts = ({ post }) => {
-  const [postLikes, setPostLikes] = useState([]);
+const Posts = ({ post, onDelete, onEdit }) => {
+  const [postLikes, setPostLikes] = useState({});
+  const [userHasLikedPost, setUserHasLikedPost] = useState({});
   const [commentLikes, setCommentLikes] = useState({});
+  const [userHasLikedComment, setUserHasLikedComment] = useState({});
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedContent, setEditedContent] = useState(post.content);
   const userId = localStorage.getItem("userId");
   const token = localStorage.getItem("authToken");
 
@@ -25,6 +31,9 @@ const Posts = ({ post }) => {
       });
       const likes = await response.json();
       setPostLikes(likes);
+  
+      const userLiked = likes.some((like) => like.userId === userId);
+      setUserHasLikedPost(userLiked);
     } catch (err) {
       console.error("Errore nel recupero dei likes del post:", err.message);
     }
@@ -37,7 +46,7 @@ const Posts = ({ post }) => {
       });
       const fetchedComments = await response.json();
       setComments(fetchedComments);
-
+  
       fetchedComments.forEach((comment) => fetchCommentLikes(comment.id));
     } catch (err) {
       console.error("Errore nel recupero dei commenti:", err.message);
@@ -56,15 +65,47 @@ const Posts = ({ post }) => {
     }
   };
 
-  const handleLikePost = async (postId) => {
+  const toggleLikePost = async () => {
     try {
-      await fetch(`http://localhost:3001/api/likes/post/${postId}/user/${userId}`, {
-        method: "POST",
+      const url = `http://localhost:3001/api/likes/post/${post.id}/user/${userId}`;
+      const method = userHasLikedPost ? "DELETE" : "POST";
+  
+      const response = await fetch(url, {
+        method,
         headers: { Authorization: `Bearer ${token}` },
       });
-      fetchPostLikes(postId);
+  
+      if (response.ok) {
+        setUserHasLikedPost((prev) => !prev);
+        setPostLikes((prev) => ({
+          ...prev,
+          length: userHasLikedPost ? Math.max(0, prev.length - 1) : prev.length + 1,
+        }));
+      } else {
+        console.error("Errore nel toggling del like al post:", response.statusText);
+      }
     } catch (err) {
-      console.error("Errore nel mettere like al post:", err.message);
+      console.error("Errore nel toggling del like al post:", err.message);
+    }
+  };
+
+  const toggleLikeComment = async (commentId) => {
+    try {
+      const url = `http://localhost:3001/api/likes/comment/${commentId}/user/${userId}`;
+      const method = userHasLikedComment[commentId] ? "DELETE" : "POST";
+  
+      await fetch(url, {
+        method,
+        headers: { Authorization: `Bearer ${token}` },
+      });
+  
+      setUserHasLikedComment((prev) => ({
+        ...prev,
+        [commentId]: !prev[commentId],
+      }));
+      fetchCommentLikes(commentId);
+    } catch (err) {
+      console.error("Errore nel toggling del like al commento:", err.message);
     }
   };
 
@@ -95,7 +136,11 @@ const Posts = ({ post }) => {
       <div className="uCard-top">
         <div className="uCard-user_details">
           <div className="uCard-profile_img">
-            <img src={post.userImage} alt="user" className="uCard-cover" />
+            <img
+              src={post.user?.avatar || "default-avatar.png"}
+              alt="User Avatar"
+              className="uCard-avatar"
+            />
           </div>
           <h3>
             {post.username}
@@ -119,27 +164,22 @@ const Posts = ({ post }) => {
 
       <div className="uCard-btns">
         <div className="uCard-left">
-          <img src="like.png" alt="like" onClick={() => handleLikePost(post.id)} />
-          <h4 className="uCard-likes">{postLikes.length}</h4>
+          <div className="uCard-likes" onClick={toggleLikePost}>
+            {userHasLikedPost ? (
+              <FaThumbsUp className="uCard-icon-image liked" />
+            ) : (
+              <FaRegThumbsUp className="uCard-icon-image" />
+            )}
+            {postLikes.length}
+          </div>
         </div>
         <div className="uCard-right">
           <h4>
-            {comments.length} comments {post.sharesCount || 0} shares
+            <FaCommentDots className="uCard-icon-image" />
+            {comments.length} comments
           </h4>
         </div>
       </div>
-
-      <div className="uCard-border"></div>
-
-      <div className="uCard-icon">
-        <div className="uCard-like">
-          <img src="gray_like.png" alt="like" onClick={() => handleLikePost(post.id)} />
-          <img src="comments.png" alt="comments" />
-          <img src="share.png" alt="share" />
-        </div>
-      </div>
-
-      <div className="uCard-border_bott"></div>
 
       <div>
         <h3>Comments</h3>
@@ -147,7 +187,14 @@ const Posts = ({ post }) => {
           comments.map((comment) => (
             <div key={comment.id} className="uCard-comment">
               <div>{comment.content}</div>
-              <div>Likes: {commentLikes[comment.id] || 0}</div>
+              <div onClick={() => toggleLikeComment(comment.id)}>
+                {userHasLikedComment[comment.id] ? (
+                  <FaThumbsUp className="uCard-icon-image liked" />
+                ) : (
+                  <FaRegThumbsUp className="uCard-icon-image" />
+                )}
+                {commentLikes[comment.id] || 0}
+              </div>
             </div>
           ))
         ) : (
@@ -157,7 +204,11 @@ const Posts = ({ post }) => {
 
       <div className="uCard-addComments">
         <div className="uCard-userimg">
-          <img src={post.userImage} alt="user" className="uCard-cover" />
+          <img
+            src={post.user?.avatar || "default-avatar.png"}
+            alt="user"
+            className="uCard-avatar"
+          />
         </div>
         <input
           type="text"

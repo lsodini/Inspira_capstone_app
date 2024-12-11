@@ -1,10 +1,9 @@
 
 .uCard-card {
-    position: relative;
+    border: 1px #262626!important;
     width: 600px;
     min-height: 450px;
-    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.15),
-                -5px -5px 5px rgba(0, 0, 0, 0.15);
+   
     padding: 20px;
 }
 
@@ -42,8 +41,8 @@
 .uCard-top h3 {
     font-size: 18px;
     color: black;
-    font-weight: 900;
-    line-height: 1em;
+    font-weight: 500;
+    
     cursor: pointer;
 }
 
@@ -69,14 +68,15 @@
 .uCard-message {
     font-weight: 400;
     margin-top: 5px;
-    color: #777;
+    color: #2c2b2b;
     line-height: 1.5em;
+    padding-left: 9%;
 }
 
 .uCard-imgBg {
     position: relative;
     width: 600px;
-    height: 420px;
+    height: 450px;
     margin: 10px 0 15px;
     margin-left: -20px;
     overflow: hidden;
@@ -109,7 +109,7 @@
 }
 
 .uCard-likes {
-    margin-top: -28px;
+    margin-top: 28px;
     margin-left: 33px;
     font-size: 17px;
     color: #777;
@@ -153,22 +153,14 @@
     margin-top: -15px;
 }
 
-.uCard-like img:nth-child(1) {
-    width: 55px;
-    margin-right: 20px;
-}
 
-.uCard-like img:nth-child(2) {
-    width: 33px;
-    margin-right: 15px;
-}
 
 .uCard-border_bott {
     position: relative;
     width: 100%;
     height: 0.5px;
     background: #0000004b;
-    margin-top: -15px;
+    margin-top: 15px;
 }
 
 .uCard-addComments {
@@ -187,7 +179,7 @@
 }
 
 .uCard-text {
-    background: #F0F2F5;
+    background: #ffffff;
     width: 100%;
     height: 40px;
     border: none;
@@ -216,3 +208,24 @@
         width: 350px;
     }
 }
+/* Centrare la lista dei post */
+.post-list, .artwork-list {
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Aggiungi questa linea per centrare verticalmente */
+    flex-direction: column;
+    min-height: 100vh; /* Per fare in modo che occupi tutta l'altezza della pagina */
+  }
+  
+  .posts, .artwork {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Distanza tra i post */
+    max-width: 800px; /* Imposta una larghezza massima per i post */
+    width: 100%;
+  }
+
+  .posts .uCard-card{
+    align-items: center;
+    margin: 0% auto;
+  }

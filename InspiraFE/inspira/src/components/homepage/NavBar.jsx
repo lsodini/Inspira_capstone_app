@@ -15,13 +15,14 @@ const NavBar = () => {
     <nav className="navbar-horizontal navbar navbar-expand-lg">
       <div className="container-fluid">
         {/* Logo */}
-        <div className="d-flex justify-content-center w-100">
-          <a className="navbar-brand mx-auto" href="/">
+        <div className="d-flex  w-100">
+          <a className=" ms-2 navbar-brand my-auto" href="/">
             <img
-              src="https://via.placeholder.com/150"
+              src="/images/logo.png"
               alt="Logo"
               style={{ maxHeight: '40px' }}
             />
+            
           </a>
         </div>
 

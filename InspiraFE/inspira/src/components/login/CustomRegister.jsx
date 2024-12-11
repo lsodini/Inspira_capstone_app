@@ -22,7 +22,7 @@ const CustomRegister = ({ switchToLogin }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Aggiungi la validazione della password
+    
     if (!passwordRegex.test(password)) {
       setError("La password non soddisfa i criteri (almeno una maiuscola, un numero e un simbolo).");
       return;
@@ -55,7 +55,7 @@ const CustomRegister = ({ switchToLogin }) => {
   return (
     <div className="form-container sign-up-container">
       <form onSubmit={handleSubmit}>
-        <h1>Unisciti a Inspira</h1>
+        <h1>Unisciti a Ispira</h1>
         <p>Condividi il tuo mondo con una comunità appassionata.</p>
         <input
           type="text"

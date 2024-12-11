@@ -1,0 +1,19 @@
+.search-results {
+	margin-top: 20px;
+  }
+  
+  .search-results ul {
+	list-style-type: none;
+	padding: 0;
+  }
+  
+  .search-results li {
+	padding: 10px;
+	border-bottom: 1px solid #ccc;
+	cursor: pointer;
+  }
+  
+  .search-results li:hover {
+	background-color: #f0f0f0;
+  }
+  

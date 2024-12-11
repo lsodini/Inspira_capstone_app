@@ -6,11 +6,7 @@
   }
   
   /* PostList.css */
-  .post-list {
-	display: flex;
-	flex-direction: column;
-	gap: 15px;
-  }
+
   
   .create-post {
 	display: flex;
@@ -33,28 +29,7 @@
 	cursor: pointer;
   }
   
-  .posts {
-	display: flex;
-	flex-direction: column;
-	gap: 10px;
-  }
-  
-  .post {
-	border: 1px solid #ddd;
-	padding: 10px;
-	border-radius: 8px;
-  }
-  
-  .post-header {
-	display: flex;
-	justify-content: space-between;
-	font-weight: bold;
-  }
-  
-  .post img {
-	max-width: 100%;
-	margin-top: 10px;
-  }
+
   .user-page button {
 	border-radius: 20px!important;
 	border: 1px solid #FF4B2B!important;

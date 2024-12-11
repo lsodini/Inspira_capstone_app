@@ -69,16 +69,35 @@ public class ArtworkService {
         return artworkRepository.save(artwork);
     }
 
-    public Artwork updateArtwork(Long id, Artwork updatedArtwork) {
+    public Artwork updateArtwork(Long id, Artwork updatedArtwork, MultipartFile file) {
         Artwork existingArtwork = getArtworkById(id);
+
+        // Aggiorna i dettagli testuali
         existingArtwork.setTitle(updatedArtwork.getTitle());
         existingArtwork.setDescription(updatedArtwork.getDescription());
-
-        existingArtwork.setMediaUrls(updatedArtwork.getMediaUrls());
         existingArtwork.setPrice(updatedArtwork.getPrice());
         existingArtwork.setUpdatedAt(LocalDateTime.now());
+
+        // Gestisci i file multimediali, se forniti
+        if (file != null && !file.isEmpty()) {
+            String mediaUrl;
+            try {
+                Map uploadResult = cloudinaryUploader.uploader().upload(file.getBytes(), ObjectUtils.emptyMap());
+                mediaUrl = (String) uploadResult.get("url");
+            } catch (IOException e) {
+                throw new BadRequestException("Errore durante l'upload del file su Cloudinary.");
+            }
+
+            if (existingArtwork.getMediaUrls() == null) {
+                existingArtwork.setMediaUrls(new ArrayList<>());
+            }
+
+            existingArtwork.getMediaUrls().add(mediaUrl);
+        }
+
         return artworkRepository.save(existingArtwork);
     }
+
 
     public void deleteArtwork(Long id) {
         Artwork artwork = getArtworkById(id);
@@ -99,6 +118,9 @@ public class ArtworkService {
         return artworkRepository.save(artwork);
     }
 
+    public Long countArtworksByUserId(Long userId) {
+        return artworkRepository.countByUserId(userId);
+    }
 
     public List<Artwork> getAvailableArtworks() {
         return artworkRepository.findAvailableArtworks();

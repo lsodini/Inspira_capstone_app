@@ -3,6 +3,8 @@ package LucaSodini.Inspira.controllers;
 import LucaSodini.Inspira.entities.Post;
 import LucaSodini.Inspira.entities.User;
 import LucaSodini.Inspira.payloads.PostDTO;
+import LucaSodini.Inspira.services.CommentService;
+import LucaSodini.Inspira.services.LikeService;
 import LucaSodini.Inspira.services.PostService;
 import LucaSodini.Inspira.services.UserService;
 import LucaSodini.Inspira.enums.UserRole;
@@ -19,6 +21,12 @@ public class PostController {
 
     @Autowired
     private PostService postService;
+
+    @Autowired
+    private LikeService likeService;
+
+    @Autowired
+    private CommentService commentService;
 
     @Autowired
     private UserService userService;
@@ -52,6 +60,36 @@ public class PostController {
     public ResponseEntity<Integer> getUserPostsCount(@PathVariable Long userId) {
         int postsCount = postService.countPosts(userId);
         return ResponseEntity.ok(postsCount);
+    }
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deletePostWithCommentsAndLikes(@PathVariable Long id, Authentication authentication) {
+
+        String username = authentication.getName();
+        User user = userService.findByUsername(username);
+
+        // Recupera il post
+        Post post = postService.getPostById(id)
+                .orElseThrow(() -> new RuntimeException("Post not found"));
+
+        // Verifica che l'utente sia l'amministratore o il proprietario del post
+        if (user.getRole() == UserRole.ADMIN || post.getUser().getUsername().equals(username)) {
+
+            // Elimina prima i commenti associati al post
+            commentService.deleteCommentsByPost(id);
+
+            // Elimina i like associati al post
+            likeService.deleteLikesByPost(id);
+
+            // Elimina i like associati ai commenti
+            likeService.deleteLikesByComments(id);
+
+            // Ora che i commenti e i like sono stati eliminati, elimina il post
+            postService.deletePost(id);
+
+            return ResponseEntity.ok("Post and related comments, likes deleted successfully.");
+        } else {
+            return ResponseEntity.status(403).body("Only the post owner or an ADMIN can delete this post.");
+        }
     }
 
 

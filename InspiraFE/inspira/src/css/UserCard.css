@@ -72,6 +72,14 @@
 	color: #555;
 	font-size: 14px;
   }
+  .toggle-buttons {
+	display: flex;
+	justify-content: center;
+	margin-top: 20px;
+  }
+  .toggle-buttons button {
+	width: 250px;
+  }
   .modal {
 	position: fixed;
 	top: 0;

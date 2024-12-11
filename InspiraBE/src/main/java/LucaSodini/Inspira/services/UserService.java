@@ -51,6 +51,11 @@ public class UserService {
         return this.userRepository.findAll();
     }
 
+    public List<User> searchUsersByUsername(String username) {
+        return userRepository.findByUsernameContainingIgnoreCase(username);
+    }
+
+
     public User registerUser(UserDTO body) {
 
         if (userRepository.findByEmail(body.email()).isPresent()) {

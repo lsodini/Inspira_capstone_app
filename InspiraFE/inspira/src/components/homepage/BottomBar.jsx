@@ -9,7 +9,7 @@ import { MdOutlineShoppingCart } from "react-icons/md";
 import { CgProfile } from "react-icons/cg";
 import { IoSearch } from "react-icons/io5";
 import { useLocation } from "react-router-dom"; // Importa useLocation
-import "../../css/BottomBar.css"; 
+import "../../css/CustomHomePage.css"; 
 
 const BottomBar = () => {
   const location = useLocation(); // Ottieni il percorso corrente

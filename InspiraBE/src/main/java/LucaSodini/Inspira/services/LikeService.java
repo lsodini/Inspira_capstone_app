@@ -28,22 +28,32 @@ public class LikeService {
     @Autowired
     private CommentRepository commentRepository;
 
-    // Aggiungi un like a un post
-    public Like likePost(Long userId, Long postId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-        Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new RuntimeException("Post not found"));
 
+    public Like likePost(Long userId, Long postId) {
+        // Controlla se l'utente ha già messo like al post
         if (likeRepository.existsByUserIdAndPostId(userId, postId)) {
-            throw new RuntimeException("User has already liked this post");
+            throw new RuntimeException("Like already exists");
         }
 
-        Like like = new Like(user, post);
+        // Crea un nuovo like
+        Post post = postRepository.findById(postId).orElseThrow(() -> new RuntimeException("Post not found"));
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+
+        Like like = new Like();
+        like.setUser(user);
+        like.setPost(post);
+
         return likeRepository.save(like);
     }
 
-    // Aggiungi un like a un commento
+
+    public void unlikePost(Long userId, Long postId) {
+        Like like = likeRepository.findByUserIdAndPostId(userId, postId)
+                .orElseThrow(() -> new RuntimeException("Like not found"));
+        likeRepository.delete(like);
+    }
+
+
     public Like likeComment(Long userId, Long commentId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
@@ -58,33 +68,51 @@ public class LikeService {
         return likeRepository.save(like);
     }
 
-    // Rimuove un like
-    public void unlike(Long likeId) {
-        likeRepository.deleteById(likeId);
+
+    public void unlikeComment(Long userId, Long commentId) {
+        Like like = likeRepository.findByUserIdAndCommentId(userId, commentId)
+                .orElseThrow(() -> new RuntimeException("Like not found"));
+        likeRepository.delete(like);
     }
 
-    // Recupera tutti i like di un post
+
     public List<Like> getLikesByPost(Long postId) {
         return likeRepository.findByPostId(postId);
     }
 
-    // Recupera il conteggio dei like di un commento
+
     public Long getLikeCountByComment(Long commentId) {
         return likeRepository.countByCommentId(commentId);
     }
 
-    // Recupera tutti i like di un commento
+
     public List<Like> getLikesByComment(Long commentId) {
         return likeRepository.findByCommentId(commentId);
     }
 
-    // Verifica se un utente ha messo like a un post
+
     public boolean hasUserLikedPost(Long userId, Long postId) {
         return likeRepository.existsByUserIdAndPostId(userId, postId);
     }
 
-    // Verifica se un utente ha messo like a un commento
+
     public boolean hasUserLikedComment(Long userId, Long commentId) {
         return likeRepository.existsByUserIdAndCommentId(userId, commentId);
     }
+
+
+    public void deleteLikesByPost(Long postId) {
+        List<Like> likes = likeRepository.findByPostId(postId);
+        likeRepository.deleteAll(likes);
+    }
+
+
+    public void deleteLikesByComments(Long postId) {
+        List<Comment> comments = commentRepository.findByPostId(postId);
+        for (Comment comment : comments) {
+            List<Like> commentLikes = likeRepository.findByCommentId(comment.getId());
+            likeRepository.deleteAll(commentLikes);
+        }
+    }
+
 }

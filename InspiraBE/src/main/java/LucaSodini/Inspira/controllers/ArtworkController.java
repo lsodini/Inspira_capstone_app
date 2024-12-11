@@ -67,17 +67,30 @@ public class ArtworkController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Artwork> updateArtwork(@PathVariable Long id, @RequestBody Artwork updatedArtwork, Authentication authentication) {
+    public ResponseEntity<Artwork> updateArtwork(
+            @PathVariable Long id,
+            @RequestParam(value = "file", required = false) MultipartFile file,
+            @RequestParam("title") String title,
+            @RequestParam("description") String description,
+            @RequestParam("price") Float price,
+            Authentication authentication) {
         String username = authentication.getName();
         User user = userService.findByUsername(username);
 
-        // Controllo se l'utente è un ARTIST
+
         if (user.getRole() != UserRole.ARTIST) {
-            return ResponseEntity.status(403).body(null); // Forbidden
+            return ResponseEntity.status(403).body(null);
         }
 
-        return ResponseEntity.ok(artworkService.updateArtwork(id, updatedArtwork));
+        Artwork updatedArtwork = new Artwork();
+        updatedArtwork.setTitle(title);
+        updatedArtwork.setDescription(description);
+        updatedArtwork.setPrice(price);
+
+        Artwork savedArtwork = artworkService.updateArtwork(id, updatedArtwork, file);
+        return ResponseEntity.ok(savedArtwork);
     }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteArtwork(@PathVariable Long id, Authentication authentication) {
@@ -86,7 +99,7 @@ public class ArtworkController {
 
         Artwork artwork = artworkService.getArtworkById(id);
 
-        // Controllo se l'utente è un ARTIST che ha creato l'opera o un ADMIN
+
         if (user.getRole() == UserRole.ADMIN || artwork.getUser().equals(user)) {
             artworkService.deleteArtwork(id);
             return ResponseEntity.ok().build();
@@ -100,6 +113,11 @@ public class ArtworkController {
         String username = authentication.getName();
         User user = userService.findByUsername(username);
         return ResponseEntity.ok(artworkService.markAsSold(id, user));
+    }
+    @GetMapping("/user/{userId}/count")
+    public ResponseEntity<Long> getArtworkCountByUserId(@PathVariable Long userId) {
+        Long count = artworkService.countArtworksByUserId(userId);
+        return ResponseEntity.ok(count);
     }
 
     @GetMapping("/available")
