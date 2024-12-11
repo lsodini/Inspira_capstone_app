@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from "react";
-import Post from "./Post";
-import UCard from "./UCard";
+
+import Posts from "./Posts";
 import "../../css/UserPage.css";
 
 const PostList = ({ userId }) => {
@@ -94,7 +94,7 @@ const PostList = ({ userId }) => {
 
       <div className="posts">
         {posts.map((post) => (
-          <UCard  key={post.id} post={post} />  
+          <Posts  key={post.id} post={post} />  
         ))}
       </div>
     </div>

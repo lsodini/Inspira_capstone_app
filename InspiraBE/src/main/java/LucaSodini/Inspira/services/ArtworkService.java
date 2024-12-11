@@ -2,12 +2,19 @@ package LucaSodini.Inspira.services;
 
 import LucaSodini.Inspira.entities.Artwork;
 import LucaSodini.Inspira.entities.User;
+import LucaSodini.Inspira.exceptions.BadRequestException;
 import LucaSodini.Inspira.repositories.ArtworkRepository;
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ArtworkService {
@@ -15,6 +22,34 @@ public class ArtworkService {
     @Autowired
     private ArtworkRepository artworkRepository;
 
+    @Autowired
+    private Cloudinary cloudinaryUploader;
+    public Artwork uploadArtwork(MultipartFile file, Artwork artwork) {
+        if (file.isEmpty()) {
+            throw new BadRequestException("Il file non può essere vuoto");
+        }
+
+        String mediaUrl;
+        try {
+            Map uploadResult = cloudinaryUploader.uploader().upload(file.getBytes(), ObjectUtils.emptyMap());
+            mediaUrl = (String) uploadResult.get("url");
+        } catch (IOException e) {
+            throw new BadRequestException("Errore durante l'upload del file su Cloudinary.");
+        }
+
+
+        if (artwork.getMediaUrls() == null) {
+            artwork.setMediaUrls(new ArrayList<>());
+        }
+
+
+        artwork.getMediaUrls().add(mediaUrl);
+
+        artwork.setCreatedAt(LocalDateTime.now());
+        artwork.setUpdatedAt(LocalDateTime.now());
+
+        return artworkRepository.save(artwork);
+    }
 
     public List<Artwork> getAllArtworks() {
         return artworkRepository.findAll();
@@ -38,7 +73,8 @@ public class ArtworkService {
         Artwork existingArtwork = getArtworkById(id);
         existingArtwork.setTitle(updatedArtwork.getTitle());
         existingArtwork.setDescription(updatedArtwork.getDescription());
-        existingArtwork.setMediaUrl(updatedArtwork.getMediaUrl());
+
+        existingArtwork.setMediaUrls(updatedArtwork.getMediaUrls());
         existingArtwork.setPrice(updatedArtwork.getPrice());
         existingArtwork.setUpdatedAt(LocalDateTime.now());
         return artworkRepository.save(existingArtwork);

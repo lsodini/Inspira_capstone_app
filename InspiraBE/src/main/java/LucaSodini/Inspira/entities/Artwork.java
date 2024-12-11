@@ -4,6 +4,7 @@ import lombok.*;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "artworks")
@@ -22,7 +23,10 @@ public class Artwork {
 
     private String title;
     private String description;
-    private String mediaUrl;
+    @ElementCollection
+    @CollectionTable(name = "artwork_media_urls", joinColumns = @JoinColumn(name = "artwork_id"))
+    @Column(name = "media_url")
+    private List<String> mediaUrls;
 
     private Float price;
 

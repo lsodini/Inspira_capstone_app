@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -37,12 +38,32 @@ public class ArtworkController {
         String username = authentication.getName();
         User user = userService.findByUsername(username);
 
-        // Controllo se l'utente è un ARTIST
+
         if (user.getRole() != UserRole.ARTIST) {
-            return ResponseEntity.status(403).body(null); // Forbidden
+            return ResponseEntity.status(403).body(null);
         }
 
         return ResponseEntity.ok(artworkService.createArtwork(artwork, user));
+    }
+
+    @PostMapping("/upload")
+    public ResponseEntity<Artwork> uploadArtwork(
+            @RequestParam("file") MultipartFile file,
+            @RequestParam("title") String title,
+            @RequestParam("description") String description,
+            @RequestParam("price") Float price,
+            Authentication authentication) {
+
+        User user = userService.findByUsername(authentication.getName());
+
+        Artwork artwork = new Artwork();
+        artwork.setTitle(title);
+        artwork.setDescription(description);
+        artwork.setPrice(price);
+        artwork.setUser(user);
+
+        Artwork savedArtwork = artworkService.uploadArtwork(file, artwork);
+        return ResponseEntity.ok(savedArtwork);
     }
 
     @PutMapping("/{id}")

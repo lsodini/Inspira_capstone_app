@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../../css/UCard.css"; 
 
-const UCard = ({ post }) => {
+const Posts = ({ post }) => {
   const [postLikes, setPostLikes] = useState([]);
   const [commentLikes, setCommentLikes] = useState({});
   const [comments, setComments] = useState([]);
@@ -172,4 +172,4 @@ const UCard = ({ post }) => {
   );
 };
 
-export default UCard;
+export default Posts;
