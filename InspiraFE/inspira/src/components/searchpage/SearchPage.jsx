@@ -47,7 +47,7 @@ const SearchPage = () => {
     }
   };
 
-  // Function to handle user click and navigate to the user profile
+ 
   const handleUserClick = (username) => {
     navigate(`/user/${username}`);
   };
@@ -61,9 +61,9 @@ const SearchPage = () => {
         {loading && <div>Caricamento...</div>}
         {error && <div>{error}</div>}
 
-        <div className="search-results">
+        <div className="search-results vh-100">
           {users.length === 0 && !loading && !error && (
-            <div>Nessun utente trovato</div>
+            <div>cerca un utente</div>
           )}
           {users.length > 0 && !loading && (
             <ul>

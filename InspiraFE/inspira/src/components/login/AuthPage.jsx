@@ -48,12 +48,12 @@ const AuthForm = () => {
       <BaseNavbar />
       <div className="mainContainer">
         <div className={`container ${isLogin ? "" : "right-panel-active"} p-3`} id="container">
-          <RegisterPage switchToLogin={switchToLogin} /> {/* Passa la funzione di cambio stato */}
+          <RegisterPage switchToLogin={switchToLogin} /> 
           <CustomLogin />
           <div className="overlay-container">
             <div className="overlay" style={{ backgroundImage: backgroundImage }}>
               <div className="overlay-panel overlay-left">
-                <h1>Benvenuto su Ispira</h1>
+                <h1>Benvenuto su Inspira</h1>
                 <p>
                   Accedi per continuare a esplorare, connetterti e lasciarti ispirare.
                 </p>
@@ -62,7 +62,7 @@ const AuthForm = () => {
                 </button>
               </div>
               <div className="overlay-panel overlay-right">
-                <h1>Scopri il Mondo di Ispira</h1>
+                <h1>Scopri il Mondo di Inspira</h1>
                 <p>
                   Crea un account per condividere idee, ispirarti e trasformare le tue passioni.
                 </p>

@@ -261,10 +261,10 @@ const UserCard = () => {
           </button>
         </div>
         <div className="user-stats">
-          <span>Post: {postCount || 0}</span>
-          <span>Artwork: {artworkCount || 0}</span> 
-          <span>Follower: {followerCount || 0}</span> 
-          <span>Followed: {followingCount || 0}</span>
+          <span>{postCount || 0} post </span>
+          <span>{artworkCount || 0} artwork</span> 
+          <span>{followerCount || 0} follower</span> 
+          <span>{followingCount || 0} seguiti</span>
         </div>
         <div className="user-username">@{user ? user.username : "username"}</div>
         <div className="user-bio">{user ? user.bio || "Nessuna bio disponibile." : "Nessuna bio disponibile."}</div>

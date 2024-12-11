@@ -55,7 +55,7 @@ const CustomRegister = ({ switchToLogin }) => {
   return (
     <div className="form-container sign-up-container">
       <form onSubmit={handleSubmit}>
-        <h1>Unisciti a Ispira</h1>
+        <h1>Unisciti a Inspira</h1>
         <p>Condividi il tuo mondo con una comunità appassionata.</p>
         <input
           type="text"

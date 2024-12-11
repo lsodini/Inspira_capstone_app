@@ -2,104 +2,104 @@
 /*authform css*/
 
 * {
-	box-sizing: border-box !important;
+	box-sizing: border-box ;
 }
 
 body {
 	
 	
 	
-	font-family: 'Roboto', Arial, Helvetica, sans-serif !important;
+	font-family: 'Roboto', Arial, Helvetica, sans-serif ;
 	
 	
 }
 .mainContainer{
-	display: flex!important;
-	justify-content: center!important;
-	align-items: center!important;
-	flex-direction: column!important;
-	height: 100vh!important;
-	padding:0 50px 50px 50px!important;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	height: 100vh;
+	padding:0 50px 50px 50px;
 }
 
 .mainContainer h1 {
-	font-weight: bold !important;
-	margin: 0 !important;
+	font-weight: bold ;
+	margin: 0 ;
 }
 
 .mainContainer h2 {
-	text-align: center!important;
+	text-align: center;
 }
 
 .mainContainer p {
-	font-size: 14px!important;
-	font-weight: 100!important;
-	line-height: 20px!important;
-	letter-spacing: 0.5px!important;
-	margin: 20px 0 20px!important;
+	font-size: 14px;
+	font-weight: 100;
+	line-height: 20px;
+	letter-spacing: 0.5px;
+	margin: 20px 0 20px;
 }
 
 .mainContainer span {
-	font-size: 12px!important;
+	font-size: 12px;
 }
 
 
 footer a, .mainContainer a {
-	color: #333!important;
-	font-size: 14px!important;
-	text-decoration: none!important;
-	margin: 15px 0!important;
+	color: #333;
+	font-size: 14px;
+	text-decoration: none;
+	margin: 15px 0;
 }
 
 .mainContainer button {
-	border-radius: 20px!important;
-	border: 1px solid #FF4B2B!important;
-	background-color: #FF4B2B!important;
-	color: #FFFFFF!important;
-	font-size: 12px!important;
-	font-weight: bold!important;
-	padding: 12px 45px!important;
-	letter-spacing: 1px!important;
-	text-transform: uppercase!important;
-	transition: transform 80ms ease-in!important;
+	border-radius: 20px;
+	border: 1px solid #FF4B2B;
+	background-color: #FF4B2B;
+	color: #FFFFFF;
+	font-size: 12px;
+	font-weight: bold;
+	padding: 12px 45px;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+	transition: transform 80ms ease-in;
 }
 .mainContainer button:hover {
-	transform: scale(1.05)!important;
+	transform: scale(1.05);
 }
 
 .mainContainer button:active {
-	transform: scale(0.95)!important;
+	transform: scale(0.95);
 }
 
 .mainContainer button:focus {
-	outline: none!important;
+	outline: none;
 }
 
  button.ghost {
-	background-color: transparent!important;
-	border-color: #FFFFFF!important;
+	background-color: transparent;
+	border-color: #FFFFFF;
 }
 
 .mainContainer form {
-	background-color: #FFFFFF!important;
-	display: flex!important;
-	align-items: center!important;
-	justify-content: center!important;
-	flex-direction: column!important;
-	padding: 0 50px!important;
-	height: 100%!important;
-	text-align: center!important;
+	background-color: #FFFFFF;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	padding: 0 50px;
+	height: 100%;
+	text-align: center;
 }
 
 .mainContainer input {
 	background-color: #eee;
 	border: none;
 	padding: 12px 15px;
-	margin: 4px 0!important;
+	margin: 4px 0;
 	width: 100%;
 }
 .last-input {
-	margin-bottom: 15px!important;
+	margin-bottom: 15px;
   }
 
 .container {
@@ -232,7 +232,7 @@ footer a, .mainContainer a {
     padding-right: 15px;
 }
 .primary{
-	color: #FF4B2B !important;
+	color: #FF4B2B ;
 
 }
 
@@ -272,6 +272,6 @@ footer .col {
 }
 
 .navbar .dropdown-toggle::after {
-	display: none !important;
+	display: none ;
   }
   

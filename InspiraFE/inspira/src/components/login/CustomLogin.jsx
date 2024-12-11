@@ -72,7 +72,7 @@ const CustomLogin = () => {
   return (
     <div className="form-container sign-in-container">
       <form onSubmit={handleSubmit}>
-        <h1>Accedi a Ispira</h1>
+        <h1>Accedi a Inspira</h1>
         <p>Inserisci le tue credenziali per iniziare il viaggio.</p>
         <input
           type="email"
