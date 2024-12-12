@@ -1,5 +1,5 @@
 import React from 'react';
-import UserCard from './UserCard';
+
 import BottomBar from './BottomBar';
 import '../../css/CustomHomePage.css';
 import Footer from "../login/Footer";

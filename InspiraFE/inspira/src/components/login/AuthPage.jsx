@@ -11,7 +11,7 @@ const AuthForm = () => {
   const [isLogin, setIsLogin] = useState(location.pathname === "/login");
   const [backgroundImage, setBackgroundImage] = useState(""); 
 
-  // Array delle immagini di background
+  
   const backgroundImages = [
     "url('/images/formbg.jpg')",
     "url('/images/formbg1.jpg')", 
@@ -22,7 +22,7 @@ const AuthForm = () => {
     "url('/images/formbg6.jpg')"
   ];
 
-  // Seleziona un background una volta quando il componente è montato
+  
   useEffect(() => {
     if (!backgroundImage) {
       const randomIndex = Math.floor(Math.random() * backgroundImages.length);

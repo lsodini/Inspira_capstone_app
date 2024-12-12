@@ -208,20 +208,20 @@
         width: 350px;
     }
 }
-/* Centrare la lista dei post */
+
 .post-list, .artwork-list {
     display: flex;
     justify-content: center;
-    align-items: center; /* Aggiungi questa linea per centrare verticalmente */
+    align-items: center; 
     flex-direction: column;
-    min-height: 100vh; /* Per fare in modo che occupi tutta l'altezza della pagina */
-  }
+    min-height: 100vh; 
+}
   
   .posts, .artwork {
     display: flex;
     flex-direction: column;
-    gap: 20px; /* Distanza tra i post */
-    max-width: 800px; /* Imposta una larghezza massima per i post */
+    gap: 20px; 
+    max-width: 800px; 
     width: 100%;
   }
 

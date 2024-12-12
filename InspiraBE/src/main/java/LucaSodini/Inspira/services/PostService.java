@@ -2,7 +2,9 @@ package LucaSodini.Inspira.services;
 
 import LucaSodini.Inspira.entities.Post;
 import LucaSodini.Inspira.entities.User;
+import LucaSodini.Inspira.enums.UserRole;
 import LucaSodini.Inspira.payloads.PostDTO;
+import LucaSodini.Inspira.repositories.CommentRepository;
 import LucaSodini.Inspira.repositories.PostRepository;
 import LucaSodini.Inspira.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,12 @@ public class PostService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private LikeService likeService;
+
+    @Autowired
+    private CommentRepository commentRepository;
 
 
     public PostDTO toPostDTO(Post post) {
@@ -56,6 +64,28 @@ public class PostService {
         return postRepository.findById(id);
     }
 
+    public void deletePostAndDependencies(Long postId, String username) {
+        // Recupera il post
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new RuntimeException("Post not found"));
+
+        // Verifica autorizzazione (admin o proprietario del post)
+        if (!post.getUser().getUsername().equals(username) &&
+                !userRepository.findByUsername(username).orElseThrow(() ->
+                        new RuntimeException("User not found")).getRole().equals(UserRole.ADMIN)) {
+            throw new RuntimeException("Solo il proprietario del post o un  ADMIN possono eliminare questo post.");
+        }
+
+        // Elimina i commenti associati al post
+        commentRepository.deleteByPostId(postId);
+
+        // Elimina i like associati al post e ai commenti del post
+        likeService.deleteLikesByPost(postId);
+        likeService.deleteLikesByComments(postId);
+
+        // Elimina il post
+        postRepository.deleteById(postId);
+    }
 
     public List<Post> getUserPosts(Long userId) {
         return postRepository.findByUserId(userId);

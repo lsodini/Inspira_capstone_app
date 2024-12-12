@@ -2,11 +2,10 @@ package LucaSodini.Inspira.controllers;
 
 import LucaSodini.Inspira.entities.Comment;
 import LucaSodini.Inspira.services.CommentService;
+import LucaSodini.Inspira.services.LikeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/comments")
@@ -14,6 +13,9 @@ public class CommentController {
 
     @Autowired
     private CommentService commentService;
+
+    @Autowired
+    private LikeService likeService;
 
     @PostMapping("/create")
     public ResponseEntity<?> createComment(@RequestBody Comment comment) {
@@ -32,7 +34,12 @@ public class CommentController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteComment(@PathVariable Long id) {
+        // 1. Rimuovere prima tutti i like associati al commento
+        likeService.deleteLikesByComment(id);
+
+        // 2.  eliminare il commento
         commentService.deleteComment(id);
+
         return ResponseEntity.ok().build();
     }
 }

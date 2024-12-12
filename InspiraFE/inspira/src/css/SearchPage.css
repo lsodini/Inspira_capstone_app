@@ -1,5 +1,6 @@
 .search-results {
-	margin-top: 20px;
+	margin-top: 90px;
+
   }
   
   .search-results ul {
@@ -9,11 +10,48 @@
   
   .search-results li {
 	padding: 10px;
-	border-bottom: 1px solid #ccc;
+	color: #4b4b4b;
 	cursor: pointer;
+	width: 50%;
+	margin: 0% auto;
+	
   }
+
+  .search-results li:nth-child(1)  {
+	margin-top: 10px;
+	
+
+	
+  }
+  
   
   .search-results li:hover {
-	background-color: #f0f0f0;
+	background-color: #f5f3f3bf;
   }
-  
+  .msg{
+	margin: 0% auto;
+	text-align: center;
+  }
+  .linea3{
+	width: 100%;
+	margin: 0% auto;
+	
+	border:1px solid #7a7a7a;
+  }
+  .user-info{
+	margin-left: 10%;
+  }
+  .user-avatar{
+	border-radius: 50%;
+	width: 40px;
+	height: 40px;
+  }
+  .username{
+	font-size: 1.2rem;
+	color: #3a3a3a;
+	font-weight: 600;
+
+  }
+  .full-name{
+	margin-top: -5px;
+  }

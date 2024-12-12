@@ -1,4 +1,5 @@
-/* Base Styles */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 :root {
 	--border-radius: 10px;
 	--spacer: 1rem;
@@ -9,9 +10,12 @@
 	--transition: var(--timing) ease all;
   }
   
+*{
+	font-family: 'Poppins', sans-serif !important;
+}
   body {
 	background: #faf8f8;
-	font-family: 'Roboto', Arial, Helvetica, sans-serif;
+	
   }
   
   /* Layout principale */

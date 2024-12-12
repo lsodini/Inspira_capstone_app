@@ -76,10 +76,7 @@ const Posts = ({ post, onDelete }) => {
       });
   
       if (response.ok) {
-       
         setUserHasLikedPost((prev) => !prev);
-  
-       
         setPostLikes((prev) => ({
           ...prev,
           length: userHasLikedPost ? Math.max(0, prev.length - 1) : prev.length + 1,
@@ -91,10 +88,6 @@ const Posts = ({ post, onDelete }) => {
       console.error("Errore nel toggling del like al post:", err.message);
     }
   };
-  
-
-  
-  
 
   const toggleLikeComment = async (commentId) => {
     try {
@@ -105,7 +98,6 @@ const Posts = ({ post, onDelete }) => {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      
       setUserHasLikedComment((prev) => ({
         ...prev,
         [commentId]: !prev[commentId],
@@ -217,8 +209,7 @@ const Posts = ({ post, onDelete }) => {
       )}
 
       <div className="uCard-btns">
-      <div className="uCard-left">
-
+        <div className="uCard-left">
           <div className="uCard-likes" onClick={toggleLikePost}>
             {userHasLikedPost ? (
               <FaThumbsUp className="uCard-icon-image liked" />

@@ -24,6 +24,8 @@ public interface LikeRepository extends JpaRepository<Like, Long> {
     // Verifica se un utente ha messo like a un determinato commento
     boolean existsByUserIdAndCommentId(Long userId, Long commentId);
 
+    void deleteByCommentId(Long commentId);
+
     // Conta il numero di like di un post
     Long countByPostId(Long postId);
 

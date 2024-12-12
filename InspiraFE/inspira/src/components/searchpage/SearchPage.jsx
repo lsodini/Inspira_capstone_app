@@ -11,9 +11,18 @@ const SearchPage = () => {
   const [users, setUsers] = useState([]); 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [searchActive, setSearchActive] = useState(false);
 
-  // Function that handles search when the user submits the search
   const handleSearch = async (username) => {
+  
+    if (username.trim() === "") {
+      setSearchActive(false);
+      setUsers([]); 
+      return;
+    }
+
+    setSearchActive(true);
+
     try {
       setLoading(true);
       setError(null);
@@ -25,7 +34,6 @@ const SearchPage = () => {
         return;
       }
 
-      // Fetch users matching the username
       const response = await fetch(`http://localhost:3001/api/utenti/search?username=${username}`, {
         method: "GET",
         headers: {
@@ -47,35 +55,43 @@ const SearchPage = () => {
     }
   };
 
- 
   const handleUserClick = (username) => {
     navigate(`/user/${username}`);
   };
 
   return (
     <div className="layout">
-      <div className="main-content">
-        <NavBar />
-        <SearchBar onSearch={handleSearch} />
+      <NavBar />
+      <SearchBar onSearch={handleSearch} />
 
-        {loading && <div>Caricamento...</div>}
-        {error && <div>{error}</div>}
+      <div className="search-results vh-100 ">
+        {loading && <div className='msg'>Caricamento...</div>}
+        {error && <div className='msg'>{error}</div>}
 
-        <div className="search-results vh-100">
-          {users.length === 0 && !loading && !error && (
-            <div>cerca un utente</div>
-          )}
-          {users.length > 0 && !loading && (
-            <ul>
-              {users.map((user) => (
-                <li key={user.id} onClick={() => handleUserClick(user.username)}>
-                  {user.username}
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
+        {/* Mostra "Nessun utente trovato" solo se la search bar è attiva e non ci sono utenti */}
+        {searchActive && users.length === 0 && !loading && !error && (
+          <div className='msg'>Nessun utente trovato</div>
+        )}
+
+        {/* Visualizza i risultati della ricerca */}
+        {users.length > 0 && !loading && (
+          <ul>
+            {users.map((user) => (
+              <li key={user.id} onClick={() => handleUserClick(user.username)} className="user-item">
+                <div className="user-info d-flex">
+                  <img src={user.avatarUrl || "/images/default-avatar.png"} alt="avatar" className="user-avatar me-2 mt-1 mb-1" />
+                  <div className="user-details">
+                    <div className="username">{user.username}</div>
+                    <div className="full-name">{user.name} {user.surname}</div>
+                  </div>
+                </div>
+                <hr className="linea3" />
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
+
       <BottomBar />
       <Footer />
     </div>
