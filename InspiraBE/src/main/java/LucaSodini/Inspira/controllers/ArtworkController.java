@@ -105,7 +105,7 @@ public class ArtworkController {
             return ResponseEntity.ok().build();
         }
 
-        return ResponseEntity.status(403).body("Only the artist who created the artwork or an admin can delete it.");
+        return ResponseEntity.status(403).body("Solo l'artista che ha creato l'artwork può eliminarlo");
     }
 
     @PatchMapping("/{id}/mark-sold")

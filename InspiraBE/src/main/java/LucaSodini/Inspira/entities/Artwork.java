@@ -23,6 +23,7 @@ public class Artwork {
 
     private String title;
     private String description;
+
     @ElementCollection
     @CollectionTable(name = "artwork_media_urls", joinColumns = @JoinColumn(name = "artwork_id"))
     @Column(name = "media_url")

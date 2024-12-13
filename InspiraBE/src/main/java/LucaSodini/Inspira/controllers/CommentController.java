@@ -34,10 +34,10 @@ public class CommentController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteComment(@PathVariable Long id) {
-        // 1. Rimuovere prima tutti i like associati al commento
+
         likeService.deleteLikesByComment(id);
 
-        // 2.  eliminare il commento
+
         commentService.deleteComment(id);
 
         return ResponseEntity.ok().build();

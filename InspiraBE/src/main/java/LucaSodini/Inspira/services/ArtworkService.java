@@ -24,6 +24,7 @@ public class ArtworkService {
 
     @Autowired
     private Cloudinary cloudinaryUploader;
+
     public Artwork uploadArtwork(MultipartFile file, Artwork artwork) {
         if (file.isEmpty()) {
             throw new BadRequestException("Il file non può essere vuoto");
