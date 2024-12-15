@@ -5,13 +5,14 @@ import { FaCommentDots } from "react-icons/fa";
 
 const Posts = ({ post, onDelete }) => {
   const [postLikes, setPostLikes] = useState({}); 
-  const [userHasLikedPost, setUserHasLikedPost] = useState({}); 
+  const [userHasLikedPost, setUserHasLikedPost] = useState(false); 
   const [commentLikes, setCommentLikes] = useState({}); 
   const [userHasLikedComment, setUserHasLikedComment] = useState({}); 
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [editedContent, setEditedContent] = useState(post.content); 
+  const [user, setUser] = useState(null); 
   const userId = localStorage.getItem("userId");
   const token = localStorage.getItem("authToken");
 
@@ -19,12 +20,29 @@ const Posts = ({ post, onDelete }) => {
     if (userId && token) {
       fetchPostLikes(post.id);
       fetchComments(post.id);
+      fetchUserData(post.userId); 
     } else {
       console.log("Utente non autenticato.");
     }
   }, [post.id, userId, token]);
 
+  const fetchUserData = async (userId) => {
+    if (!userId) return; // Controllo se l'ID dell'utente è valido
+
+    try {
+      const response = await fetch(`http://localhost:3001/api/utenti/${userId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const userData = await response.json();
+      setUser(userData);  
+    } catch (err) {
+      console.error("Errore nel recupero dei dati dell'utente:", err.message);
+    }
+  };
+
   const fetchPostLikes = async (postId) => {
+    if (!postId) return;
+
     try {
       const response = await fetch(`http://localhost:3001/api/likes/post/${postId}`, {
         headers: { Authorization: `Bearer ${token}` },
@@ -40,20 +58,46 @@ const Posts = ({ post, onDelete }) => {
   };
 
   const fetchComments = async (postId) => {
+    if (!postId) return;
+
     try {
       const response = await fetch(`http://localhost:3001/api/comments/post/${postId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const fetchedComments = await response.json();
       setComments(fetchedComments);
-
-      fetchedComments.forEach((comment) => fetchCommentLikes(comment.id)); 
+  
+      fetchedComments.forEach((comment) => {
+        fetchUserDataForComment(comment.userId);
+      });
     } catch (err) {
       console.error("Errore nel recupero dei commenti:", err.message);
     }
   };
+  
+  const fetchUserDataForComment = async (userId) => {
+    if (!userId) return;
+
+    try {
+      const response = await fetch(`http://localhost:3001/api/utenti/${userId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const userData = await response.json();
+      setComments((prevComments) => {
+        return prevComments.map((comment) =>
+          comment.userId === userId
+            ? { ...comment, userAvatarUrl: userData.avatarUrl } 
+            : comment
+        );
+      });
+    } catch (err) {
+      console.error("Errore nel recupero dei dati dell'utente per il commento:", err.message);
+    }
+  };
 
   const fetchCommentLikes = async (commentId) => {
+    if (!commentId) return;
+
     try {
       const response = await fetch(`http://localhost:3001/api/likes/count/comment/${commentId}`, {
         headers: { Authorization: `Bearer ${token}` },
@@ -66,10 +110,12 @@ const Posts = ({ post, onDelete }) => {
   };
 
   const toggleLikePost = async () => {
+    if (!userId || !token) return;
+
     try {
       const url = `http://localhost:3001/api/likes/post/${post.id}/user/${userId}`;
       const method = userHasLikedPost ? "DELETE" : "POST"; 
-  
+      
       const response = await fetch(url, {
         method,
         headers: { Authorization: `Bearer ${token}` },
@@ -90,6 +136,8 @@ const Posts = ({ post, onDelete }) => {
   };
 
   const toggleLikeComment = async (commentId) => {
+    if (!userId || !token) return;
+
     try {
       const url = `http://localhost:3001/api/likes/comment/${commentId}/user/${userId}`;
       const method = userHasLikedComment[commentId] ? "DELETE" : "POST"; 
@@ -111,6 +159,8 @@ const Posts = ({ post, onDelete }) => {
 
   const handleAddComment = async () => {
     if (!newComment.trim()) return;
+    if (!userId || !token) return; // Aggiungi il controllo di autenticazione
+
     try {
       await fetch(`http://localhost:3001/api/comments/create`, {
         method: "POST",
@@ -133,6 +183,7 @@ const Posts = ({ post, onDelete }) => {
 
   const handleEditPost = async () => {
     if (!editedContent.trim()) return;
+
     try {
       const response = await fetch(`http://localhost:3001/api/posts/${post.id}`, {
         method: "PUT",
@@ -172,7 +223,7 @@ const Posts = ({ post, onDelete }) => {
         <div className="uCard-user_details">
           <div className="uCard-profile_img">
             <img
-              src={post.user?.avatar || "default-avatar.png"}
+              src={post.user?.avatarUrl || "default-avatar.png"}
               alt="User Avatar"
               className="uCard-avatar"
             />
@@ -253,24 +304,18 @@ const Posts = ({ post, onDelete }) => {
       <div className="uCard-addComments">
         <div className="uCard-userimg">
           <img
-            src={post.user?.avatar || "default-avatar.png"}
-            alt="user"
-            className="uCard-avatar"
+            src={user?.avatarUrl || "default-avatar.png"}
+            alt="user-avatar"
+            className="uCard-avatar2"
           />
         </div>
         <input
           type="text"
-          className="uCard-text"
-          placeholder="Write a comment..."
+          placeholder="Add a comment..."
           value={newComment}
           onChange={(e) => setNewComment(e.target.value)}
         />
         <button onClick={handleAddComment}>Add Comment</button>
-      </div>
-
-      <div className="uCard-actions">
-        <button onClick={handleDeletePost}>Delete Post</button>
-        {!isEditing && <button onClick={handleStartEditing}>Edit Post</button>}
       </div>
     </div>
   );

@@ -5,7 +5,7 @@ const SearchBar = ({ onSearch }) => {
   const [username, setUsername] = useState("");
   const [isActive, setIsActive] = useState(false);
 
-  // Quando il componente viene caricato, imposta la search bar come attiva
+ 
   useEffect(() => {
     setIsActive(true);
   }, []);
@@ -20,8 +20,8 @@ const SearchBar = ({ onSearch }) => {
     }
   };
 
-  const handleToggle = (evt) => {
-    evt.preventDefault();
+  const handleToggle = (e) => {
+    e.preventDefault();
     setIsActive((prevActive) => {
       if (prevActive) {
         setUsername("");

@@ -38,14 +38,17 @@ public class AuthorizationController {
             throw new BadRequestException("Ci sono stati errori nel payload! " + message);
         }
 
-
+        // Verifica le credenziali e genera il token
         String token = this.ss.checkCredentialsAndGenerateToken(body);
 
-
+        // Estrai l'ID dell'utente dal token
         String userId = this.jwt.getIdFromToken(token);
 
+        // Recupera l'utente dal database usando l'ID
+        User user = this.userService.findById(Long.valueOf(userId));
 
-        return new UserLoginResponseDTO(token, Long.valueOf(userId));
+        // Restituisci una risposta con accessToken, userId e username
+        return new UserLoginResponseDTO(token, Long.valueOf(userId), user.getUsername());
     }
 
     @PostMapping("/register")

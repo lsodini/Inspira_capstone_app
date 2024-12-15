@@ -86,7 +86,7 @@ const Artwork = ({ artwork, onDelete, onUpdate }) => {
           <div className="uCard-top">
             <div className="uCard-user_details">
               <div className="uCard-profile_img">
-                <img src={artwork.user.image} alt="artist" className="uCard-cover" />
+                <img src={artwork.user.avatarUrl} alt="artist" className="uCard-cover" />
               </div>
               <h3>
                 {artwork.user.username}

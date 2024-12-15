@@ -55,9 +55,10 @@ const CustomLogin = () => {
       const data = await response.json();
 
     
-      if (data.accessToken && data.userId) {
+      if (data.accessToken && data.userId && data.username) {
         localStorage.setItem("authToken", data.accessToken);
         localStorage.setItem("userId", data.userId); 
+        localStorage.setItem("username", data.username);
 
         navigate("/homepage"); 
       } else {

@@ -10,6 +10,8 @@ import { CgProfile } from "react-icons/cg";
 import { IoSearch } from "react-icons/io5";
 import { IoNewspaperOutline } from "react-icons/io5";
 import { useLocation } from "react-router-dom"; 
+import { MdOutlineShoppingCart } from "react-icons/md";
+
 import "../../css/CustomHomePage.css"; 
 
 const BottomBar = () => {
@@ -33,7 +35,7 @@ const BottomBar = () => {
             <span>Messages</span>
           </a>
         </li>
-        <li className={`bottom-navbar__item ${isActive('/shop') ? 'active' : ''}`}>
+        <li className={`bottom-navbar__item ${isActive('/news') ? 'active' : ''}`}>
           <a href="/news" className="bottom-navbar__link">
             <IoNewspaperOutline className="primary" />
             <span>News</span>
@@ -51,10 +53,10 @@ const BottomBar = () => {
             <span>Search</span>
           </a>
         </li>
-        <li className={`bottom-navbar__item ${isActive('/help') ? 'active' : ''}`}>
-          <a href="/help" className="bottom-navbar__link">
-            <FiHelpCircle className="primary" />
-            <span>Help</span>
+        <li className={`bottom-navbar__item ${isActive('/cart') ? 'active' : ''}`}>
+          <a href="/cart" className="bottom-navbar__link">
+            <MdOutlineShoppingCart className="primary" />
+            <span>Cart</span>
           </a>
         </li>
        

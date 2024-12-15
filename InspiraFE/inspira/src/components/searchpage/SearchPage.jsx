@@ -7,33 +7,43 @@ import NavBar from "../../components/homepage/NavBar";
 import SearchBar from './SearchBar';
 
 const SearchPage = () => {
-  const navigate = useNavigate(); 
-  const [users, setUsers] = useState([]); 
+  const navigate = useNavigate();
+  const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [searchActive, setSearchActive] = useState(false);
 
+ 
+  const userId = localStorage.getItem("userId");
+  const token = localStorage.getItem("authToken");
+
   const handleSearch = async (username) => {
-  
     if (username.trim() === "") {
       setSearchActive(false);
-      setUsers([]); 
+      setUsers([]);
       return;
     }
-
+  
+   
+    if (username === localStorage.getItem("username")) {
+      setError("Non puoi cercare il tuo stesso profilo.");
+      setSearchActive(false);
+      setUsers([]);
+      return;
+    }
+  
     setSearchActive(true);
-
+    setError(null);
+  
     try {
       setLoading(true);
-      setError(null);
-
-      const token = localStorage.getItem("authToken");
+  
       if (!token) {
         setError("Non autenticato. Effettua il login.");
         setLoading(false);
         return;
       }
-
+  
       const response = await fetch(`http://localhost:3001/api/utenti/search?username=${username}`, {
         method: "GET",
         headers: {
@@ -41,19 +51,24 @@ const SearchPage = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-
+  
       if (!response.ok) {
         throw new Error('Errore durante la ricerca');
       }
-
+  
       const data = await response.json();
-      setUsers(data);
+  
+    
+      const filteredUsers = data.filter(user => user.username !== localStorage.getItem("username"));
+  
+      setUsers(filteredUsers);
     } catch (err) {
       setError(err.message);
     } finally {
       setLoading(false);
     }
   };
+  
 
   const handleUserClick = (username) => {
     navigate(`/user/${username}`);
@@ -64,16 +79,14 @@ const SearchPage = () => {
       <NavBar />
       <SearchBar onSearch={handleSearch} />
 
-      <div className="search-results vh-100 ">
+      <div className="search-results vh-100">
         {loading && <div className='msg'>Caricamento...</div>}
         {error && <div className='msg'>{error}</div>}
 
-        {/* Mostra "Nessun utente trovato" solo se la search bar è attiva e non ci sono utenti */}
         {searchActive && users.length === 0 && !loading && !error && (
           <div className='msg'>Nessun utente trovato</div>
         )}
 
-        {/* Visualizza i risultati della ricerca */}
         {users.length > 0 && !loading && (
           <ul>
             {users.map((user) => (
