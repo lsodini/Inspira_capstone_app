@@ -76,7 +76,7 @@ const Feed = () => {
   if (error) return <div>Errore: {error}</div>;
 
   return (
-    <div className="feed-list">
+    <div className="feed-list vh-100">
       <div className="feed-items">
         {feedItems.map((item) =>
           item.type === "artwork" ? (
