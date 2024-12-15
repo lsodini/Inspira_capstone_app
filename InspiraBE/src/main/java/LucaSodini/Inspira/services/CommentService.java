@@ -13,6 +13,9 @@ public class CommentService {
     @Autowired
     private CommentRepository commentRepository;
 
+    @Autowired
+    private LikeService likeService;
+
     public Comment createComment(Comment comment) {
         return commentRepository.save(comment);
     }
@@ -36,8 +39,17 @@ public class CommentService {
 
 
     public void deleteCommentsByPost(Long postId) {
+        // Recupera i commenti associati al post
         List<Comment> comments = commentRepository.findByPostId(postId);
+
+        // Per ogni commento, elimina i like associati
+        for (Comment comment : comments) {
+            likeService.deleteLikesByComment(comment.getId()); // Elimina i like del commento
+        }
+
+        // Ora elimina tutti i commenti del post
         commentRepository.deleteAll(comments);
     }
+
 
 }

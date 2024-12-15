@@ -7,7 +7,7 @@ const Artwork = ({ artwork, onDelete, onUpdate }) => {
     title: artwork.title,
     description: artwork.description,
     price: artwork.price,
-    mediaFile: null, // File per l'immagine aggiornata
+    mediaFile: null,
   });
 
   const token = localStorage.getItem("authToken");
@@ -40,8 +40,8 @@ const Artwork = ({ artwork, onDelete, onUpdate }) => {
       }
 
       const data = await response.json();
-      setIsEditing(false); // Esci dalla modalità modifica
-      onUpdate(data); // Aggiorna l'opera nella lista
+      setIsEditing(false); 
+      onUpdate(data);
     } catch (err) {
       console.error("Errore nell'aggiornamento dell'opera:", err.message);
     }
@@ -113,9 +113,10 @@ const Artwork = ({ artwork, onDelete, onUpdate }) => {
             <button className="uCard-edit" onClick={() => setIsEditing(true)}>
               Edit
             </button>
-            <button className="uCard-delete" onClick={onDelete}>
-              Delete
-            </button>
+            <button className="uCard-delete" onClick={() => onDelete(artwork.id)}>
+  Delete
+</button>
+
           </div>
         </>
       )}

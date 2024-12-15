@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import "../../css/AuthForm.css";
 
 const CustomRegister = ({ switchToLogin }) => {
   const [name, setName] = useState("");
@@ -6,6 +8,7 @@ const CustomRegister = ({ switchToLogin }) => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(null);
 
   const resetForm = () => {
@@ -85,14 +88,20 @@ const CustomRegister = ({ switchToLogin }) => {
           onChange={(e) => setEmail(e.target.value)}
           required
         />
-        <input
-          type="password"
-          placeholder="Password"
+            <input
+          type={showPassword ? "text" : "password"}
+          placeholder="La tua Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
-          className="last-input"
         />
+         <span
+                  className="eye-icon my-1"
+                  onClick={() => setShowPassword(!showPassword)}
+                  title={showPassword ? "Nascondi password" : "Mostra password"}
+                >
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </span>
         {error && <p className="error-message">{error}</p>}
         <button className="pt-2" type="submit">Registrati</button>
       </form>

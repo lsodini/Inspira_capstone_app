@@ -5,6 +5,8 @@ import CustomOtherUserPage from "./components/otherUserPage/CustomOtherUserPage"
 import SearchPage from "./components/searchpage/SearchPage";
 import NewsPage from "./components/newspage/NewsPage";
 
+import FeedPage from "./components/feed/FeedPage";
+
 function App() {  
   return (
     <Router>
@@ -14,13 +16,14 @@ function App() {
         <Route path="/login" element={<AuthPage />} />
         <Route path="/register" element={<AuthPage />} />
 
-        {/* Route per altre pagine del sito */}
+       
         <Route exact path="/user/:username" element={<CustomOtherUserPage />} />
         <Route path="/homepage" element={<CustomHomePage />} />
 <Route path="/search" element={<SearchPage />} />
 <Route path="/news" element={<NewsPage />} />
+<Route path="feed" element={<FeedPage />} />
 
-       {/* <Route path="/resetPasswordPage" element={<ResetPasswordPage />} />*/}
+      
         
         
       </Routes>

@@ -9,6 +9,7 @@ import LucaSodini.Inspira.repositories.PostRepository;
 import LucaSodini.Inspira.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -27,7 +28,7 @@ public class PostService {
     private LikeService likeService;
 
     @Autowired
-    private CommentRepository commentRepository;
+    private CommentService commentService;
 
 
     public PostDTO toPostDTO(Post post) {
@@ -64,6 +65,7 @@ public class PostService {
         return postRepository.findById(id);
     }
 
+    @Transactional
     public void deletePostAndDependencies(Long postId, String username) {
         // Recupera il post
         Post post = postRepository.findById(postId)
@@ -77,11 +79,11 @@ public class PostService {
         }
 
         // Elimina i commenti associati al post
-        commentRepository.deleteByPostId(postId);
+        commentService.deleteCommentsByPost(postId);
 
         // Elimina i like associati al post e ai commenti del post
         likeService.deleteLikesByPost(postId);
-        likeService.deleteLikesByComments(postId);
+
 
         // Elimina il post
         postRepository.deleteById(postId);

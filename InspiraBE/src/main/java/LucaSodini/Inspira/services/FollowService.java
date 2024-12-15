@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -78,11 +79,14 @@ public class FollowService {
     }
 
     public List<User> suggestUsers(Long userId) {
-        List<Long> excludedIds = getFollowing(userId).stream()
+
+        List<Long> excludedIds = new ArrayList<>(getFollowing(userId).stream()
                 .map(User::getId)
-                .toList();
+                .toList());
+
         excludedIds.add(userId);
 
         return userRepository.findSuggestedUsers(excludedIds);
     }
+
 }

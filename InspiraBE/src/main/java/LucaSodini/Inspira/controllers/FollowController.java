@@ -49,7 +49,7 @@ public class FollowController {
 
             return Long.parseLong(identifier);
         } catch (NumberFormatException e) {
-            // Altrimenti, cerca l'utente per username e restituisce l'ID
+
             User user = userService.findByUsername(identifier);
             if (user == null) {
                 throw new RuntimeException("Utente non trovato");
@@ -73,42 +73,42 @@ public class FollowController {
         }
     }
 
-    // Get all followers of a user
+
     @GetMapping("/{userId}/followers")
     public ResponseEntity<List<User>> getFollowers(@PathVariable Long userId) {
         List<User> followers = followService.getFollowers(userId);
         return ResponseEntity.ok(followers);
     }
 
-    // Get all users followed by a user
+
     @GetMapping("/{userId}/following")
     public ResponseEntity<List<User>> getFollowing(@PathVariable Long userId) {
         List<User> following = followService.getFollowing(userId);
         return ResponseEntity.ok(following);
     }
 
-    // Count followers of a user
+
     @GetMapping("/{userId}/followers/count")
     public ResponseEntity<Long> countFollowers(@PathVariable Long userId) {
         Long followerCount = followService.countFollowers(userId);
         return ResponseEntity.ok(followerCount);
     }
 
-    // Count following of a user
+
     @GetMapping("/{userId}/following/count")
     public ResponseEntity<Long> countFollowing(@PathVariable Long userId) {
         Long followingCount = followService.countFollowing(userId);
         return ResponseEntity.ok(followingCount);
     }
 
-    // Check if a user is following another user
+
     @GetMapping("/{followerId}/is-following/{followedId}")
     public ResponseEntity<Boolean> isFollowing(@PathVariable Long followerId, @PathVariable Long followedId) {
         boolean isFollowing = followService.isFollowing(followerId, followedId);
         return ResponseEntity.ok(isFollowing);
     }
 
-    // Suggest users to follow based on the current user's following list
+
     @GetMapping("/{userId}/suggestions")
     public ResponseEntity<List<User>> suggestUsers(@PathVariable Long userId) {
         List<User> suggestedUsers = followService.suggestUsers(userId);

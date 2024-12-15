@@ -1,10 +1,14 @@
 package LucaSodini.Inspira.services;
 
+import LucaSodini.Inspira.entities.Artwork;
+import LucaSodini.Inspira.entities.Follow;
+import LucaSodini.Inspira.entities.Post;
 import LucaSodini.Inspira.entities.User;
 import LucaSodini.Inspira.enums.UserRole;
 import LucaSodini.Inspira.exceptions.BadRequestException;
 import LucaSodini.Inspira.exceptions.NotFoundException;
 import LucaSodini.Inspira.payloads.UserDTO;
+import LucaSodini.Inspira.repositories.FollowRepository;
 import LucaSodini.Inspira.repositories.UserRepository;
 import LucaSodini.Inspira.tools.MailGunSender;
 import com.cloudinary.Cloudinary;
@@ -22,6 +26,15 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private PostService postService;
+
+    @Autowired
+    private FollowRepository followRepository;
+
+    @Autowired
+    private ArtworkService artworkService;
 
     @Autowired
     private PasswordEncoder bcrypt;
@@ -154,6 +167,34 @@ public class UserService {
         User user = this.findById(userId);
         userRepository.delete(user);
     }
+
+
+    public void deleteUserWithDependencies(Long userId) {
+        // Step 1: Delete all posts of the user
+        List<Post> posts = postService.getUserPosts(userId);
+        for (Post post : posts) {
+            postService.deletePostAndDependencies(post.getId(), post.getUser().getUsername());
+        }
+
+        // Step 2: Delete all artworks of the user
+        List<Artwork> artworks = artworkService.getArtworksByUserId(userId);
+        for (Artwork artwork : artworks) {
+            artworkService.deleteArtwork(artwork.getId());
+        }
+
+        // Step 3: Delete all follow relationships where the user is either the follower or the followed
+        List<Follow> followsAsFollower = followRepository.findByFollowerId(userId);
+        List<Follow> followsAsFollowed = followRepository.findByFollowedId(userId);
+
+        followRepository.deleteAll(followsAsFollower);
+        followRepository.deleteAll(followsAsFollowed);
+
+        // Step 4: Delete the user
+        userRepository.deleteById(userId);
+    }
+
+
+
 
 
     public void sendEmailToUser(Long userId, String subject, String message) {

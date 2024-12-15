@@ -45,8 +45,9 @@ public class UserController {
     @DeleteMapping("/me")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteOwnProfile(@AuthenticationPrincipal User currentUtente) {
-        userService.deleteUser(currentUtente.getId());
+        userService.deleteUserWithDependencies(currentUtente.getId());
     }
+
 
     @PatchMapping("/me/become-artist")
     public ResponseEntity<User> becomeArtist(@AuthenticationPrincipal User currentUtente) {

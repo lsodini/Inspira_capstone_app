@@ -114,7 +114,7 @@ public class LikeService {
             likeRepository.deleteAll(commentLikes);
         }
     }
-    // Metodo per eliminare i like di un commento
+
     public void deleteLikesByComment(Long commentId) {
         likeRepository.deleteByCommentId(commentId);
     }

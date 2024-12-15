@@ -1,0 +1,12 @@
+.suggested-users {
+	margin-top: 20px;
+	padding: 10px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	background: #f9f9f9;
+  }
+  
+  .suggested-users h2 {
+	margin-bottom: 10px;
+  }
+  

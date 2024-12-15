@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../../css/AuthForm.css";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaPalette } from "react-icons/fa";
 
 const CustomLogin = () => {
   const [email, setEmail] = useState("");
@@ -100,7 +101,7 @@ const CustomLogin = () => {
         <Link to="/resetPasswordPage">Hai dimenticato la password?</Link>
         <button type="submit" disabled={isLoading}>
           {isLoading ? (
-            <i className="fa-solid fa-palette fa-spin" style={{ fontSize: '24px' }}></i>
+           <FaPalette className="fa-spin"/>
           ) : (
             "Accedi"
           )}
