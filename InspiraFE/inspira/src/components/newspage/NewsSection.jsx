@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-// Funzione per ottenere le notizie da NewsAPI
+
 const getNews = async (query) => {
   const API_KEY = 'c1f1bab06ff34beba6f6c17001e5f71d'; // La tua chiave API
   const response = await fetch(
@@ -16,7 +16,7 @@ const getNews = async (query) => {
 };
 
 const NewsSection = () => {
-  // Stati per le notizie delle diverse sezioni
+  
   const [exhibitions, setExhibitions] = useState([]);
   const [contemporaryArt, setContemporaryArt] = useState([]);
   const [artEvents, setArtEvents] = useState([]);
@@ -25,14 +25,14 @@ const NewsSection = () => {
   const [photoArt, setPhotoArt] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [selectedSection, setSelectedSection] = useState('exhibitions'); // Stato per la sezione selezionata
+  const [selectedSection, setSelectedSection] = useState('exhibitions');
 
   useEffect(() => {
     const fetchNews = async () => {
       setLoading(true);
       setError(null);
       try {
-        // Fetching data for the required sections
+        
         const exhibitionsData = await getNews('mostre d\'arte');
         const contemporaryArtData = await getNews('arte contemporanea');
         const artEventsData = await getNews('eventi artistici in corso');

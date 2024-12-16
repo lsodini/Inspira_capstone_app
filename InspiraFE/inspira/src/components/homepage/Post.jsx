@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../../css/UCard.css";
 import { FaThumbsUp, FaRegThumbsUp } from "react-icons/fa";
-import { FaCommentDots } from "react-icons/fa";
+import { FaCommentDots, FaEllipsisH } from "react-icons/fa";
 
 const Posts = ({ post, onDelete }) => {
   const [postLikes, setPostLikes] = useState({});
@@ -12,6 +12,8 @@ const Posts = ({ post, onDelete }) => {
   const [newComment, setNewComment] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [editedContent, setEditedContent] = useState(post.content);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [commentMenuOpen, setCommentMenuOpen] = useState({}); // Stato per gestire il menu per ogni commento
   const userId = localStorage.getItem("userId");
   const token = localStorage.getItem("authToken");
   const username = localStorage.getItem("username");
@@ -183,6 +185,17 @@ const Posts = ({ post, onDelete }) => {
     setEditedContent(post.content);
   };
 
+  const toggleMenu = () => {
+    setMenuOpen((prev) => !prev); 
+  };
+
+  const toggleCommentMenu = (commentId) => {
+    setCommentMenuOpen((prev) => ({
+      ...prev,
+      [commentId]: !prev[commentId],
+    }));
+  };
+
   return (
     <div className="uCard-card">
       <div className="uCard-top">
@@ -203,9 +216,15 @@ const Posts = ({ post, onDelete }) => {
             <span className="uCard-globDot">.</span>
           </h3>
         </div>
-        <div className="uCard-dot">
-          <img src="dot.png" alt="dot" />
+        <div className="uCard-dot" onClick={toggleMenu}>
+          <FaEllipsisH className="uCard-dot-icon" />
         </div>
+        {menuOpen && (
+          <div className="uCard-dropdown">
+            <button onClick={handleStartEditing}>Edit Post</button>
+            <button onClick={handleDeletePost}>Delete Post</button>
+          </div>
+        )}
       </div>
 
       {isEditing ? (
@@ -257,7 +276,7 @@ const Posts = ({ post, onDelete }) => {
                 <img
                   src={comment.avatarUrl || "/images/default-avatar.png"}
                   alt="Comment User Avatar"
-                  className="uCard-avatar"
+                  className="uCard-avatar rounded-circle me-2"
                   width={30}
                   height={30}
                 />
@@ -273,7 +292,15 @@ const Posts = ({ post, onDelete }) => {
                 {commentLikes[comment.id] || 0}
               </div>
               {comment.username === username && (
-                <button onClick={() => handleDeleteComment(comment.id)}>Delete</button>
+                <div className="uCard-dot" onClick={() => toggleCommentMenu(comment.id)}>
+                  <FaEllipsisH className="uCard-dot-icon" />
+                </div>
+              )}
+              {commentMenuOpen[comment.id] && (
+                <div className="uCard-dropdown">
+                  <button onClick={() => handleDeleteComment(comment.id)}>Delete Comment</button>
+                  
+                </div>
               )}
             </div>
           ))
@@ -287,7 +314,7 @@ const Posts = ({ post, onDelete }) => {
           <img
             src={post.avatarUrl || "/images/default-avatar.png"}
             alt="user"
-            className="uCard-avatar"
+            className="uCard-avatar rounded-circle"
             width={40}
             height={40}
           />
@@ -300,11 +327,6 @@ const Posts = ({ post, onDelete }) => {
           onChange={(e) => setNewComment(e.target.value)}
         />
         <button onClick={handleAddComment}>Add Comment</button>
-      </div>
-
-      <div className="uCard-actions">
-        <button onClick={handleDeletePost}>Delete Post</button>
-        {!isEditing && <button onClick={handleStartEditing}>Edit Post</button>}
       </div>
     </div>
   );

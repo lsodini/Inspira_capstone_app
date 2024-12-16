@@ -1,10 +1,11 @@
 
 .uCard-card {
-    border: 1px #262626!important;
-    width: 600px;
+    border: 1px #e0e0e0 solid;
+    width: 85%;
     min-height: 450px;
-   
+border-radius: 5px;
     padding: 20px;
+    background-color:  #ffffff;
 }
 
 .uCard-top {
@@ -228,4 +229,49 @@
   .posts .uCard-card{
     align-items: center;
     margin: 0% auto;
+  } 
+  .uCard-dot-icon {
+    cursor: pointer;
   }
+  
+  .uCard-dropdown {
+    position: absolute;
+   
+    right: 15%;
+    background-color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .uCard-dropdown button {
+    background: none;
+    border: none;
+    padding: 5px 10px;
+    text-align: left;
+    cursor: pointer;
+  }
+  
+  .uCard-dropdown button:hover {
+    background-color: #f0f0f0;
+  }
+   
+  .posts{
+	margin-bottom: 20px;
+    
+    padding-bottom: 20px;
+	display: flex;
+	flex-direction: column;
+
+min-width: 95%;
+
+}
+.post-list{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+    background-color: #f6f5f7;
+}
+ 

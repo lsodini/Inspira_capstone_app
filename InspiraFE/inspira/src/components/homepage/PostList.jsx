@@ -8,6 +8,7 @@ const PostList = ({ userId }) => {
   const [error, setError] = useState(null);
   const [newPost, setNewPost] = useState("");
   const [user, setUser] = useState(null);
+  const username = localStorage.getItem("username");
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -168,21 +169,36 @@ const PostList = ({ userId }) => {
 
   return (
     <div className="post-list d-flex ">
-      {user && (
-        <div className="user-info text-center">
-          <h2>Benvenuto, {user.name}</h2>
-          
-        </div>
-      )}
+      
+      <div className="create-post card">
 
-      <div className="create-post">
-        <textarea
-          value={newPost}
-          onChange={(e) => setNewPost(e.target.value)}
-          placeholder="Scrivi un nuovo post..."
-        />
-        <button onClick={handleCreatePost}>Crea Post</button>
-      </div>
+  
+  
+  <div className="card-header">
+    <img
+      src={user?.avatarUrl || "images/default-avatar.png"}
+      alt="Avatar"
+      className="avatar rounded-circle me-2"
+      width={30}
+      height={30}
+    />
+    <span className="username">{user?.username || "Utente"}</span>
+  </div>
+  
+  <textarea
+    value={newPost}
+    onChange={(e) => setNewPost(e.target.value)}
+    placeholder={`"Ciao ${user?.name || "Utente"}, a cosa stai pensando?"`}
+    className="post-input"
+  />
+  
+
+  <button onClick={handleCreatePost} className="create-post-button">
+    Crea Post
+  </button>
+</div>
+
+
 
       <div className="posts">
         {posts.map((post) => (

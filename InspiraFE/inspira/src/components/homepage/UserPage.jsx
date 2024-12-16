@@ -62,12 +62,12 @@ const UserPage = () => {
       
       <div className="toggle-buttons">
         
-        <button onClick={handleShowPosts} className={showPosts ? "active" : ""}><img src="/images/post-icon.png" alt="posts" style={{
+        <button onClick={handleShowPosts} className={showPosts ? "active" : ""}><img src="/images/post-icon.png" alt="post" style={{
       cursor: "pointer",
       width: "32px",
       height: "32px",
     }}></img></button>
-        <button onClick={handleShowArtwork} className={!showPosts ? "active" : ""}><img src="/images/artwork-icon.png" alt="posts" style={{
+        <button onClick={handleShowArtwork} className={!showPosts ? "active" : ""}><img src="/images/artwork-icon.png" alt="artwork" style={{
       cursor: "pointer",
       width: "32px",
       height: "32px",
