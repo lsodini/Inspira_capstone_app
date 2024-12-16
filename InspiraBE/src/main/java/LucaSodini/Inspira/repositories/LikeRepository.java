@@ -26,8 +26,6 @@ public interface LikeRepository extends JpaRepository<Like, Long> {
 
     void deleteByCommentId(Long commentId);
 
-    // Conta il numero di like di un post
-    Long countByPostId(Long postId);
 
     // Conta il numero di like di un commento
     Long countByCommentId(Long commentId);

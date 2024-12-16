@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/api/artworks")
@@ -132,10 +133,8 @@ public class ArtworkController {
         return ResponseEntity.ok(artworkService.getArtworksByUserId(userId));
     }
 
-
     @GetMapping("/feed")
     public ResponseEntity<List<Artwork>> getFeed(Authentication authentication) {
-        // Ottieni l'utente autenticato
         String username = authentication.getName();
         User authenticatedUser = userService.findByUsername(username);
 
@@ -147,6 +146,16 @@ public class ArtworkController {
                 .filter(artwork -> followedUsers.contains(artwork.getUser()))
                 .collect(Collectors.toList());
 
-        return ResponseEntity.ok(followedArtworks);
+        // Recupera gli artwork dell'utente autenticato
+        List<Artwork> myArtworks = artworkService.getAllArtworks().stream()
+                .filter(artwork -> artwork.getUser().equals(authenticatedUser))
+                .collect(Collectors.toList());
+
+        // Combina e ordina gli artwork per data, dal più recente al più vecchio
+        List<Artwork> allArtworks = Stream.concat(followedArtworks.stream(), myArtworks.stream())
+                .sorted((a1, a2) -> a2.getCreatedAt().compareTo(a1.getCreatedAt()))
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(allArtworks);
     }
 }

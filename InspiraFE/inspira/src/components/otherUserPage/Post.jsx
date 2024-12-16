@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../../css/UCard.css";
-import { FaThumbsUp, FaRegThumbsUp } from "react-icons/fa"; // Icone per il like
-import { FaCommentDots } from "react-icons/fa"; // Icona per commenti
+import { FaThumbsUp, FaRegThumbsUp } from "react-icons/fa"; 
+import { FaCommentDots } from "react-icons/fa";
 
 const Posts = ({ post, onDelete, onEdit }) => {
   const [postLikes, setPostLikes] = useState({});
@@ -214,8 +214,9 @@ const Posts = ({ post, onDelete, onEdit }) => {
 
       <div className="uCard-addComments">
         <div className="uCard-userimg">
+          
           <img
-            src={post.avatarUrl || "default-avatar.png"}
+            src={post.avatarUrl || "images/default-avatar.png"}
             alt="user"
             className="uCard-avatar rounded-5"
             width={40}

@@ -48,7 +48,7 @@ public class AuthorizationController {
         User user = this.userService.findById(Long.valueOf(userId));
 
         // Restituisci una risposta con accessToken, userId e username
-        return new UserLoginResponseDTO(token, Long.valueOf(userId), user.getUsername());
+        return new UserLoginResponseDTO(token, Long.valueOf(userId), user.getUsername(),user.getAvatarUrl());
     }
 
     @PostMapping("/register")

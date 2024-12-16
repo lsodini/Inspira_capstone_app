@@ -107,14 +107,6 @@ public class LikeService {
     }
 
 
-    public void deleteLikesByComments(Long postId) {
-        List<Comment> comments = commentRepository.findByPostId(postId);
-        for (Comment comment : comments) {
-            List<Like> commentLikes = likeRepository.findByCommentId(comment.getId());
-            likeRepository.deleteAll(commentLikes);
-        }
-    }
-
     public void deleteLikesByComment(Long commentId) {
         likeRepository.deleteByCommentId(commentId);
     }

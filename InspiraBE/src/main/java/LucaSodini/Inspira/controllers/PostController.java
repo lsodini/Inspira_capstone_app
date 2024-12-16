@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/api/posts")
@@ -104,7 +105,6 @@ public class PostController {
 
     @GetMapping("/feed")
     public ResponseEntity<List<PostDTO>> getFeed(Authentication authentication) {
-        // Ottieni l'utente autenticato
         String username = authentication.getName();
         User authenticatedUser = userService.findByUsername(username);
 
@@ -116,8 +116,18 @@ public class PostController {
                 .filter(post -> followedUsers.contains(post.getUser()))
                 .collect(Collectors.toList());
 
+        // Recupera i post dell'utente autenticato
+        List<Post> myPosts = postService.getAllPosts().stream()
+                .filter(post -> post.getUser().equals(authenticatedUser))
+                .collect(Collectors.toList());
+
+        // Combina e ordina i post per data, dal più recente al più vecchio
+        List<Post> allPosts = Stream.concat(followedPosts.stream(), myPosts.stream())
+                .sorted((p1, p2) -> p2.getCreatedAt().compareTo(p1.getCreatedAt()))
+                .collect(Collectors.toList());
+
         // Converti i post in DTO
-        List<PostDTO> postDTOs = followedPosts.stream()
+        List<PostDTO> postDTOs = allPosts.stream()
                 .map(postService::toPostDTO)
                 .toList();
 

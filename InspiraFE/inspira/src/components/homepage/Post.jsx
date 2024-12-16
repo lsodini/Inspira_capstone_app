@@ -13,7 +13,7 @@ const Posts = ({ post, onDelete }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedContent, setEditedContent] = useState(post.content);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [commentMenuOpen, setCommentMenuOpen] = useState({}); // Stato per gestire il menu per ogni commento
+  const [commentMenuOpen, setCommentMenuOpen] = useState({});
   const userId = localStorage.getItem("userId");
   const token = localStorage.getItem("authToken");
   const username = localStorage.getItem("username");

@@ -27,7 +27,7 @@ public class FollowController {
     @PostMapping("/{followerIdentifier}/follow/{followedIdentifier}")
     public ResponseEntity<Map<String, Long>> followUser(@PathVariable String followerIdentifier, @PathVariable String followedIdentifier) {
         try {
-            // Converte lo username in ID se necessario
+
             Long followerId = resolveUserId(followerIdentifier);
             Long followedId = resolveUserId(followedIdentifier);
 

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../../css/UserCard.css";
 
-
 const UserCard = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -12,6 +11,10 @@ const UserCard = () => {
   const [followerCount, setFollowerCount] = useState(0);
   const [followingCount, setFollowingCount] = useState(0);
   const [artworkCount, setArtworkCount] = useState(0);
+  const [followersList, setFollowersList] = useState([]);
+  const [followingList, setFollowingList] = useState([]);
+  const [isFollowersModalOpen, setIsFollowersModalOpen] = useState(false);
+  const [isFollowingModalOpen, setIsFollowingModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -106,6 +109,55 @@ const UserCard = () => {
 
     if (user) {
       fetchFollowCounts();
+    }
+  }, [user]);
+
+  const fetchFollowers = async () => {
+    try {
+      const token = localStorage.getItem("authToken");
+      const response = await fetch(
+        `http://localhost:3001/api/follow/${user.id}/followers`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (!response.ok) throw new Error("Errore nel recupero dei follower.");
+      const followers = await response.json();
+      setFollowersList(followers);
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  const fetchFollowing = async () => {
+    try {
+      const token = localStorage.getItem("authToken");
+      const response = await fetch(
+        `http://localhost:3001/api/follow/${user.id}/following`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (!response.ok) throw new Error("Errore nel recupero degli utenti seguiti.");
+      const following = await response.json();
+      setFollowingList(following);
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  useEffect(() => {
+    if (user) {
+      fetchFollowers();
+      fetchFollowing();
     }
   }, [user]);
 
@@ -265,13 +317,8 @@ const UserCard = () => {
         </div>
         <div className="user-card-right">
           <div className="user-header">
-            <h2>{`${user ? user.name : "Nome"} ${
-              user ? user.surname : "Cognome"
-            }`}</h2>
-            <button
-              className="edit-button"
-              onClick={() => setIsModalOpen(true)}
-            >
+            <h2>{`${user ? user.name : "Nome"} ${user ? user.surname : "Cognome"}`}</h2>
+            <button className="edit-button" onClick={() => setIsModalOpen(true)}>
               Modifica Profilo
             </button>
           </div>
@@ -279,74 +326,60 @@ const UserCard = () => {
             <span className="stats">{postCount || 0}</span>
             <span className="me-5">post</span>
             <span className="stats">{artworkCount || 0}</span>
-            <span className="me-5"> artwork</span>
-            <span className="stats">{followerCount || 0}</span>
-            <span className="me-5"> follower</span>
-            <span className="stats">{followingCount || 0}</span>
-            <span className="me-5"> seguiti</span>
+            <span className="me-5">artworks</span>
+            <span className="stats" onClick={() => setIsFollowersModalOpen(true)}>
+              {followerCount || 0}
+            </span>
+            <span className="me-5">follower</span>
+            <span className="stats" onClick={() => setIsFollowingModalOpen(true)}>
+              {followingCount || 0}
+            </span>
+            <span className="me-5">seguiti</span>
           </div>
-          <div className="user-username">
-            @{user ? user.username : "username"}
-          </div>
+          <div className="user-username">@{user ? user.username : "username"}</div>
           <div className="user-bio">
-            {user
-              ? user.bio || "Nessuna bio disponibile."
-              : "Nessuna bio disponibile."}
+            {user ? user.bio || "Nessuna bio disponibile." : "Nessuna bio disponibile."}
           </div>
         </div>
 
-        {isModalOpen && (
+        {/* Modale per Follower */}
+        {isFollowersModalOpen && (
           <div className="modal">
             <div className="modal-content">
-              <h3>Modifica Profilo</h3>
-              <label>
-                Nome:
-                <input
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleFormChange}
-                />
-              </label>
-              <label>
-                Cognome:
-                <input
-                  type="text"
-                  name="surname"
-                  value={formData.surname}
-                  onChange={handleFormChange}
-                />
-              </label>
-              <label>
-                Bio:
-                <textarea
-                  name="bio"
-                  value={formData.bio}
-                  onChange={handleFormChange}
-                ></textarea>
-              </label>
-              <label>
-                Username:
-                <input
-                  type="text"
-                  name="username"
-                  value={formData.username}
-                  onChange={handleFormChange}
-                />
-              </label>
-              <label>
-                Immagine del profilo:
-                <input type="file" onChange={handleFileChange} />
-              </label>
-              <button onClick={handleSaveChanges}>Salva</button>
-              <button onClick={() => setIsModalOpen(false)}>Annulla</button>
+              <h3>Follower</h3>
+              <ul>
+                {followersList.length > 0 ? (
+                  followersList.map((follower) => (
+                    <li key={follower.id}>{follower.username}</li>
+                  ))
+                ) : (
+                  <li>Nessun follower trovato.</li>
+                )}
+              </ul>
+              <button onClick={() => setIsFollowersModalOpen(false)}>Chiudi</button>
             </div>
           </div>
         )}
 
-        {error && <div className="error-message">{error}</div>}
+        {/* Modale per Following */}
+        {isFollowingModalOpen && (
+          <div className="modal">
+            <div className="modal-content">
+              <h3>Seguiti</h3>
+              <ul>
+                {followingList.length > 0 ? (
+                  followingList.map((followed) => (
+                    <li key={followed.id}>{followed.username}</li>
+                  ))
+                ) : (
+                  <li>Nessun utente seguito.</li>
+                )}
+              </ul>
+              <button onClick={() => setIsFollowingModalOpen(false)}>Chiudi</button>
+            </div>
+          </div>
+        )}
       </div>
-      <hr className="linea"/>
     </>
   );
 };

@@ -59,6 +59,7 @@ const CustomLogin = () => {
         localStorage.setItem("authToken", data.accessToken);
         localStorage.setItem("userId", data.userId); 
         localStorage.setItem("username", data.username);
+        localStorage.setItem("avatarUrl", data.avatarUrl);
 
         navigate("/homepage"); 
       } else {

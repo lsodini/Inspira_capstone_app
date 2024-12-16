@@ -64,6 +64,18 @@ public class CommentService {
         // Ora elimina tutti i commenti del post
         commentRepository.deleteAll(comments);
     }
+    public void deleteCommentsByUser(Long userId) {
+        // Recupera tutti i commenti associati all'utente
+        List<Comment> comments = commentRepository.findByUserId(userId);
+
+        // Per ogni commento, elimina i like associati
+        for (Comment comment : comments) {
+            likeService.deleteLikesByComment(comment.getId()); // Elimina i like del commento
+        }
+
+        // Ora elimina tutti i commenti dell'utente
+        commentRepository.deleteAll(comments);
+    }
 
 
 }

@@ -11,8 +11,6 @@ public interface ArtworkRepository extends JpaRepository<Artwork, Long> {
     // Trova tutti gli artwork di un utente specifico
     List<Artwork> findByUserId(Long userId);
 
-    // Cerca artwork per titolo o descrizione
-    List<Artwork> findByTitleContainingIgnoreCase(String keyword);
 
     // Trova tutti gli artwork disponibili (non venduti)
     @Query("SELECT a FROM Artwork a WHERE a.sold = false")

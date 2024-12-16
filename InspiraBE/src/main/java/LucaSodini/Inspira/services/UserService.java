@@ -45,6 +45,9 @@ public class UserService {
     @Autowired
     private Cloudinary cloudinaryUploader;
 
+    @Autowired
+    private CommentService commentService;
+
     public User findById(Long id) {
         return this.userRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Nessun utente trovato con ID: " + id));
@@ -60,9 +63,6 @@ public class UserService {
                 .orElseThrow(() -> new NotFoundException("Nessun utente registrato con username: " + username));
     }
 
-    public List<User> findAllUsers() {
-        return this.userRepository.findAll();
-    }
 
     public List<User> searchUsersByUsername(String username) {
         return userRepository.findByUsernameContainingIgnoreCase(username);
@@ -170,26 +170,28 @@ public class UserService {
 
 
     public void deleteUserWithDependencies(Long userId) {
-        // Step 1: Delete all posts of the user
+        // cancella post dell'utente
         List<Post> posts = postService.getUserPosts(userId);
         for (Post post : posts) {
             postService.deletePostAndDependencies(post.getId(), post.getUser().getUsername());
         }
 
-        // Step 2: Delete all artworks of the user
+        // cancella artwork
         List<Artwork> artworks = artworkService.getArtworksByUserId(userId);
         for (Artwork artwork : artworks) {
             artworkService.deleteArtwork(artwork.getId());
         }
 
-        // Step 3: Delete all follow relationships where the user is either the follower or the followed
+        // cancella relazioni di follow
         List<Follow> followsAsFollower = followRepository.findByFollowerId(userId);
         List<Follow> followsAsFollowed = followRepository.findByFollowedId(userId);
 
         followRepository.deleteAll(followsAsFollower);
         followRepository.deleteAll(followsAsFollowed);
 
-        // Step 4: Delete the user
+        commentService.deleteCommentsByUser(userId);
+
+        // cancella user
         userRepository.deleteById(userId);
     }
 

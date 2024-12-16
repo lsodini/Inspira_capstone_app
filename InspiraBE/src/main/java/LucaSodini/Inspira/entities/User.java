@@ -42,7 +42,7 @@ public class User implements UserDetails {
         this.username = username;
         this.email = email;
         this.password = password;
-        this.avatarUrl =  avatarUrl;
+        this.avatarUrl = (avatarUrl == null || avatarUrl.isEmpty()) ? "/images/default-avatar.png" : avatarUrl;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.role = role;

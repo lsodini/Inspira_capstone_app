@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Posts from "./Post"; // Reusing the Posts component to display posts
+import Posts from "./Post"; 
 import "../../css/UCard.css";
 
 const PostList = ({ userId }) => {

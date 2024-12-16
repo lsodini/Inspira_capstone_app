@@ -18,12 +18,7 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
     // Trova tutti i commenti di un post, includendo l'utente associato
     @Query("SELECT c FROM Comment c JOIN FETCH c.user WHERE c.post.id = :postId")
     List<Comment> findByPostIdWithUser(@Param("postId") Long postId);
-    // Conta i commenti di un post
-    Long countByPostId(Long postId);
 
-    @Modifying //Indica che la query è di tipo update o delete
-    @Transactional
-    @Query("DELETE FROM Comment c WHERE c.post.id = :postId")
-    void deleteByPostId(@Param("postId") Long postId);
 
+    List<Comment> findByUserId(Long userId);
 }

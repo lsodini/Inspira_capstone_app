@@ -65,11 +65,13 @@ public class FollowService {
 
 
     public Long countFollowers(Long userId) {
+
         return followRepository.countByFollowedId(userId);
     }
 
 
     public Long countFollowing(Long userId) {
+
         return followRepository.countByFollowerId(userId);
     }
 

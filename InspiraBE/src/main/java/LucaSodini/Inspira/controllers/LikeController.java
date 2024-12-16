@@ -15,63 +15,57 @@ public class LikeController {
     @Autowired
     private LikeService likeService;
 
-    // Aggiungi un like al post
+
     @PostMapping("/post/{postId}/user/{userId}")
     public ResponseEntity<Like> likePost(@PathVariable Long userId, @PathVariable Long postId) {
         Like like = likeService.likePost(userId, postId);
         return ResponseEntity.ok(like);
     }
 
-    // Rimuovi un like dal post
+
     @DeleteMapping("/post/{postId}/user/{userId}")
     public ResponseEntity<Void> unlikePost(@PathVariable Long userId, @PathVariable Long postId) {
         likeService.unlikePost(userId, postId);
         return ResponseEntity.noContent().build();
     }
 
-    // Aggiungi un like al commento
+
     @PostMapping("/comment/{commentId}/user/{userId}")
     public ResponseEntity<Like> likeComment(@PathVariable Long userId, @PathVariable Long commentId) {
         Like like = likeService.likeComment(userId, commentId);
         return ResponseEntity.ok(like);
     }
 
-    // Rimuovi un like dal commento
     @DeleteMapping("/comment/{commentId}/user/{userId}")
     public ResponseEntity<Void> unlikeComment(@PathVariable Long userId, @PathVariable Long commentId) {
         likeService.unlikeComment(userId, commentId);
         return ResponseEntity.noContent().build();
     }
 
-    // Recupera tutti i like di un post
     @GetMapping("/post/{postId}")
     public ResponseEntity<List<Like>> getLikesByPost(@PathVariable Long postId) {
         List<Like> likes = likeService.getLikesByPost(postId);
         return ResponseEntity.ok(likes);
     }
 
-    // Recupera il conteggio dei like di un commento
     @GetMapping("/count/comment/{commentId}")
     public ResponseEntity<Long> getLikeCountByComment(@PathVariable Long commentId) {
         Long count = likeService.getLikeCountByComment(commentId);
         return ResponseEntity.ok(count);
     }
 
-    // Recupera tutti i like di un commento
     @GetMapping("/comment/{commentId}")
     public ResponseEntity<List<Like>> getLikesByComment(@PathVariable Long commentId) {
         List<Like> likes = likeService.getLikesByComment(commentId);
         return ResponseEntity.ok(likes);
     }
 
-    // Verifica se un utente ha messo like a un post
     @GetMapping("/post/{postId}/user/{userId}")
     public ResponseEntity<Boolean> hasUserLikedPost(@PathVariable Long userId, @PathVariable Long postId) {
         boolean hasLiked = likeService.hasUserLikedPost(userId, postId);
         return ResponseEntity.ok(hasLiked);
     }
 
-    // Verifica se un utente ha messo like a un commento
     @GetMapping("/comment/{commentId}/user/{userId}")
     public ResponseEntity<Boolean> hasUserLikedComment(@PathVariable Long userId, @PathVariable Long commentId) {
         boolean hasLiked = likeService.hasUserLikedComment(userId, commentId);
