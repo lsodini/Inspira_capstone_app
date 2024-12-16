@@ -1,6 +1,7 @@
 package LucaSodini.Inspira.services;
 
 import LucaSodini.Inspira.entities.Comment;
+import LucaSodini.Inspira.payloads.CommentDTO;
 import LucaSodini.Inspira.repositories.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,10 +20,23 @@ public class CommentService {
     public Comment createComment(Comment comment) {
         return commentRepository.save(comment);
     }
-
-    public List<Comment> getCommentsByPost(Long postId) {
-        return commentRepository.findByPostId(postId);
+    public CommentDTO toCommentDTO(Comment comment) {
+        return new CommentDTO(
+                comment.getId(),
+                comment.getContent(),
+                comment.getUser().getUsername(),
+                comment.getUser().getAvatarUrl(),
+                comment.getCreatedAt()
+        );
     }
+
+    public List<CommentDTO> getCommentsByPost(Long postId) {
+        List<Comment> comments = commentRepository.findByPostIdWithUser(postId);
+        return comments.stream()
+                .map(this::toCommentDTO)
+                .toList();
+    }
+
 
     public Comment updateComment(Long id, Comment updatedComment) {
         return commentRepository.findById(id).map(comment -> {

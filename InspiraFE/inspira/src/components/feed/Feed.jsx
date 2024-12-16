@@ -8,6 +8,7 @@ const Feed = () => {
   const [suggestedUsers, setSuggestedUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [followingStatus, setFollowingStatus] = useState({}); // Track follow status for each user
 
   useEffect(() => {
     const fetchFeed = async () => {
@@ -19,7 +20,7 @@ const Feed = () => {
           return;
         }
 
-        const response = await fetch("http://localhost:3001/api/feed", {
+        const postsResponse = await fetch("http://localhost:3001/api/posts/feed", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -27,12 +28,27 @@ const Feed = () => {
           },
         });
 
-        if (!response.ok) {
-          throw new Error(`Errore HTTP: ${response.status}`);
+        if (!postsResponse.ok) {
+          throw new Error(`Errore HTTP: ${postsResponse.status}`);
         }
+        const postsData = await postsResponse.json();
 
-        const data = await response.json();
-        setFeedItems(data);
+        const artworksResponse = await fetch("http://localhost:3001/api/artworks/feed", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!artworksResponse.ok) {
+          throw new Error(`Errore HTTP: ${artworksResponse.status}`);
+        }
+        const artworksData = await artworksResponse.json();
+
+        const combinedFeed = [...postsData, ...artworksData];
+
+        setFeedItems(combinedFeed);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -48,7 +64,7 @@ const Feed = () => {
           return;
         }
 
-        const userId = localStorage.getItem("userId"); 
+        const userId = localStorage.getItem("userId");
         const response = await fetch(`http://localhost:3001/api/follow/${userId}/suggestions`, {
           method: "GET",
           headers: {
@@ -63,6 +79,13 @@ const Feed = () => {
 
         const suggestedUsersData = await response.json();
         setSuggestedUsers(suggestedUsersData);
+
+        // Initialize the following status for each suggested user
+        const initialStatus = {};
+        suggestedUsersData.forEach(user => {
+          initialStatus[user.id] = user.isFollowing; // Assuming `isFollowing` field is available
+        });
+        setFollowingStatus(initialStatus);
       } catch (err) {
         console.error("Errore nel recupero degli utenti suggeriti:", err);
       }
@@ -72,14 +95,47 @@ const Feed = () => {
     fetchSuggestedUsers();
   }, []);
 
+  const handleFollowUnfollow = async (userId) => {
+    const token = localStorage.getItem("authToken");
+    const currentUserId = localStorage.getItem("userId");
+    if (!token || !currentUserId) {
+      setError("Non autenticato. Effettua il login.");
+      return;
+    }
+
+    try {
+      const action = followingStatus[userId] ? "unfollow" : "follow";
+      const url = `http://localhost:3001/api/follow/${currentUserId}/${action}/${userId}`;
+
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Errore HTTP: ${response.status}`);
+      }
+
+      setFollowingStatus((prevStatus) => ({
+        ...prevStatus,
+        [userId]: !prevStatus[userId], // Toggle the following status
+      }));
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
   if (loading) return <div>Caricamento in corso...</div>;
   if (error) return <div>Errore: {error}</div>;
 
   return (
-    <div className="feed-list vh-100">
+    <div className="feed-list">
       <div className="feed-items">
         {feedItems.map((item) =>
-          item.type === "artwork" ? (
+          item.title ? (
             <Artwork
               key={`artwork-${item.id}`}
               artwork={item}
@@ -104,13 +160,19 @@ const Feed = () => {
             {suggestedUsers.map((user) => (
               <li key={user.id}>
                 <div className="user-card">
-                  <img src={user.avatarUrl || "/default-avatar.png"} alt="Avatar" />
+                  <img
+                    src={user.avatarUrl || "images/default-avatar.png"}
+                    alt="Avatar"
+                    className="rounded-5"
+                    width={40}
+                    height={40}
+                  />
                   <div>
                     <p>{user.name} {user.surname}</p>
                     <button
-                      onClick={() => console.log(`Segui utente ${user.id}`)}
+                      onClick={() => handleFollowUnfollow(user.id)}
                     >
-                      Segui
+                      {followingStatus[user.id] ? "Non Seguire" : "Segui"}
                     </button>
                   </div>
                 </div>

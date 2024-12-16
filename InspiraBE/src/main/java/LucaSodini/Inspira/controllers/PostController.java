@@ -7,13 +7,14 @@ import LucaSodini.Inspira.services.CommentService;
 import LucaSodini.Inspira.services.LikeService;
 import LucaSodini.Inspira.services.PostService;
 import LucaSodini.Inspira.services.UserService;
-import LucaSodini.Inspira.enums.UserRole;
+import LucaSodini.Inspira.services.FollowService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/posts")
@@ -30,6 +31,9 @@ public class PostController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private FollowService followService;
 
     @PostMapping("/create")
     public ResponseEntity<PostDTO> createPost(@RequestBody PostDTO postDTO, Authentication authentication) {
@@ -73,17 +77,13 @@ public class PostController {
         }
     }
 
-
     @GetMapping("/authenticated-user/posts-count")
     public ResponseEntity<Integer> getAuthenticatedUserPostsCount(Authentication authentication) {
         String username = authentication.getName();
-
         User user = userService.findByUsername(username);
         int postsCount = postService.countPosts(user.getId());
         return ResponseEntity.ok(postsCount);
     }
-
-
 
     @GetMapping("/")
     public ResponseEntity<List<PostDTO>> getAllPosts() {
@@ -102,4 +102,25 @@ public class PostController {
     }
 
 
+    @GetMapping("/feed")
+    public ResponseEntity<List<PostDTO>> getFeed(Authentication authentication) {
+        // Ottieni l'utente autenticato
+        String username = authentication.getName();
+        User authenticatedUser = userService.findByUsername(username);
+
+        // Recupera gli utenti seguiti dall'utente autenticato
+        List<User> followedUsers = followService.getFollowing(authenticatedUser.getId());
+
+        // Recupera i post degli utenti seguiti
+        List<Post> followedPosts = postService.getAllPosts().stream()
+                .filter(post -> followedUsers.contains(post.getUser()))
+                .collect(Collectors.toList());
+
+        // Converti i post in DTO
+        List<PostDTO> postDTOs = followedPosts.stream()
+                .map(postService::toPostDTO)
+                .toList();
+
+        return ResponseEntity.ok(postDTOs);
+    }
 }

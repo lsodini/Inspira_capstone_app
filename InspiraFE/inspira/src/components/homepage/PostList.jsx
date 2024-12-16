@@ -7,8 +7,36 @@ const PostList = ({ userId }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [newPost, setNewPost] = useState("");
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const token = localStorage.getItem("authToken");
+        if (!token) {
+          setError("Non autenticato. Effettua il login.");
+          return;
+        }
+
+        const response = await fetch("http://localhost:3001/api/utenti/me", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(`Errore HTTP: ${response.status}`);
+        }
+
+        const userData = await response.json();
+        setUser(userData);
+      } catch (err) {
+        setError(err.message);
+      }
+    };
+
     const fetchPosts = async () => {
       try {
         const token = localStorage.getItem("authToken");
@@ -22,7 +50,7 @@ const PostList = ({ userId }) => {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
         });
 
@@ -39,6 +67,7 @@ const PostList = ({ userId }) => {
       }
     };
 
+    fetchUser();
     fetchPosts();
   }, [userId]);
 
@@ -59,7 +88,7 @@ const PostList = ({ userId }) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(postDTO),
       });
@@ -82,30 +111,25 @@ const PostList = ({ userId }) => {
       setError("Non autenticato. Effettua il login.");
       return;
     }
-  
+
     try {
-      // Chiamata all'endpoint del backend per eliminare il post con tutte le dipendenze
       const response = await fetch(`http://localhost:3001/api/posts/delete/${postId}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       });
-  
+
       if (!response.ok) {
         throw new Error(`Errore nell'eliminazione del post: ${response.status}`);
       }
-  
-      // Rimuovi il post dalla lista locale
+
       setPosts((prevPosts) => prevPosts.filter((post) => post.id !== postId));
     } catch (err) {
       setError(err.message);
     }
   };
-  
-  
-  
 
   const handleEditPost = async (postId, newContent) => {
     const token = localStorage.getItem("authToken");
@@ -123,7 +147,7 @@ const PostList = ({ userId }) => {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(updatedPostDTO),
       });
@@ -143,7 +167,14 @@ const PostList = ({ userId }) => {
   if (error) return <div>Errore: {error}</div>;
 
   return (
-    <div className="post-list">
+    <div className="post-list d-flex ">
+      {user && (
+        <div className="user-info text-center">
+          <h2>Benvenuto, {user.name}</h2>
+          
+        </div>
+      )}
+
       <div className="create-post">
         <textarea
           value={newPost}

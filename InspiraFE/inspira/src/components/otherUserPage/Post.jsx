@@ -137,9 +137,11 @@ const Posts = ({ post, onDelete, onEdit }) => {
         <div className="uCard-user_details">
           <div className="uCard-profile_img">
             <img
-              src={post.user?.avatar || "default-avatar.png"}
+              src={post.avatarUrl || "images/default-avatar.png"}
               alt="User Avatar"
               className="uCard-avatar"
+              width={40}
+              height={40}
             />
           </div>
           <h3>
@@ -149,9 +151,7 @@ const Posts = ({ post, onDelete, onEdit }) => {
             <span className="uCard-globDot">.</span>
           </h3>
         </div>
-        <div className="uCard-dot">
-          <img src="dot.png" alt="dot" />
-        </div>
+        
       </div>
 
       <h4 className="uCard-message">{post.content}</h4>
@@ -176,16 +176,26 @@ const Posts = ({ post, onDelete, onEdit }) => {
         <div className="uCard-right">
           <h4>
             <FaCommentDots className="uCard-icon-image" />
-            {comments.length} comments
+            {comments.length} commenti
           </h4>
         </div>
       </div>
 
       <div>
-        <h3>Comments</h3>
+        <h3>Commenti</h3>
         {comments.length > 0 ? (
           comments.map((comment) => (
             <div key={comment.id} className="uCard-comment">
+              <div className="uCard-user_details">
+                <img
+                  src={comment.avatarUrl || "/images/default-avatar.png"}
+                  alt="Comment User Avatar"
+                  className="uCard-avatar rounded-5"
+                  width={30}
+                  height={30}
+                />
+                <h4>{comment.username || "Anonymous"}</h4>
+              </div>
               <div>{comment.content}</div>
               <div onClick={() => toggleLikeComment(comment.id)}>
                 {userHasLikedComment[comment.id] ? (
@@ -198,22 +208,24 @@ const Posts = ({ post, onDelete, onEdit }) => {
             </div>
           ))
         ) : (
-          <p>No comments yet.</p>
+          <p>Ancora nessun commento.</p>
         )}
       </div>
 
       <div className="uCard-addComments">
         <div className="uCard-userimg">
           <img
-            src={post.user?.avatar || "default-avatar.png"}
+            src={post.avatarUrl || "default-avatar.png"}
             alt="user"
-            className="uCard-avatar"
+            className="uCard-avatar rounded-5"
+            width={40}
+            height={40}
           />
         </div>
         <input
           type="text"
           className="uCard-text"
-          placeholder="Write a comment..."
+          placeholder="Scrivi un commento..."
           value={newComment}
           onChange={(e) => setNewComment(e.target.value)}
         />

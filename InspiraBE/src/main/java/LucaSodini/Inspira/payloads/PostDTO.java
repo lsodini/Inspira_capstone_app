@@ -14,6 +14,7 @@ public class PostDTO {
     private String content;
     private String mediaUrl;
     private String username;
+    private String avatarUrl;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

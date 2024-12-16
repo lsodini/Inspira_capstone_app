@@ -4,6 +4,7 @@ import LucaSodini.Inspira.entities.Artwork;
 import LucaSodini.Inspira.entities.User;
 import LucaSodini.Inspira.enums.UserRole;
 import LucaSodini.Inspira.services.ArtworkService;
+import LucaSodini.Inspira.services.FollowService;
 import LucaSodini.Inspira.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/artworks")
@@ -22,6 +24,9 @@ public class ArtworkController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private FollowService followService;
 
     @GetMapping
     public ResponseEntity<List<Artwork>> getAllArtworks() {
@@ -37,7 +42,6 @@ public class ArtworkController {
     public ResponseEntity<Artwork> createArtwork(@RequestBody Artwork artwork, Authentication authentication) {
         String username = authentication.getName();
         User user = userService.findByUsername(username);
-
 
         if (user.getRole() != UserRole.ARTIST) {
             return ResponseEntity.status(403).body(null);
@@ -77,7 +81,6 @@ public class ArtworkController {
         String username = authentication.getName();
         User user = userService.findByUsername(username);
 
-
         if (user.getRole() != UserRole.ARTIST) {
             return ResponseEntity.status(403).body(null);
         }
@@ -91,14 +94,12 @@ public class ArtworkController {
         return ResponseEntity.ok(savedArtwork);
     }
 
-
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteArtwork(@PathVariable Long id, Authentication authentication) {
         String username = authentication.getName();
         User user = userService.findByUsername(username);
 
         Artwork artwork = artworkService.getArtworkById(id);
-
 
         if (user.getRole() == UserRole.ADMIN || artwork.getUser().equals(user)) {
             artworkService.deleteArtwork(id);
@@ -114,6 +115,7 @@ public class ArtworkController {
         User user = userService.findByUsername(username);
         return ResponseEntity.ok(artworkService.markAsSold(id, user));
     }
+
     @GetMapping("/user/{userId}/count")
     public ResponseEntity<Long> getArtworkCountByUserId(@PathVariable Long userId) {
         Long count = artworkService.countArtworksByUserId(userId);
@@ -128,5 +130,23 @@ public class ArtworkController {
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<Artwork>> getArtworksByUserId(@PathVariable Long userId) {
         return ResponseEntity.ok(artworkService.getArtworksByUserId(userId));
+    }
+
+
+    @GetMapping("/feed")
+    public ResponseEntity<List<Artwork>> getFeed(Authentication authentication) {
+        // Ottieni l'utente autenticato
+        String username = authentication.getName();
+        User authenticatedUser = userService.findByUsername(username);
+
+        // Recupera gli utenti seguiti dall'utente autenticato
+        List<User> followedUsers = followService.getFollowing(authenticatedUser.getId());
+
+        // Recupera gli artwork degli utenti seguiti
+        List<Artwork> followedArtworks = artworkService.getAllArtworks().stream()
+                .filter(artwork -> followedUsers.contains(artwork.getUser()))
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(followedArtworks);
     }
 }

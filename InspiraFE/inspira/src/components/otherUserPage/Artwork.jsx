@@ -8,7 +8,7 @@ const Artwork = ({ artwork, onMarkAsSold, role }) => {
   const canMarkAsSold = !artwork.sold;
 
   const handleAddToCart = () => {
-    // Aggiungi l'artwork al carrello (localStorage)
+   
     const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
     const itemExists = cartItems.some(item => item.id === artwork.id);
 
@@ -24,7 +24,7 @@ const Artwork = ({ artwork, onMarkAsSold, role }) => {
       <div className="uCard-top">
         <div className="uCard-user_details">
           <div className="uCard-profile_img">
-            <img src={artwork.user.image} alt="artist" className="uCard-cover" />
+            <img src={artwork.user.avatarUrl} alt="artist" className="uCard-cover" />
           </div>
           <h3>
             {artwork.user.username}

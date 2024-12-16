@@ -37,6 +37,7 @@ public class PostService {
                 post.getContent(),
                 post.getMediaUrl(),
                 post.getUser().getUsername(),
+                post.getUser().getAvatarUrl(),
                 post.getCreatedAt(),
                 post.getUpdatedAt()
         );

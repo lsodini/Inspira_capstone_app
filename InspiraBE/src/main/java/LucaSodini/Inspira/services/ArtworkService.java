@@ -3,6 +3,7 @@ package LucaSodini.Inspira.services;
 import LucaSodini.Inspira.entities.Artwork;
 import LucaSodini.Inspira.entities.User;
 import LucaSodini.Inspira.exceptions.BadRequestException;
+import LucaSodini.Inspira.payloads.ArtworkDTO;
 import LucaSodini.Inspira.repositories.ArtworkRepository;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
@@ -51,6 +52,23 @@ public class ArtworkService {
 
         return artworkRepository.save(artwork);
     }
+
+    public ArtworkDTO toArtworkDTO(Artwork artwork) {
+
+
+
+        return new ArtworkDTO(
+                artwork.getId(),
+                artwork.getTitle(),
+                artwork.getDescription(),
+                artwork.getMediaUrls(),
+                artwork.getUser().getAvatarUrl(),
+                artwork.getPrice(),
+                artwork.getCreatedAt(),
+                artwork.getSold()
+        );
+    }
+
 
     public List<Artwork> getAllArtworks() {
         return artworkRepository.findAll();

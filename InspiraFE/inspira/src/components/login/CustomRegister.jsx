@@ -27,7 +27,7 @@ const CustomRegister = ({ switchToLogin }) => {
 
     
     if (!passwordRegex.test(password)) {
-      setError("La password non soddisfa i criteri (almeno una maiuscola, un numero e un simbolo).");
+      setError("La password non soddisfa i criteri (almeno una maiuscola, un numero e un simbolo e 8 caratteri min.).");
       return;
     }
 

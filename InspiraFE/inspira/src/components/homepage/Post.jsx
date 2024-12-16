@@ -1,19 +1,20 @@
 import React, { useState, useEffect } from "react";
 import "../../css/UCard.css";
-import { FaThumbsUp, FaRegThumbsUp } from "react-icons/fa"; 
-import { FaCommentDots } from "react-icons/fa"; 
+import { FaThumbsUp, FaRegThumbsUp } from "react-icons/fa";
+import { FaCommentDots } from "react-icons/fa";
 
 const Posts = ({ post, onDelete }) => {
-  const [postLikes, setPostLikes] = useState({}); 
-  const [userHasLikedPost, setUserHasLikedPost] = useState({}); 
-  const [commentLikes, setCommentLikes] = useState({}); 
-  const [userHasLikedComment, setUserHasLikedComment] = useState({}); 
+  const [postLikes, setPostLikes] = useState({});
+  const [userHasLikedPost, setUserHasLikedPost] = useState({});
+  const [commentLikes, setCommentLikes] = useState({});
+  const [userHasLikedComment, setUserHasLikedComment] = useState({});
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [isEditing, setIsEditing] = useState(false);
-  const [editedContent, setEditedContent] = useState(post.content); 
+  const [editedContent, setEditedContent] = useState(post.content);
   const userId = localStorage.getItem("userId");
   const token = localStorage.getItem("authToken");
+  const username = localStorage.getItem("username");
 
   useEffect(() => {
     if (userId && token) {
@@ -31,7 +32,7 @@ const Posts = ({ post, onDelete }) => {
       });
       const likes = await response.json();
       setPostLikes(likes);
-  
+
       const userLiked = likes.some((like) => like.userId === userId);
       setUserHasLikedPost(userLiked);
     } catch (err) {
@@ -47,7 +48,7 @@ const Posts = ({ post, onDelete }) => {
       const fetchedComments = await response.json();
       setComments(fetchedComments);
 
-      fetchedComments.forEach((comment) => fetchCommentLikes(comment.id)); 
+      fetchedComments.forEach((comment) => fetchCommentLikes(comment.id));
     } catch (err) {
       console.error("Errore nel recupero dei commenti:", err.message);
     }
@@ -59,7 +60,7 @@ const Posts = ({ post, onDelete }) => {
         headers: { Authorization: `Bearer ${token}` },
       });
       const likeCount = await response.json();
-      setCommentLikes((prev) => ({ ...prev, [commentId]: likeCount })); 
+      setCommentLikes((prev) => ({ ...prev, [commentId]: likeCount }));
     } catch (err) {
       console.error("Errore nel recupero dei likes dei commenti:", err.message);
     }
@@ -68,13 +69,13 @@ const Posts = ({ post, onDelete }) => {
   const toggleLikePost = async () => {
     try {
       const url = `http://localhost:3001/api/likes/post/${post.id}/user/${userId}`;
-      const method = userHasLikedPost ? "DELETE" : "POST"; 
-  
+      const method = userHasLikedPost ? "DELETE" : "POST";
+
       const response = await fetch(url, {
         method,
         headers: { Authorization: `Bearer ${token}` },
       });
-  
+
       if (response.ok) {
         setUserHasLikedPost((prev) => !prev);
         setPostLikes((prev) => ({
@@ -92,7 +93,7 @@ const Posts = ({ post, onDelete }) => {
   const toggleLikeComment = async (commentId) => {
     try {
       const url = `http://localhost:3001/api/likes/comment/${commentId}/user/${userId}`;
-      const method = userHasLikedComment[commentId] ? "DELETE" : "POST"; 
+      const method = userHasLikedComment[commentId] ? "DELETE" : "POST";
       await fetch(url, {
         method,
         headers: { Authorization: `Bearer ${token}` },
@@ -103,7 +104,7 @@ const Posts = ({ post, onDelete }) => {
         [commentId]: !prev[commentId],
       }));
 
-      fetchCommentLikes(commentId); 
+      fetchCommentLikes(commentId);
     } catch (err) {
       console.error("Errore nel toggling del like al commento:", err.message);
     }
@@ -125,9 +126,25 @@ const Posts = ({ post, onDelete }) => {
         }),
       });
       setNewComment("");
-      fetchComments(post.id); 
+      fetchComments(post.id);
     } catch (err) {
       console.error("Errore nell'aggiungere un commento:", err.message);
+    }
+  };
+
+  const handleDeleteComment = async (commentId) => {
+    try {
+      const response = await fetch(`http://localhost:3001/api/comments/${commentId}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (response.ok) {
+        setComments((prev) => prev.filter((comment) => comment.id !== commentId));
+      } else {
+        console.error("Errore nella cancellazione del commento:", response.statusText);
+      }
+    } catch (err) {
+      console.error("Errore nella cancellazione del commento:", err.message);
     }
   };
 
@@ -148,21 +165,21 @@ const Posts = ({ post, onDelete }) => {
       if (!response.ok) throw new Error("Errore nella modifica del post");
 
       const updatedPost = await response.json();
-      post.content = updatedPost.content; 
-      setIsEditing(false); 
-      fetchPostLikes(post.id); 
-      fetchComments(post.id); 
+      post.content = updatedPost.content;
+      setIsEditing(false);
+      fetchPostLikes(post.id);
+      fetchComments(post.id);
     } catch (err) {
       console.error("Errore nel modificare il post:", err.message);
     }
   };
 
   const handleDeletePost = () => {
-    onDelete(post.id); 
+    onDelete(post.id);
   };
 
   const handleStartEditing = () => {
-    setIsEditing(true); 
+    setIsEditing(true);
     setEditedContent(post.content);
   };
 
@@ -171,12 +188,12 @@ const Posts = ({ post, onDelete }) => {
       <div className="uCard-top">
         <div className="uCard-user_details">
           <div className="uCard-profile_img">
-            {/* Check for the avatarUrl in the post user data */}
             <img
-              src={post.user?.avatarUrl || "/images/default-avatar.png"}
+              src={post.avatarUrl || "/images/default-avatar.png"}
               alt="User Avatar"
               className="uCard-avatar"
-              width={40} height={40}
+              width={40}
+              height={40}
             />
           </div>
           <h3>
@@ -224,7 +241,7 @@ const Posts = ({ post, onDelete }) => {
         <div className="uCard-right">
           <h4>
             <FaCommentDots className="uCard-icon-image" />
-            {comments.length} comments
+            {comments.length} commenti
           </h4>
         </div>
       </div>
@@ -232,10 +249,20 @@ const Posts = ({ post, onDelete }) => {
       <div className="uCard-border"></div>
 
       <div>
-        <h3>Comments</h3>
+        <h3>Commenti</h3>
         {comments.length > 0 ? (
           comments.map((comment) => (
             <div key={comment.id} className="uCard-comment">
+              <div className="uCard-user_details">
+                <img
+                  src={comment.avatarUrl || "/images/default-avatar.png"}
+                  alt="Comment User Avatar"
+                  className="uCard-avatar"
+                  width={30}
+                  height={30}
+                />
+                <h4>{comment.username || "Anonymous"}</h4>
+              </div>
               <div>{comment.content}</div>
               <div onClick={() => toggleLikeComment(comment.id)}>
                 {userHasLikedComment[comment.id] ? (
@@ -245,27 +272,30 @@ const Posts = ({ post, onDelete }) => {
                 )}
                 {commentLikes[comment.id] || 0}
               </div>
+              {comment.username === username && (
+                <button onClick={() => handleDeleteComment(comment.id)}>Delete</button>
+              )}
             </div>
           ))
         ) : (
-          <p>No comments yet.</p>
+          <p>Ancora nessun commento.</p>
         )}
       </div>
 
       <div className="uCard-addComments">
         <div className="uCard-userimg">
-          {/* Avatar for adding a comment */}
           <img
-            src={post.user?.avatarUrl || "/images/default-avatar.png"}
+            src={post.avatarUrl || "/images/default-avatar.png"}
             alt="user"
             className="uCard-avatar"
-            width={40} height={40}
+            width={40}
+            height={40}
           />
         </div>
         <input
           type="text"
           className="uCard-text"
-          placeholder="Write a comment..."
+          placeholder="Scrivi un commento..."
           value={newComment}
           onChange={(e) => setNewComment(e.target.value)}
         />
