@@ -86,7 +86,7 @@ cloudinary.secret=${CLOUDINARY_SECRET}
 ```
 
 ### Configurazione del Frontend
-1. Accedi alla directory del frontend.
+1. Accedi alla directory del frontend chiamata inspiraFE e al suo interno accedere alla directory del progetto "inspira".
 2. Installa le dipendenze:
 
 ```bash
