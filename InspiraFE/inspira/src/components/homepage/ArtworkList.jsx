@@ -153,7 +153,7 @@ const ArtworkList = ({ userId }) => {
       }
 
       const userData = await response.json();
-      setRole(userData.role); // Aggiorna il ruolo a ARTIST
+      setRole(userData.role); 
     } catch (err) {
       setError(err.message);
     }

@@ -93,6 +93,64 @@ const Feed = () => {
     fetchSuggestedUsers();
   }, []);
 
+  const handleUpdateArtwork = (updatedArtwork) => {
+    setFeedItems(prevItems => ({
+      ...prevItems,
+      artworks: prevItems.artworks.map(item =>
+        item.id === updatedArtwork.id ? updatedArtwork : item
+      )
+    }));
+  };
+  
+
+  const handleDeleteArtwork = async (artworkId) => {
+    try {
+      const token = localStorage.getItem("authToken");
+      const response = await fetch(`http://localhost:3001/api/artworks/${artworkId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+  
+      if (!response.ok) {
+        throw new Error(`Errore HTTP: ${response.status}`);
+      }
+  
+      setFeedItems(prevItems => ({
+        ...prevItems,
+        artworks: prevItems.artworks.filter(item => item.id !== artworkId)
+      }));
+    } catch (err) {
+      setError(`Errore durante l'eliminazione: ${err.message}`);
+    }
+  };
+  
+  const handleDeletePost = async (postId) => {
+    try {
+      const token = localStorage.getItem("authToken");
+      const response = await fetch(`http://localhost:3001/api/posts/delete/${postId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+  
+      if (!response.ok) {
+        throw new Error(`Errore HTTP: ${response.status}`);
+      }
+  
+      setFeedItems((prevItems) => ({
+        ...prevItems,
+        posts: prevItems.posts.filter((item) => item.id !== postId),
+      }));
+    } catch (err) {
+      setError(`Errore durante l'eliminazione: ${err.message}`);
+    }
+  };
+
   const handleFollowUnfollow = async (userId) => {
     const token = localStorage.getItem("authToken");
     const currentUserId = localStorage.getItem("userId");
@@ -148,7 +206,7 @@ const Feed = () => {
                 <Posts
                   key={`post-${post.id}`}
                   post={post}
-                  onDelete={() => console.log("Delete post")}
+                  onDelete={(handleDeletePost)}
                   onEdit={() => console.log("Edit post")}
                 />
               ))
@@ -167,10 +225,10 @@ const Feed = () => {
             {feedItems.artworks && feedItems.artworks.length > 0 ? (
               feedItems.artworks.map((artwork) => (
                 <Artwork
-                  key={`artwork-${artwork.id}`}
-                  artwork={artwork}
-                  onMarkAsSold={(id) => console.log(`Marking artwork ${id} as sold`)}
-                />
+                key={artwork.id}
+                artwork={artwork}
+                onDelete={handleDeleteArtwork}
+                onUpdate={handleUpdateArtwork}/>
               ))
             ) : (
               <p>Nessun artwork disponibile.</p>

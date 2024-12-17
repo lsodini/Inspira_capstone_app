@@ -34,9 +34,40 @@ const Cart = () => {
   };
 
   const handleCheckout = () => {
-    // Funzione di checkout (es. invio richiesta a server)
+   
     console.log("Procedi al checkout");
+  
+    
+    const token = localStorage.getItem("authToken");
+  
+    if (!token) {
+      console.error("No token found. User may not be logged in.");
+      return;
+    }
+  
+    
+    cartItems.forEach(item => {
+      fetch(`http://localhost:3001/api/transactions/buy/${item.id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}` 
+        }
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error("Failed to mark artwork as sold");
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log("Artwork marked as sold", data);
+        handleClearCart(); 
+      })
+      .catch(error => console.error("Error marking artwork as sold:", error));
+    });
   };
+  
 
   return (
     <div className="cart vh-100">

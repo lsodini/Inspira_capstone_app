@@ -342,6 +342,58 @@ const UserCard = () => {
           </div>
         </div>
 
+        {/* Modale per Profilo */}
+        {isModalOpen && (
+          <div className="modal">
+            <div className="modal-content">
+              <h3>Modifica Profilo</h3>
+              <form>
+                <label>
+                  Nome:
+                  <input
+                    type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleFormChange}
+                  />
+                </label>
+                <label>
+                  Cognome:
+                  <input
+                    type="text"
+                    name="surname"
+                    value={formData.surname}
+                    onChange={handleFormChange}
+                  />
+                </label>
+                <label>
+                  Username:
+                  <input
+                    type="text"
+                    name="username"
+                    value={formData.username}
+                    onChange={handleFormChange}
+                  />
+                </label>
+                <label>
+                  Bio:
+                  <textarea
+                    name="bio"
+                    value={formData.bio}
+                    onChange={handleFormChange}
+                  />
+                </label>
+                <label>
+                  Avatar:
+                  <input type="file" onChange={handleFileChange} />
+                </label>
+                <button type="button" onClick={handleSaveChanges}>Salva modifiche</button>
+                <button type="button" onClick={() => setIsModalOpen(false)}>Annulla</button>
+              </form>
+            </div>
+          </div>
+        )}
+
         {/* Modale per Follower */}
         {isFollowersModalOpen && (
           <div className="modal">
@@ -380,6 +432,7 @@ const UserCard = () => {
           </div>
         )}
       </div>
+      <hr className="linea" />
     </>
   );
 };

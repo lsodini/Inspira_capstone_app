@@ -86,7 +86,7 @@ const Artwork = ({ artwork, onDelete, onUpdate }) => {
           <div className="uCard-top">
             <div className="uCard-user_details">
               <div className="uCard-profile_img">
-                <img src={artwork.user.avatarUrl} alt="artist" className="uCard-cover" />
+                <img src={artwork.user.avatarUrl || "/images/default-avatar.png"} alt="artist" className="uCard-cover" />
               </div>
               <h3>
                 {artwork.user.username}
@@ -99,7 +99,7 @@ const Artwork = ({ artwork, onDelete, onUpdate }) => {
 
           <h4 className="uCard-message">{artwork.title}</h4>
           <p className="uCard-description">{artwork.description}</p>
-          <h5 className="uCard-price">Price: ${artwork.price}</h5>
+          <h5 className="uCard-price">Price: ${artwork.price} {artwork.sold && "(Sold)"}</h5>
 
           {artwork.mediaUrls && artwork.mediaUrls.length > 0 && (
             <div className="uCard-imgBg">
@@ -110,9 +110,11 @@ const Artwork = ({ artwork, onDelete, onUpdate }) => {
           )}
 
           <div className="uCard-btns">
+            {!artwork.sold && (
             <button className="uCard-edit" onClick={() => setIsEditing(true)}>
               Edit
             </button>
+            )}
             <button className="uCard-delete" onClick={() => onDelete(artwork.id)}>
   Delete
 </button>
