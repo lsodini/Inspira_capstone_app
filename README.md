@@ -1,8 +1,9 @@
 # Inspira
 
-<div style="text-align: center;">
-  <img src="InspiraFE/inspira/public/images/Inspira-Brand-bg.png" alt="Logo di Inspira" width="900">
+<div style="display: flex; justify-content: center; align-items: center;">
+  <img src="InspiraFE/inspira/public/images/Inspira-Brand-bg.png" alt="Logo di Inspira" width="600">
 </div>
+
 
 
 
