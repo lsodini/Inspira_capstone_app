@@ -1,6 +1,7 @@
 # Inspira
 
-![Logo di Inspira](InspiraFE/inspira/public/images/Inspira-Brand.png)
+<img src="InspiraFE/inspira/public/images/Inspira-Brand.png" alt="Logo di Inspira" width="300">
+
 
 
 Inspira è una social media web app dedicata all'arte, progettata per offrire agli utenti uno spazio dove possono condividere i propri pensieri, le opere d'arte, e informarsi sul mondo artistico. Questa applicazione combina un frontend sviluppato in React con un backend costruito con Java Spring e utilizza PostgreSQL come database.
