@@ -1,12 +1,15 @@
 # Inspira
 
+![Logo di Inspira](InspiraFE/inspira/public/images/Inspira-Brand.png)
+
+
 Inspira è una social media web app dedicata all'arte, progettata per offrire agli utenti uno spazio dove possono condividere i propri pensieri, le opere d'arte, e informarsi sul mondo artistico. Questa applicazione combina un frontend sviluppato in React con un backend costruito con Java Spring e utilizza PostgreSQL come database.
 
 ## ✨ Caratteristiche Principali
 
 - **Condivisione di Contenuti**: Gli utenti possono pubblicare i propri pensieri e le loro opere d'arte.
 - **Esplorazione**: Possibilità di scoprire opere e contenuti condivisi da altri utenti.
-- **Notizie sull'Arte**: Accesso a news e informazioni sul mondo artistico.
+- **Notizie sull'Arte**: Accesso a news e informazioni sul mondo artistico, recuperate tramite **News API**.
 - **Interazione**: Gli utenti possono commentare e apprezzare i post.
 - **Gestione Artwork**: Oltre ai post, gli utenti possono caricare artwork che in futuro potranno essere venduti.
 
@@ -16,7 +19,7 @@ Inspira è una social media web app dedicata all'arte, progettata per offrire ag
 - Framework: **React**
 - Librerie principali:
   - **React Router**: Per la gestione della navigazione.
-  - **Fetch API**: Per le richieste HTTP al backend, con gestione degli errori tramite `try` e `catch`.
+  - **Async/Await con Fetch API**: Per le richieste HTTP al backend, con gestione degli errori tramite `try` e `catch`.
   - **Bootstrap** e **CSS**: Per lo stile e il layout delle componenti.
   - Sviluppato utilizzando **VS Code**.
 
@@ -34,7 +37,7 @@ Inspira è una social media web app dedicata all'arte, progettata per offrire ag
   - Tabelle principali: `Users`, `Posts`, `Comments`, `Likes`, `Artworks`.
 
 ### Integrazioni Estese
-- **Artsy API**: Utilizzata per recuperare notizie e informazioni aggiornate sul mondo dell'arte.
+- **News API**: Utilizzata per recuperare notizie e informazioni aggiornate sul mondo dell'arte.
 - **Cloudinary**: Per la gestione e l'hosting delle immagini caricate dagli utenti.
 - **Mailgun**: Per l'invio di email (ad esempio, per il recupero password).
 
@@ -50,22 +53,22 @@ Inspira è una social media web app dedicata all'arte, progettata per offrire ag
 2. Configura il file `application.properties` in `src/main/resources/` come segue:
 
 ```properties
-spring.application.name=Ispira
+spring.application.name=Inspira
 spring.config.import=file:env.properties
 
-# Server Config
+#Server Config
 server.port=${SERVER_PORT}
 
-# DB Config
+#DB Config
 spring.datasource.username=${POSTGRES_USERNAME}
 spring.datasource.password=${POSTGRES_PASSWORD}
 spring.datasource.url=${POSTGRES_URL}
 spring.datasource.driver=org.postgresql.Driver
 
-# Hibernate Config
+#Hibernate Config
 spring.jpa.hibernate.ddl-auto=update
 
-# JWT Config
+#JWT Config
 jwt.secret=${JWT_SECRET}
 
 # Configurazione Mailgun
@@ -76,6 +79,10 @@ mailgun.domain=${MAILGUN_DOMAIN}
 cloudinary.name=${CLOUDINARY_NAME}
 cloudinary.key=${CLOUDINARY_KEY}
 cloudinary.secret=${CLOUDINARY_SECRET}
+
+# Configurazione upload file
+spring.servlet.multipart.max-file-size=10MB
+spring.servlet.multipart.max-request-size=10MB
 ```
 
 3. Assicurati che il file `env.properties` contenga le variabili d'ambiente richieste.
@@ -86,7 +93,7 @@ cloudinary.secret=${CLOUDINARY_SECRET}
 ```
 
 ### Configurazione del Frontend
-1. Accedi alla directory del frontend chiamata inspiraFE e al suo interno accedere alla directory del progetto "inspira".
+1. Accedi alla directory del frontend chiamata inspiraFE e al suo interno accedi alla directory del progetto "inspira".
 2. Installa le dipendenze:
 
 ```bash
