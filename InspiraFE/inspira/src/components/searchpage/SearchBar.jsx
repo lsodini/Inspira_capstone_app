@@ -24,9 +24,9 @@ const SearchBar = ({ onSearch }) => {
     setIsActive((prevActive) => {
       if (prevActive) {
         setUsername("");
-        // Passa una stringa vuota per "cancellare" la ricerca
+       
         if (onSearch) {
-          onSearch(""); // Passa una stringa vuota per disabilitare la ricerca
+          onSearch(""); 
         }
       }
       return !prevActive;

@@ -57,9 +57,9 @@ const Posts = ({ post, onDelete }) => {
       const fetchedComments = await response.json();
       setComments(fetchedComments);
 
-      // Fetch dei like per ogni commento
+      
       fetchedComments.forEach((comment) => {
-        fetchCommentLikes(comment.id); // Aggiungi questa chiamata
+        fetchCommentLikes(comment.id);
       });
 
       const userLikedComments = {};

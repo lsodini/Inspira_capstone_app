@@ -358,7 +358,7 @@ const Posts = ({ post, onDelete }) => {
         <div className="uCard-userimg">
           
           <img
-            src={avatarUrl || "images/default-avatar.png"}
+            src={avatarUrl || "/images/default-avatar.png"}
             alt="user"
             className="uCard-avatar rounded-5"
             width={40}

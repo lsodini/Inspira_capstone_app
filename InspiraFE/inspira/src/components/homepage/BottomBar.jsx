@@ -29,12 +29,7 @@ const BottomBar = () => {
             <span>Home</span>
           </a>
         </li>
-        <li className={`bottom-navbar__item ${isActive('/messages') ? 'active' : ''}`}>
-          <a href="/messages" className="bottom-navbar__link">
-            <FiMessageSquare className="primary" />
-            <span>Messages</span>
-          </a>
-        </li>
+       
         <li className={`bottom-navbar__item ${isActive('/news') ? 'active' : ''}`}>
           <a href="/news" className="bottom-navbar__link">
             <IoNewspaperOutline className="primary" />

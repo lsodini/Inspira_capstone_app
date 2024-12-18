@@ -273,7 +273,7 @@ const ArtworkList = ({ userId }) => {
       ) : (
         <div className="not-artist">
           <p>Non sei ancora un artista. Diventa un artista per creare artwork!</p>
-          <button onClick={handleBecomeArtist}>Diventa Artista</button>
+          <button className="edit-btn"onClick={handleBecomeArtist}>Diventa Artista</button>
         </div>
       )}
 

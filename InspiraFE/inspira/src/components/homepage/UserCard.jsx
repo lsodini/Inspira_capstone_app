@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom"; // Importa useNavigate
+import { useNavigate } from "react-router-dom"; 
 import { IoClose } from "react-icons/io5";
 import "../../css/UserCard.css";
 

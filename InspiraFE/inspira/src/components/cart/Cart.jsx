@@ -91,7 +91,7 @@ const Cart = () => {
       </div>
 
       {cartItems.length > 0 && (
-        <div className="cart-summary">
+        <div className="cart-summary ">
           <h3>Totale: ${totalPrice}</h3>
           <button onClick={handleCheckout} className="cart-checkout-btn me-3">Procedi al Checkout</button>
           <button onClick={handleClearCart} className="cart-clear-btn">Svuota Carrello</button>
