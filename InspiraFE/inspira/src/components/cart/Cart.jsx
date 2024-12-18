@@ -6,11 +6,11 @@ const Cart = () => {
   const [totalPrice, setTotalPrice] = useState(0);
 
   useEffect(() => {
-    // Recupera gli items dal localStorage quando il componente viene montato
+   
     const storedItems = JSON.parse(localStorage.getItem("cartItems")) || [];
     setCartItems(storedItems);
 
-    // Calcola il totale
+   
     const total = storedItems.reduce((acc, item) => acc + item.price, 0);
     setTotalPrice(total);
   }, []);
@@ -19,10 +19,10 @@ const Cart = () => {
     const updatedCart = cartItems.filter(item => item.id !== artworkId);
     setCartItems(updatedCart);
 
-    // Salva gli items aggiornati nel localStorage
+   
     localStorage.setItem("cartItems", JSON.stringify(updatedCart));
 
-    // Ricalcola il totale
+    
     const newTotal = updatedCart.reduce((acc, item) => acc + item.price, 0);
     setTotalPrice(newTotal);
   };
@@ -93,7 +93,7 @@ const Cart = () => {
       {cartItems.length > 0 && (
         <div className="cart-summary">
           <h3>Totale: ${totalPrice}</h3>
-          <button onClick={handleCheckout} className="cart-checkout-btn">Procedi al Checkout</button>
+          <button onClick={handleCheckout} className="cart-checkout-btn me-3">Procedi al Checkout</button>
           <button onClick={handleClearCart} className="cart-clear-btn">Svuota Carrello</button>
         </div>
       )}

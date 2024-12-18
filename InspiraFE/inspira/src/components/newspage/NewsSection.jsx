@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 
 const getNews = async (query) => {
-  const API_KEY = 'c1f1bab06ff34beba6f6c17001e5f71d'; // La tua chiave API
+  const API_KEY = 'c1f1bab06ff34beba6f6c17001e5f71d'; 
   const response = await fetch(
     `https://newsapi.org/v2/everything?q=${query}&language=it&apiKey=${API_KEY}`
   );
@@ -91,11 +91,13 @@ const NewsSection = () => {
         ) : (
           articles.map((article, index) => (
             <li key={index} className="news-item">
+              <div className='news-text'>
               <h3>{article.title}</h3>
               <p>{article.description || 'Descrizione non disponibile'}</p>
               <a href={article.url} target="_blank" rel="noopener noreferrer">
                 Leggi l'articolo completo
               </a>
+              </div>
               {article.urlToImage && (
                 <img src={article.urlToImage} alt={article.title} className="news-image" />
               )}

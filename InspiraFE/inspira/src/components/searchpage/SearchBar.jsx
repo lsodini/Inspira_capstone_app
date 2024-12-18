@@ -14,7 +14,6 @@ const SearchBar = ({ onSearch }) => {
     const value = event.target.value;
     setUsername(value);
 
-    // Esegui la ricerca solo se la stringa non è vuota
     if (onSearch && value.trim()) {
       onSearch(value);
     }

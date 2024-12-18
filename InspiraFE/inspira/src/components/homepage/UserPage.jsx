@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import UserCard from "./UserCard";  
 import PostList from "./PostList";
 import ArtworkList from "./ArtworkList";
+import "../../css/UserPage.css";
 
 const UserPage = () => {
   const [userId, setUserId] = useState(null);  

@@ -6,16 +6,20 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 const Navbar = () => {
   return (
     <>
-    <nav className="basenav navbar ">
-      <div className="container-fluid d-flex justify-content-center align-items-center container-logo" >
+    <nav className="basenav navbar pt-0">
+      <div className="container-fluid d-flex justify-content-center align-items-center container-logo " >
         
         
-          <a className="ms-3 navbar-brand text-center " href="/">
+          <a className="ms-3 navbar-brand text-center pb-0" href="/">
             <img
               src="/images/logo.webp"
               alt="Logo"
               style={{ maxHeight: '50px'}}
+
             />
+            <h1 className='m-0'>
+            I<span className='primary'>n</span>spira
+            </h1>
             
           </a>
         

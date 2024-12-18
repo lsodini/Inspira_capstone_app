@@ -20,7 +20,7 @@ public class JWT {
         return Jwts.builder()
                 .issuedAt(new Date(System.currentTimeMillis()))
 
-                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 55))
+                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 3))//durata token 3 ore
 
                 .subject(String.valueOf(user.getId()))
                 .signWith(Keys.hmacShaKeyFor(secret.getBytes()))

@@ -18,7 +18,7 @@
 	
   }
   
-  /* Layout principale */
+ 
   .layout {
 	display: flex;
 	flex-direction: column;
@@ -37,7 +37,7 @@
   
   
   
-  /* Navbar orizzontale  */
+  /* Navbar   */
   .navbar-horizontal {
 	background: #ffffff ;
 	
@@ -72,19 +72,20 @@
   }
   
   .custom-dropdown-menu a {
-	color: #FF4B2B ;
+	color: #3f3e3e ;
 	font-weight: 500;
 	font-size: 1.1rem ;
   }
   
   .custom-dropdown-menu a:hover {
-	color: #f14020 ;
+	background-color: 	#9897971b ;
+	color: #FF4B2B;
 	
-	background: none ;
   }
 
   
-
+  
+/*bottom bar*/
 .bottom-navbar {
 	display: flex; 
 	justify-content: space-around;

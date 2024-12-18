@@ -5,6 +5,7 @@ import LucaSodini.Inspira.services.CommentService;
 import LucaSodini.Inspira.services.LikeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -33,6 +34,7 @@ public class CommentController {
     }
 
     @DeleteMapping("/{id}")
+    @Transactional
     public ResponseEntity<?> deleteComment(@PathVariable Long id) {
 
         likeService.deleteLikesByComment(id);

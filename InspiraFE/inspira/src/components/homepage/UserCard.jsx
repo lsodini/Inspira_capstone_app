@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom"; // Importa useNavigate
+import { IoClose } from "react-icons/io5";
 import "../../css/UserCard.css";
 
 const UserCard = () => {
@@ -15,6 +17,13 @@ const UserCard = () => {
   const [followingList, setFollowingList] = useState([]);
   const [isFollowersModalOpen, setIsFollowersModalOpen] = useState(false);
   const [isFollowingModalOpen, setIsFollowingModalOpen] = useState(false);
+
+  const navigate = useNavigate();
+
+  const handleUserClick = (username) => {
+    navigate(`/user/${username}`); 
+  };
+
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -327,14 +336,14 @@ const UserCard = () => {
             <span className="me-5">post</span>
             <span className="stats">{artworkCount || 0}</span>
             <span className="me-5">artworks</span>
-            <span className="stats" onClick={() => setIsFollowersModalOpen(true)}>
+            <span className="stats stat-button" onClick={() => setIsFollowersModalOpen(true)}>
               {followerCount || 0}
             </span>
-            <span className="me-5">follower</span>
-            <span className="stats" onClick={() => setIsFollowingModalOpen(true)}>
+            <span className="stat-button me-5" onClick={() => setIsFollowersModalOpen(true)}>follower</span>
+            <span className="stats stat-button" onClick={() => setIsFollowingModalOpen(true)}>
               {followingCount || 0}
             </span>
-            <span className="me-5">seguiti</span>
+            <span className="me-5 stat-button" onClick={() => setIsFollowingModalOpen(true)}>seguiti</span>
           </div>
           <div className="user-username">@{user ? user.username : "username"}</div>
           <div className="user-bio">
@@ -344,8 +353,9 @@ const UserCard = () => {
 
         {/* Modale per Profilo */}
         {isModalOpen && (
-          <div className="modal">
-            <div className="modal-content">
+          <div className="user-modal">
+            <div className="user-modal-content">
+             <button className="close-modal" type="button" onClick={() => setIsModalOpen(false)}><IoClose  /></button>
               <h3>Modifica Profilo</h3>
               <form>
                 <label>
@@ -357,6 +367,8 @@ const UserCard = () => {
                     onChange={handleFormChange}
                   />
                 </label>
+                
+                               
                 <label>
                   Cognome:
                   <input
@@ -375,6 +387,8 @@ const UserCard = () => {
                     onChange={handleFormChange}
                   />
                 </label>
+               
+             
                 <label>
                   Bio:
                   <textarea
@@ -383,12 +397,13 @@ const UserCard = () => {
                     onChange={handleFormChange}
                   />
                 </label>
-                <label>
+               
+                <label className="last-label">
                   Avatar:
                   <input type="file" onChange={handleFileChange} />
                 </label>
-                <button type="button" onClick={handleSaveChanges}>Salva modifiche</button>
-                <button type="button" onClick={() => setIsModalOpen(false)}>Annulla</button>
+                <button className="save-modal" type="button" onClick={handleSaveChanges}>Salva modifiche</button>
+               
               </form>
             </div>
           </div>
@@ -396,38 +411,55 @@ const UserCard = () => {
 
         {/* Modale per Follower */}
         {isFollowersModalOpen && (
-          <div className="modal">
-            <div className="modal-content">
+          <div className="stat-modal">
+            <div className="stat-modal-content">
+            <button className="close-modal" onClick={() => setIsFollowersModalOpen(false)}><IoClose  /></button>
               <h3>Follower</h3>
               <ul>
                 {followersList.length > 0 ? (
                   followersList.map((follower) => (
-                    <li key={follower.id}>{follower.username}</li>
+                    <li key={follower.id}
+                    onClick={() => handleUserClick(follower.username)} 
+                      style={{ cursor: "pointer" }}>
+                       <img className="rounded-circle me-2"src={follower.avatarUrl || "/images/default-avatar.png"} alt="avatar"
+                      width={30} height={30}></img>
+                      {follower.username}</li>
                   ))
                 ) : (
                   <li>Nessun follower trovato.</li>
                 )}
               </ul>
-              <button onClick={() => setIsFollowersModalOpen(false)}>Chiudi</button>
+              
             </div>
           </div>
         )}
 
         {/* Modale per Following */}
         {isFollowingModalOpen && (
-          <div className="modal">
-            <div className="modal-content">
+          <div className="stat-modal">
+            <div className="stat-modal-content">
+            <button className="close-modal" onClick={() => setIsFollowingModalOpen(false)}><IoClose  /></button>
               <h3>Seguiti</h3>
               <ul>
                 {followingList.length > 0 ? (
                   followingList.map((followed) => (
-                    <li key={followed.id}>{followed.username}</li>
+                    <li key={followed.id}
+                    onClick={() => handleUserClick(followed.username)}
+                      style={{ cursor: "pointer" }}>
+                     
+                      <img className="rounded-circle me-2"src={followed.avatarUrl || "/images/default-avatar.png"} alt="avatar"
+                      width={30} height={30}></img>
+                      {followed.username}</li>
+                      
+                      
                   ))
                 ) : (
                   <li>Nessun utente seguito.</li>
+                  
                 )}
+                
               </ul>
-              <button onClick={() => setIsFollowingModalOpen(false)}>Chiudi</button>
+              
             </div>
           </div>
         )}

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "../../css/UCard.css";
+import { FaEllipsisH } from "react-icons/fa";
 
 const Artwork = ({ artwork, onDelete, onUpdate }) => {
   const [isAddedToCart, setIsAddedToCart] = useState(false);
@@ -10,6 +11,8 @@ const Artwork = ({ artwork, onDelete, onUpdate }) => {
     price: artwork.price,
     mediaFile: null,
   });
+
+ const [menuOpen, setMenuOpen] = useState(false);
 
   const username = localStorage.getItem("username");
   const token = localStorage.getItem("authToken");  
@@ -30,6 +33,13 @@ const Artwork = ({ artwork, onDelete, onUpdate }) => {
     setUpdatedArtwork({ ...updatedArtwork, mediaFile: file });
   };
 
+  const toggleMenu = () => {
+    setMenuOpen((prev) => !prev);
+  };
+
+  const handleDeleteArtwork = () => {
+    onDelete(artwork.id);
+  };
   const handleUpdateArtwork = async () => {
     try {
       const formData = new FormData();
@@ -62,7 +72,40 @@ const Artwork = ({ artwork, onDelete, onUpdate }) => {
 
   return (
     <>
-      <div className="uCard-card">
+      <div className="uCard-card-artwork">
+          <div className="uCard-top">
+                <div className="uCard-user_details">
+                  <div className="uCard-profile_img">
+                    <img src={artwork.user.avatarUrl || "/images/default-avatar.png"} alt="artist" className="uCard-cover" />
+                  </div>
+                  <h3>
+                    {artwork.user.username}
+                    <br />
+                    <span className="uCard-hour">
+                      {new Intl.DateTimeFormat("it-IT", {
+                        day: "2-digit",
+                        month: "long",
+                        year: "numeric",
+                      }).format(new Date(artwork.createdAt))}
+                    </span>
+                  </h3>
+                </div>
+        
+                {/* Pallini per il menu */}
+                {artwork.user.username === localStorage.getItem("username") && (
+                  <div className="uCard-dot" onClick={toggleMenu}>
+                    <FaEllipsisH className="uCard-dot-icon" />
+                  </div>
+                )}
+        
+                {/* Menu del dropdown */}
+                {menuOpen && (
+                  <div className="uCard-dropdown-artwork">
+                    <button onClick={() => setIsEditing(true)}>Edit Artwork</button>
+                    <button onClick={handleDeleteArtwork}>Delete Artwork</button>
+                  </div>
+                )}
+              </div>
         {isEditing ? (
           <div className="uCard-edit">
             <input
@@ -82,7 +125,7 @@ const Artwork = ({ artwork, onDelete, onUpdate }) => {
             <div className="media-upload">
               <label>
                 Cambia immagine (opzionale):
-                <input type="file" accept="image/*,video/*" onChange={handleMediaChange} />
+                <input className="file-artwork"  type="file" accept="image/*,video/*" onChange={handleMediaChange} />
               </label>
               {artwork.mediaUrls && artwork.mediaUrls.length > 0 && (
                 <div className="current-media">
@@ -92,57 +135,32 @@ const Artwork = ({ artwork, onDelete, onUpdate }) => {
                 </div>
               )}
             </div>
-            <button onClick={handleUpdateArtwork}>Save</button>
-            <button onClick={() => setIsEditing(false)}>Cancel</button>
+            <button className="edit-btn mt-2" onClick={handleUpdateArtwork}>Salva</button>
+            <button className="edit-btn mt-2" onClick={() => setIsEditing(false)}>Annulla</button>
           </div>
         ) : (
           <>
-            <div className="uCard-top">
-              <div className="uCard-user_details">
-                <div className="uCard-profile_img">
-                  <img src={artwork.user.avatarUrl || "/images/default-avatar.png"} alt="artist" className="uCard-cover" />
-                </div>
-                <h3>
-                  {artwork.user.username}
-                  <br />
-                  <span className="uCard-hour">{new Date(artwork.createdAt).toLocaleString()}</span>
-                  <span className="uCard-globDot">.</span>
-                </h3>
-              </div>
+          <h4 className="uCard-message-artwork">{artwork.title}</h4>
+          <p className="uCard-description">{artwork.description}</p>
+
+          {artwork.mediaUrls && artwork.mediaUrls.length > 0 && (
+            <div className="uCard-imgBg">
+              {artwork.mediaUrls.map((url, index) => (
+                <img key={index} src={url} alt={`artwork-${index}`} className="uCard-coverFull" />
+              ))}
             </div>
-  
-            <h4 className="uCard-message">{artwork.title}</h4>
-            <p className="uCard-description">{artwork.description}</p>
-            <h5 className="uCard-price">Price: ${artwork.price} {artwork.sold && "(Sold)"}</h5>
-  
-            {artwork.mediaUrls && artwork.mediaUrls.length > 0 && (
-              <div className="uCard-imgBg">
-                {artwork.mediaUrls.map((url, index) => (
-                  <img key={index} src={url} alt={`artwork-${index}`} className="uCard-coverFull" />
-                ))}
-              </div>
-            )}
+          )}
+            <h5 className="uCard-price">
+            Prezzo: ${artwork.price} {artwork.sold && "(venduto)"}
+          </h5>
+        
   
             {!isAddedToCart && !artwork.sold && artwork.user.username !== username && (
-              <button className="uCard-add-to-cart" onClick={handleAddToCart}>
+              <button className="uCard-add-to-cart cart-btn" onClick={handleAddToCart}>
                 {isAddedToCart ? "Aggiunto al carrello" : "Aggiungi al carrello"}
               </button>
             )}
   
-            <div className="uCard-btns">
-              {artwork.user.username === username && !artwork.sold && (
-                <button className="uCard-edit" onClick={() => setIsEditing(true)}>
-                  Edit
-                </button>
-              )}
-              {artwork.user.username === username && (
-                <button className="uCard-delete" onClick={() => onDelete(artwork.id)}>
-                  Delete
-                </button>
-              )}
-            </div>
-  
-            <div className="uCard-border"></div>
           </>
         )}
       </div>

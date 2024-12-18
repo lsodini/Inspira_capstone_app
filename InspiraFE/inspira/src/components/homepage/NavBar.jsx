@@ -49,6 +49,7 @@ const NavBar = () => {
                 alt="Logo"
                 style={{ maxHeight: '50px' }}
               />
+              <h1>I<span className='primary'>n</span>spira</h1>
             </a>
           </div>
 
@@ -64,10 +65,10 @@ const NavBar = () => {
 
               <Dropdown.Menu className="custom-dropdown-menu">
                 <Dropdown.Item onClick={handleLogout}> 
-                  <BiLogOut className='mb-1 me-2' style={{ fontSize: '24px' }}/>Esci
+                 Esci
                 </Dropdown.Item>
                 <Dropdown.Item onClick={handleDeleteAccount}>
-                  <i className="fas fa-trash-alt me-2" style={{ fontSize: '20px', color: 'red' }}></i>
+                
                   Elimina Account
                 </Dropdown.Item>
               </Dropdown.Menu>

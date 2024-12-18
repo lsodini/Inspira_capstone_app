@@ -191,15 +191,15 @@ const Feed = () => {
     <div className="feed-container">
       {/* Selettore per cambiare sezione */}
       <div className="feed-selector">
-        <button type="button" onClick={(e) => {e.preventDefault(); setActiveSection("posts")}}>Post</button>
-        <button type="button" onClick={(e) => {e.preventDefault(); setActiveSection("artworks")}}>Artwork</button>
-        <button type="button" onClick={(e) => {e.preventDefault(); setActiveSection("suggestedUsers")}}>Utenti da seguire</button>
+        <button className="edit-button"type="button" onClick={(e) => {e.preventDefault(); setActiveSection("posts")}}>Post</button>
+        <button className="edit-button" type="button" onClick={(e) => {e.preventDefault(); setActiveSection("artworks")}}>Artwork</button>
+        <button className="edit-button" type="button" onClick={(e) => {e.preventDefault(); setActiveSection("suggestedUsers")}}>Utenti da seguire</button>
       </div>
 
       {/* Sezione Post */}
       {activeSection === "posts" && (
-        <div className="feed-section">
-          <h2>Post</h2>
+        <div className="feed-section mb-3">
+          <h2 className="ms-3 ">Post</h2>
           <div className="feed-items">
             {feedItems.posts && feedItems.posts.length > 0 ? (
               feedItems.posts.map((post) => (
@@ -220,7 +220,7 @@ const Feed = () => {
       {/* Sezione Artwork */}
       {activeSection === "artworks" && (
         <div className="feed-section">
-          <h2>Artwork</h2>
+          <h2 className="ms-3">Artwork</h2>
           <div className="feed-items">
             {feedItems.artworks && feedItems.artworks.length > 0 ? (
               feedItems.artworks.map((artwork) => (
@@ -240,24 +240,27 @@ const Feed = () => {
       {/* Sezione Utenti Suggeriti */}
       {activeSection === "suggestedUsers" && (
         <div className="feed-section">
-          <h2>Utenti da seguire</h2>
+          <h2  className="ms-3">Utenti da seguire</h2>
           <ul className="suggested-users">
             {suggestedUsers.length > 0 ? (
               suggestedUsers.map((user) => (
                 <li key={user.id}>
-                  <div className="user-card">
+                  <div className="user-card rounded-4">
                     <img
                       src={user.avatarUrl || "images/default-avatar.png"}
                       alt="Avatar"
-                      className="rounded-5"
-                      width={40}
-                      height={40}
+                      className="rounded-circle me-2"
+                      width={50}
+                      height={50}
                     />
                     <div>
-                      <p>
-                        {user.name} {user.surname}
+                      <h5 className="mb-0">{user.username}
+                        
+                      </h5>
+                      <p className="text-muted mb-1">
+                      {user.name} {user.surname}
                       </p>
-                      <button onClick={() => handleFollowUnfollow(user.id)}>
+                      <button className="suggested-btn" onClick={() => handleFollowUnfollow(user.id)}>
                         {followingStatus[user.id] ? "Non Seguire" : "Segui"}
                       </button>
                     </div>

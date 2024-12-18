@@ -246,8 +246,13 @@ const Posts = ({ post, onDelete }) => {
           <h3>
             {post.username}
             <br />
-            <span className="uCard-hour">{new Date(post.createdAt).toLocaleString()}</span>
-            <span className="uCard-globDot">.</span>
+            <span className="uCard-hour">{new Intl.DateTimeFormat("it-IT", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+   
+  }).format(new Date(post.createdAt))}</span>
+          
           </h3>
         </div>
          {post.username === username && (
@@ -264,38 +269,34 @@ const Posts = ({ post, onDelete }) => {
       </div>
       {isEditing ? (
         <div>
-          <textarea
+          <textarea className="edit-text"
             value={editedContent}
             onChange={(e) => setEditedContent(e.target.value)}
           />
-          <button onClick={handleEditPost}>Save</button>
-          <button onClick={() => setIsEditing(false)}>Cancel</button>
+           <br />
+          <button className="edit-btn" onClick={handleEditPost}>Salva</button>
+          <button onClick={() => setIsEditing(false)}>Cancella</button>
         </div>
       ) : (
       <h4 className="uCard-message">{post.content}</h4>
     )}
-      {post.mediaUrl && (
-        <div className="uCard-imgBg">
-          <img src={post.mediaUrl} alt="post" className="uCard-coverFull" />
-        </div>
-      )}
-
+      
       <div className="uCard-btns">
         <div className="uCard-left">
           <div className="uCard-likes" onClick={toggleLikePost}>
             {userHasLikedPost ? (
-              <FaThumbsUp className="uCard-icon-image liked" />
+              <FaThumbsUp className="uCard-icon-image liked me-1 mb-1" />
             ) : (
-              <FaRegThumbsUp className="uCard-icon-image" />
+              <FaRegThumbsUp className="uCard-icon-image me-1 mb-1" />
             )}
             {postLikes.length}
           </div>
         </div>
         <div className="uCard-right">
-          <h4>
-            <FaCommentDots className="uCard-icon-image" onClick={toggleShowComments}/>
-            {comments.length} commenti
-          </h4>
+          
+            <FaCommentDots className="uCard-icon-image me-1 mb-1" onClick={toggleShowComments}/>
+            {comments.length} 
+          
         </div>
       </div>
       <div className="uCard-border"></div>
@@ -310,26 +311,37 @@ const Posts = ({ post, onDelete }) => {
                 <img
                   src={comment.avatarUrl || "/images/default-avatar.png"}
                   alt="Comment User Avatar"
-                  className="uCard-avatar rounded-5"
+                  className="uCard-avatar rounded-circle me-2"
                   width={30}
                   height={30}
                 />
-                <h4>{comment.username || "Anonymous"}</h4>
+                <h6>{comment.username || "Anonymous"}<br/>
+                  <span className="uCard-hour" style={{fontSize: "0.8rem" }}>{new Intl.DateTimeFormat("it-IT", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+   
+  }).format(new Date(post.createdAt))}</span>
+                  </h6>
               </div>
-              <div>{comment.content}</div>
-              <div onClick={() => toggleLikeComment(comment.id)}>
-                {userHasLikedComment[comment.id] ? (
-                  <FaThumbsUp className="uCard-icon-image liked" />
-                ) : (
-                  <FaRegThumbsUp className="uCard-icon-image" />
-                )}
-                {commentLikes[comment.id] || 0}
-              </div>
-              {comment.username === username && (
-                                <div className="uCard-dot" onClick={() => toggleCommentMenu(comment.id)}>
-                                  <FaEllipsisH className="uCard-dot-icon" />
-                                </div>
-                                 )}
+              <div className="uCard-comment-content">
+                {comment.content}
+                </div>
+                 {comment.username === username && (
+                                  <div className="uCard-comment-dot" onClick={() => toggleCommentMenu(comment.id)}>
+                                    <FaEllipsisH className="uCard-dot-icon" />
+                                  </div>
+                                )}
+              <div className="uCard-likes-comment"onClick={() => toggleLikeComment(comment.id)}>
+              
+                                {userHasLikedComment[comment.id] ? (
+                                  <FaThumbsUp className="uCard-icon-image liked me-1 mb-1" />
+                                ) : (
+                                  <FaRegThumbsUp className="uCard-icon-image me-1 mb-1" />
+                                )}
+                                {commentLikes[comment.id] || 0}
+                              </div>
+              
                                  {commentMenuOpen[comment.id] && (
                                    <div className="uCard-dropdown">
                                      <button onClick={() => handleDeleteComment(comment.id)}>Delete Comment</button>
@@ -360,7 +372,7 @@ const Posts = ({ post, onDelete }) => {
           value={newComment}
           onChange={(e) => setNewComment(e.target.value)}
         />
-        <button onClick={handleAddComment}>Add Comment</button>
+        <button className="edit-btn" onClick={handleAddComment}>Invia</button>
       </div>
     </div>
   );

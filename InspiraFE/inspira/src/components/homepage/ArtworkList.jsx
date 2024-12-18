@@ -7,6 +7,8 @@ const ArtworkList = ({ userId }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [role, setRole] = useState(null);
+  const username = localStorage.getItem("username");
+  const avatarUrl = localStorage.getItem("avatarUrl");
   const [newArtwork, setNewArtwork] = useState({
     title: "",
     description: "",
@@ -79,7 +81,10 @@ const ArtworkList = ({ userId }) => {
     fetchUserRole();
   }, [userId]);
 
-  const handleCreateArtwork = async () => {
+  const handleCreateArtwork = async (e) => {
+    e.preventDefault();
+    
+    
     const token = localStorage.getItem("authToken");
     if (!token) {
       setError("Non autenticato. Effettua il login.");
@@ -197,13 +202,27 @@ const ArtworkList = ({ userId }) => {
 
   return (
     <div className="artwork-list">
-      {role === "ARTIST" ? (
-        <div className="create-artwork">
+    {role === "ARTIST" ? (
+      <div className="create-artwork card">
+      
+      <div className="card-header">
+      <img
+      src={avatarUrl || "images/default-avatar.png"}
+      alt="Avatar"
+      className="avatar rounded-circle me-2"
+      width={30}
+      height={30}
+    />
+    <span className="username">{username || "Utente"}</span>
+  </div>
+  <form className="create-artwork w-100" onSubmit={handleCreateArtwork}>
           <input
             type="text"
             value={newArtwork.title}
             onChange={(e) => setNewArtwork({ ...newArtwork, title: e.target.value })}
             placeholder="Title"
+            required
+            
           />
           <textarea
             value={newArtwork.description}
@@ -216,6 +235,7 @@ const ArtworkList = ({ userId }) => {
               accept="image/*,video/*"
               multiple
               onChange={handleMediaChange}
+              required
             />
             <div className="media-preview">
               {newArtwork.mediaFiles.map((file, index) => (
@@ -245,8 +265,10 @@ const ArtworkList = ({ userId }) => {
             value={newArtwork.price}
             onChange={(e) => setNewArtwork({ ...newArtwork, price: e.target.value })}
             placeholder="Price"
+            required
           />
-          <button onClick={handleCreateArtwork}>Create Artwork</button>
+          <button type="submit">Crea Artwork</button>
+        </form>
         </div>
       ) : (
         <div className="not-artist">
